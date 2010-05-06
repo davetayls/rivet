@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<UsingTask TaskName="GitDescribe" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll" >
+
+		<ParameterGroup>
+			<ProjectDirectory ParameterType="System.String" Required="true" />
+			<GitExePath ParameterType="System.String" Required="true" />
+			<RevisionNumber Output="true" />
+		</ParameterGroup>
+
+		<Task>
+			<Using Namespace="System.Diagnostics" />
+			<Using Namespace="System.Text.RegularExpressions" />
+			<Code Type="Fragment" Language="cs">
+				<![CDATA[
+					var p = new Process();
+					p.StartInfo.FileName = GitExePath;
+					p.StartInfo.Arguments = "describe";
+					p.StartInfo.WorkingDirectory = ProjectDirectory;
+					p.StartInfo.RedirectStandardOutput = true;
+					p.StartInfo.CreateNoWindow = true;
+					p.StartInfo.UseShellExecute = false;
+					
+					p.Start();	// NOTE: Error output stream is not redirected, so you will not see errors if there are any
+					var output = p.StandardOutput.ReadToEnd();
+					p.WaitForExit();
+		
+					if(!output.Contains("-"))
+						RevisionNumber = "0";	// no commits were made since tag was created, so return 0 as the revision number
+					else
+					{
+						// extract revision number from console output
+						var revisionNumberRegex = "(.*?-)(?<revision>\\d{1,4})(.*)";
+						RevisionNumber = Regex.Match(output, revisionNumberRegex, RegexOptions.IgnoreCase).Groups["revision"].Value;
+					}
+				]]>
+			</Code>
+		</Task>
+	</UsingTask>
+
+</Project>

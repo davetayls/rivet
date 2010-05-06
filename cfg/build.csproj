@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+		<!--Metadata-->
+		<ProjectName>juxtapo combiner</ProjectName>
+		<BuildConfiguration>Release</BuildConfiguration>
+		<BuildTargets>Rebuild</BuildTargets>
+		<MajorVersion>0</MajorVersion>
+		<MinorVersion>1</MinorVersion>
+
+		<!--Directory Paths-->
+		<ProjectDirectory>$(MSBuildProjectDirectory)\..</ProjectDirectory>
+		<BuildTempDirectory>$(ProjectDirectory)\_build</BuildTempDirectory>
+		<PackageOutputDirectory>$(ProjectDirectory)\_output</PackageOutputDirectory>
+
+		<!--Tools-->
+		<xUnitExePath>$(ProjectDirectory)\lib\xUnit.net 1.5\xunit.console.exe</xUnitExePath>
+		
+		<!--Set the property below if automatic Git path discovery fails-->
+		<!--<GitExePath>C:\Program Files (x86)\Git\bin\git.exe</GitExePath>-->
+	</PropertyGroup>
+
+	<Import Project="$(ProjectDirectory)\lib\MSBuildCommunityTasks 1.2.0.306\MSBuild.Community.Tasks.Targets"/>
+	<Import Project="Targets\Common.targets"/>
+
+	<ItemGroup>
+		<WorkingDirectories Include="$(BuildTempDirectory)" />
+		<WorkingDirectories Include="$(PackageOutputDirectory)" />
+
+		<AssemblyInfoFiles Include="$(ProjectDirectory)\src\Juxtapo.Combiner\Properties\AssemblyInfo.cs">
+			<Title>$(ProjectName)</Title>
+			<Description>TODO - Add description</Description>
+			<Copyright>Copyright © 2010 Dave Taylor and Arnold Zokas</Copyright>
+			<Guid>eea757eb-1703-4221-961b-417a47610313</Guid>
+		</AssemblyInfoFiles>
+
+		<Solution Include="$(ProjectDirectory)\src\juxtapo.combiner.sln" />
+		
+		<Specifications Include="$(ProjectDirectory)\src\Juxtapo.Combiner.Specifications\bin\$(BuildConfiguration)\Juxtapo.Combiner.Specifications.dll" />
+		
+		<BuildArtifacts Include="$(ProjectDirectory)\src\Juxtapo.Combiner\bin\$(BuildConfiguration)\Juxtapo.Combiner.dll" />
+		<BuildArtifacts Include="$(ProjectDirectory)\src\Juxtapo.Combiner\bin\$(BuildConfiguration)\Juxtapo.Combiner.pdb" />
+		<BuildArtifacts Include="$(ProjectDirectory)\license.txt" />
+		<BuildArtifacts Include="$(ProjectDirectory)\davetayls's juxtapo-combiner - GitHub.url" />
+
+		<PackageContents Include="$(BuildTempDirectory)\Juxtapo.Combiner.dll" />
+		<PackageContents Include="$(BuildTempDirectory)\Juxtapo.Combiner.pdb" />
+		<PackageContents Include="$(BuildTempDirectory)\license.txt" />
+		<PackageContents Include="$(BuildTempDirectory)\davetayls's juxtapo-combiner - GitHub.url" />
+	</ItemGroup>
+
+	<Target Name="Build" DependsOnTargets="_Clean;_Compile;_CopyFilesToBuildTempDirectory" />
+	<Target Name="Package" DependsOnTargets="_SetVersion;Build;_Test;_GenerateDeploymentPackage" />
+
+</Project>

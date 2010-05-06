@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<Import Project="GitDescribe.task"/>
+	<Import Project="Get32BitProgramFilesDirectory.task"/>
+
+	<Target Name="_Clean" Label="Deletes and recreates working directories">
+		<RemoveDir Directories="@(WorkingDirectories)" Condition="Exists(%(WorkingDirectories.Identity))" />
+		<MakeDir Directories="@(WorkingDirectories)" />
+	</Target>
+
+	<Target Name="_SetVersion" Label="Updates AssemblyInfo files with the correct version">
+		<CreateProperty Value="$([System.DateTime]::UtcNow.ToString(`ddMMyy`))">
+			<Output PropertyName="BuildNumber" TaskParameter="Value" />
+		</CreateProperty>
+
+		<Message Text="[GitExePath] property not set. Attempting automatic Git path discovery..." Importance="high" Condition="!Exists($(GitExePath))" />
+		<Get32BitProgramFilesDirectory Condition="!Exists($(GitExePath))">
+			<Output PropertyName="ProgramFilesDirectoryPath" TaskParameter="DirectoryPath" />
+		</Get32BitProgramFilesDirectory>
+		<CreateProperty Value="$(ProgramFilesDirectoryPath)\Git\bin\git.exe" Condition="!Exists($(GitExePath))">
+			<Output PropertyName="GitExePath" TaskParameter="Value" />
+		</CreateProperty>
+		<Message Text="Using Git.exe found at path [$(GitExePath)]" Importance="high" Condition="Exists($(GitExePath))" />
+		<Error Text="Automatic Git path discovery failed - path could not be determined." Condition="!Exists($(GitExePath))" />
+
+		<GitDescribe ProjectDirectory="$(ProjectDirectory)" GitExePath="$(GitExePath)">
+			<Output PropertyName="RevisionNumber" TaskParameter="RevisionNumber" />
+		</GitDescribe>
+
+		<CreateProperty Value="$(MajorVersion).$(MinorVersion).$(BuildNumber).$(RevisionNumber)">
+			<Output PropertyName="Version" TaskParameter="Value" />
+		</CreateProperty>
+
+		<Message Text="Build Version is $(Version)" Importance="high" />
+
+		<AssemblyInfo
+			CodeLanguage="CS"
+			OutputFile="%(AssemblyInfoFiles.Identity)"
+			AssemblyTitle="%(AssemblyInfoFiles.Title)"
+			AssemblyDescription="%(AssemblyInfoFiles.Description)"
+			AssemblyProduct="%(AssemblyInfoFiles.Title)"
+			AssemblyCopyright="%(AssemblyInfoFiles.Copyright)"
+			ComVisible="false"
+			Guid="%(AssemblyInfoFiles.Guid)"
+			AssemblyVersion="$(Version)"
+			AssemblyFileVersion="$(Version)" />
+	</Target>
+
+	<Target Name="_Compile" Label="Builds solution">
+		<Message Text="Compiling solution %(Solution.Filename).%(Solution.Extension) using configuration [$(BuildConfiguration)]" Importance="high" />
+		
+		<MSBuild Projects="%(Solution.Identity)" Properties="Configuration=$(BuildConfiguration)" Targets="$(BuildTargets)" BuildInParallel="true" />
+	</Target>
+
+	<Target Name="_Test" Label="Executes unit tests">
+		<Exec Command="&quot;$(xUnitExePath)&quot; &quot;@(Specifications)&quot; /html $(BuildTempDirectory)\%(Specifications.Filename).html" StandardOutputImportance="Low" />
+	</Target>
+	
+	<Target Name="_CopyFilesToBuildTempDirectory" Label="Copies files to build temp directory">
+		<Copy SourceFiles="@(BuildArtifacts)" DestinationFolder="$(BuildTempDirectory)" />
+	</Target>
+
+	<Target Name="_GenerateDeploymentPackage" Label="Generates deployment package">
+		<Message Text="Generating deployment package [$(ProjectName).v$(Version).zip]" Importance="high" />
+		
+		<Zip Files="@(PackageContents)" WorkingDirectory="$(BuildTempDirectory)" ZipFileName="$(PackageOutputDirectory)\$(ProjectName).v$(Version).zip" ZipLevel="9" />
+	</Target>
+
+</Project>
