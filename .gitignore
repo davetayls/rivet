@@ -1,0 +1,11 @@
+# Global file excludes
+*.ReSharper
+*.suo
+*.user
+
+# Global directory excludes
+_build
+_output
+src/**/bin/*
+src/**/obj/*
+src/_ReSharper*
