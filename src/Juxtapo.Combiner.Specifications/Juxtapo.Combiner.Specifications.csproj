@@ -32,8 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="TestUtils\AssertExtensions.cs" />
+    <Compile Include="ParserSpecifications.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Placeholder.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Juxtapo.Combiner\Juxtapo.Combiner.csproj">

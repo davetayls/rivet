@@ -9,17 +9,15 @@
 //  # You must not remove this notice, or any other, from this software.
 //  
 //  #######################################################
-using Xunit;
-
-namespace Juxtapo.Combiner.Specifications
+namespace Juxtapo.Combiner
 {
-	public class Placeholder
+	public class SourceFile
 	{
-		[Fact]
-		public void JuxtapoCombinerIsReferenced()
+		public SourceFile(string body)
 		{
-			// NOTE: This is added temporarily to ensure build script works
-			Assert.True(true);
+			Body = body;
 		}
+
+		public string Body { get; private set; }
 	}
 }

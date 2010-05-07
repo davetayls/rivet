@@ -51,6 +51,7 @@
 	</ItemGroup>
 
 	<Target Name="Build" DependsOnTargets="_Clean;_Compile;_CopyFilesToBuildTempDirectory" />
+	<Target Name="Test" DependsOnTargets="_Clean;_Compile;_Test;_CopyFilesToBuildTempDirectory" />
 	<Target Name="Package" DependsOnTargets="_SetVersion;Build;_Test;_GenerateDeploymentPackage" />
 
 </Project>

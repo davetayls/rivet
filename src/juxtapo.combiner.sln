@@ -15,6 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build Configuration", "Buil
 		..\cfg\build.bat = ..\cfg\build.bat
 		..\cfg\build.csproj = ..\cfg\build.csproj
 		..\cfg\package.bat = ..\cfg\package.bat
+		..\cfg\test.bat = ..\cfg\test.bat
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Targets", "Targets", "{AB68F34C-170A-44D1-8DAE-93C287EDDB6C}"
