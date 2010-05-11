@@ -33,7 +33,7 @@
   <ItemGroup>
     <Compile Include="PreProcessors\DebugBlockPreProcessor.cs" />
     <Compile Include="PreProcessors\DebugLinePreProcessor.cs" />
-    <Compile Include="ExceptionMessages.Designer.cs">
+    <Compile Include="Resources\ExceptionMessages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ExceptionMessages.resx</DependentUpon>
@@ -45,7 +45,7 @@
     <Compile Include="SourceFiles.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ExceptionMessages.resx">
+    <EmbeddedResource Include="Resources\ExceptionMessages.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ExceptionMessages.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
@@ -53,6 +53,9 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="system.core">
+      <HintPath>c:\program files (x86)\reference assemblies\microsoft\framework\v3.5\system.core.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
