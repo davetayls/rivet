@@ -117,22 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="InvalidOperationExceptions__CannotCombine_NoSourceFilesContainCombinerToken" xml:space="preserve">
+  <data name="InvalidOperationException__CannotCombine_NoSourceFilesContainCombinerToken" xml:space="preserve">
     <value>Cannot combine. None of the source files passed contain a @juxtapo.combiner token.</value>
   </data>
-  <data name="InvalidOperationExceptions__CannotCombine_NoSourceFilesPassed" xml:space="preserve">
+  <data name="InvalidOperationException__CannotCombine_NoSourceFilesPassed" xml:space="preserve">
     <value>Cannot combine. No source files have been passed.</value>
   </data>
-  <data name="InvalidOperationExceptions__CannotCombine_SourceFileContainsEmptyBody" xml:space="preserve">
+  <data name="InvalidOperationException__CannotCombine_SourceFileContainsEmptyBody" xml:space="preserve">
     <value>Cannot combine. Source file contains an empty body.</value>
   </data>
-  <data name="InvalidOperationExceptions__CannotCombine_SourceFileContainsEmptyFileName" xml:space="preserve">
+  <data name="InvalidOperationException__CannotCombine_SourceFileContainsEmptyFileName" xml:space="preserve">
     <value>Cannot combine. Source file contains an empty file name.</value>
   </data>
-  <data name="InvalidOperationExceptions__CannotCombine_SourceFileContainsNullBody" xml:space="preserve">
+  <data name="InvalidOperationException__CannotCombine_SourceFileContainsNullBody" xml:space="preserve">
     <value>Cannot combine. Source file contains a null body.</value>
   </data>
-  <data name="InvalidOperationExceptions__CannotCombine_SourceFileContainsNullFileName" xml:space="preserve">
+  <data name="InvalidOperationException__CannotCombine_SourceFileContainsNullFileName" xml:space="preserve">
     <value>Cannot combine. Source file contains a null file name.</value>
   </data>
 </root>

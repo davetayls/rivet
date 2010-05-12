@@ -38,22 +38,22 @@ namespace Juxtapo.Combiner
 				throw new ArgumentNullException("sourceFiles");
 
 			if (sourceFiles.Count == 0)
-				throw new InvalidOperationException(ExceptionMessages.InvalidOperationExceptions__CannotCombine_NoSourceFilesPassed);
+				throw new InvalidOperationException(ExceptionMessages.InvalidOperationException__CannotCombine_NoSourceFilesPassed);
 
 			if (sourceFiles.Count(sourceFile => sourceFile.Body == null) > 0)
-				throw new InvalidOperationException(ExceptionMessages.InvalidOperationExceptions__CannotCombine_SourceFileContainsNullBody);
+				throw new InvalidOperationException(ExceptionMessages.InvalidOperationException__CannotCombine_SourceFileContainsNullBody);
 
 			if (sourceFiles.Count(sourceFile => sourceFile.Body.Trim().Length == 0) > 0)
-				throw new InvalidOperationException(ExceptionMessages.InvalidOperationExceptions__CannotCombine_SourceFileContainsEmptyBody);
+				throw new InvalidOperationException(ExceptionMessages.InvalidOperationException__CannotCombine_SourceFileContainsEmptyBody);
 
 			if (sourceFiles.Count(sourceFile => sourceFile.FileName == null) > 0)
-				throw new InvalidOperationException(ExceptionMessages.InvalidOperationExceptions__CannotCombine_SourceFileContainsNullFileName);
+				throw new InvalidOperationException(ExceptionMessages.InvalidOperationException__CannotCombine_SourceFileContainsNullFileName);
 
 			if (sourceFiles.Count(sourceFile => sourceFile.FileName.Trim().Length == 0) > 0)
-				throw new InvalidOperationException(ExceptionMessages.InvalidOperationExceptions__CannotCombine_SourceFileContainsEmptyFileName);
+				throw new InvalidOperationException(ExceptionMessages.InvalidOperationException__CannotCombine_SourceFileContainsEmptyFileName);
 
 			if (sourceFiles.Count(sourceFile => sourceFile.Body.Contains(CombinerToken)) == 0)
-				throw new InvalidOperationException(ExceptionMessages.InvalidOperationExceptions__CannotCombine_NoSourceFilesContainCombinerToken);
+				throw new InvalidOperationException(ExceptionMessages.InvalidOperationException__CannotCombine_NoSourceFilesContainCombinerToken);
 
 			return ParseSourceFilesInternal(sourceFiles);
 		}
