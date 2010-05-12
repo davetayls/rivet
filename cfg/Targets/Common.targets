@@ -32,7 +32,12 @@
 			<Output PropertyName="AssemblyVersion" TaskParameter="Value" />
 		</CreateProperty>
 
+		<CreateProperty Value="$(AssemblyVersion)$(InformationalVersion)">
+			<Output PropertyName="AssemblyInformationalVersion" TaskParameter="Value" />
+		</CreateProperty>
+
 		<Message Text="Assembly Version is $(AssemblyVersion)" Importance="high" />
+		<Message Text="Assembly Informational Version is $(AssemblyInformationalVersion)" Importance="high" />
 
 		<AssemblyInfo
 			CodeLanguage="CS"
@@ -44,6 +49,7 @@
 			ComVisible="false"
 			Guid="%(AssemblyInfoFiles.Guid)"
 			AssemblyVersion="$(AssemblyVersion)"
+			AssemblyInformationalVersion="$(AssemblyInformationalVersion)"
 			AssemblyFileVersion="$(AssemblyVersion)" />
 	</Target>
 
@@ -64,7 +70,7 @@
 	<Target Name="_GenerateDeploymentPackage" Label="Generates deployment package">
 		<Message Text="Generating deployment package [$(ProjectName).v$(AssemblyVersion).zip]" Importance="high" />
 		
-		<Zip Files="@(PackageContents)" WorkingDirectory="$(BuildTempDirectory)" ZipFileName="$(PackageOutputDirectory)\$(ProjectName).v$(AssemblyVersion).zip" ZipLevel="9" />
+		<Zip Files="@(PackageContents)" WorkingDirectory="$(BuildTempDirectory)" ZipFileName="$(PackageOutputDirectory)\$(ProjectName).v$(AssemblyInformationalVersion).zip" ZipLevel="9" />
 	</Target>
 
 </Project>

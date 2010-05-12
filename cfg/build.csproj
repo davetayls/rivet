@@ -8,6 +8,7 @@
 		<BuildTargets>Rebuild</BuildTargets>
 		<MajorVersion>0</MajorVersion>
 		<MinorVersion>1</MinorVersion>
+		<InformationalVersion>.alpha</InformationalVersion>
 
 		<!--Directory Paths-->
 		<ProjectDirectory>$(MSBuildProjectDirectory)\..</ProjectDirectory>
@@ -33,14 +34,12 @@
 			<Description>TODO - Add description</Description>
 			<Copyright>Copyright © 2010 Dave Taylor and Arnold Zokas</Copyright>
 			<Guid>eea757eb-1703-4221-961b-417a47610313</Guid>
-			<InformationalVersion> alpha</InformationalVersion>
 		</AssemblyInfoFiles>
 		<AssemblyInfoFiles Include="$(ProjectDirectory)\src\Juxtapo.Combiner.Console\Properties\AssemblyInfo.cs">
 			<Title>$(ProjectName) Console</Title>
 			<Description>TODO - Add description</Description>
 			<Copyright>Copyright © 2010 Dave Taylor and Arnold Zokas</Copyright>
 			<Guid>277215ed-550d-4ecb-9c6e-18ab31d24167</Guid>
-			<InformationalVersion> alpha</InformationalVersion>
 		</AssemblyInfoFiles>
 
 		<Solution Include="$(ProjectDirectory)\src\juxtapo.combiner.sln" />
