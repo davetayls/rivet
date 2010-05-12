@@ -41,6 +41,7 @@
     <Compile Include="PreProcessors\IPreProcessor.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scanners\IncludePushExpressionScanner.cs" />
     <Compile Include="SourceFile.cs" />
     <Compile Include="SourceFiles.cs" />
   </ItemGroup>

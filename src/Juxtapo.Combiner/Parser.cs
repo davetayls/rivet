@@ -12,17 +12,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using Juxtapo.Combiner.PreProcessors;
 using Juxtapo.Combiner.Resources;
+using Juxtapo.Combiner.Scanners;
 
 namespace Juxtapo.Combiner
 {
 	public class Parser
 	{
-		private const string IncludePushExpressionCaptureGroupName = "filename";
-		private const string CombinerToken = "@juxtapo.combiner";
-		private static readonly Regex IncludePushExpression = new Regex("includes.push\\(\\\"(?'" + IncludePushExpressionCaptureGroupName + "'[^\\\"\"]*\\.js)\\\"\\)", RegexOptions.Multiline | RegexOptions.Compiled); // TODO: this is just awful. refactor ASAP
+		private const string m_combinerToken = "@juxtapo.combiner";
 		private readonly List<IPreProcessor> _preProcessors;
 
 		public Parser()
@@ -52,7 +50,7 @@ namespace Juxtapo.Combiner
 			if (sourceFiles.Count(sourceFile => sourceFile.FileName.Trim().Length == 0) > 0)
 				throw new InvalidOperationException(ExceptionMessages.InvalidOperationException__CannotCombine_SourceFileContainsEmptyFileName);
 
-			if (sourceFiles.Count(sourceFile => sourceFile.Body.Contains(CombinerToken)) == 0)
+			if (sourceFiles.Count(sourceFile => sourceFile.Body.Contains(m_combinerToken)) == 0)
 				throw new InvalidOperationException(ExceptionMessages.InvalidOperationException__CannotCombine_NoSourceFilesContainCombinerToken);
 
 			return ParseSourceFilesInternal(sourceFiles);
@@ -60,17 +58,16 @@ namespace Juxtapo.Combiner
 
 		private SourceFiles ParseSourceFilesInternal(IEnumerable<SourceFile> sourceFiles)
 		{
-			IEnumerable<SourceFile> markedFiles = sourceFiles.Where(sourceFile => sourceFile.Body.Contains(CombinerToken));
-			IEnumerable<SourceFile> includes = sourceFiles.Where(sourceFile => !sourceFile.Body.Contains(CombinerToken));
+			IEnumerable<SourceFile> markedFiles = sourceFiles.Where(sourceFile => sourceFile.Body.Contains(m_combinerToken));
+			IEnumerable<SourceFile> includes = sourceFiles.Where(sourceFile => !sourceFile.Body.Contains(m_combinerToken));
 			var outputFiles = new SourceFiles();
 
 			foreach (var markedFile in markedFiles)
 			{
 				var body = string.Empty;
 
-				foreach (Match match in IncludePushExpression.Matches(markedFile.Body))
+				foreach (var reference in IncludePushExpressionScanner.GetFilenameReferences(markedFile.Body))
 				{
-					var reference = match.Groups[IncludePushExpressionCaptureGroupName].Value;
 					var include = includes.SingleOrDefault(x => x.FileName == reference);
 
 					if (include != null)
