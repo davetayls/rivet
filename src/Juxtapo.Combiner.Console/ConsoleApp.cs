@@ -1,4 +1,4 @@
-﻿//  #######################################################
+//  #######################################################
 //  
 //  # Copyright (C) 2010, Dave Taylor and Arnold Zokas
 //  
@@ -11,11 +11,14 @@
 //  #######################################################
 namespace Juxtapo.Combiner.Console
 {
-	internal class Program
+	public static class ConsoleApp
 	{
-		private static void Main(string[] args)
+		public static bool Run(string[] parameters)
 		{
-			ConsoleApp.Run(args); // This is the only line in the entire solution, not covered by specifications
+			if (parameters == null || parameters.Length == 0)
+				return false;
+
+			return true;
 		}
 	}
 }
