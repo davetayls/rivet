@@ -10,7 +10,7 @@
 	</Target>
 
 	<Target Name="_SetVersion" Label="Updates AssemblyInfo files with the correct version">
-		<CreateProperty Value="$([System.DateTime]::UtcNow.ToString(`ddMMyy`))">
+		<CreateProperty Value="$([System.DateTime]::UtcNow.Subtract($([System.DateTime]::Parse(`01 Jan 2000`))).Days)">
 			<Output PropertyName="BuildNumber" TaskParameter="Value" />
 		</CreateProperty>
 
@@ -29,10 +29,10 @@
 		</GitDescribe>
 
 		<CreateProperty Value="$(MajorVersion).$(MinorVersion).$(BuildNumber).$(RevisionNumber)">
-			<Output PropertyName="Version" TaskParameter="Value" />
+			<Output PropertyName="AssemblyVersion" TaskParameter="Value" />
 		</CreateProperty>
 
-		<Message Text="Build Version is $(Version)" Importance="high" />
+		<Message Text="Assembly Version is $(AssemblyVersion)" Importance="high" />
 
 		<AssemblyInfo
 			CodeLanguage="CS"
@@ -43,8 +43,8 @@
 			AssemblyCopyright="%(AssemblyInfoFiles.Copyright)"
 			ComVisible="false"
 			Guid="%(AssemblyInfoFiles.Guid)"
-			AssemblyVersion="$(Version)"
-			AssemblyFileVersion="$(Version)" />
+			AssemblyVersion="$(AssemblyVersion)"
+			AssemblyFileVersion="$(AssemblyVersion)" />
 	</Target>
 
 	<Target Name="_Compile" Label="Builds solution">
@@ -62,9 +62,9 @@
 	</Target>
 
 	<Target Name="_GenerateDeploymentPackage" Label="Generates deployment package">
-		<Message Text="Generating deployment package [$(ProjectName).v$(Version).zip]" Importance="high" />
+		<Message Text="Generating deployment package [$(ProjectName).v$(AssemblyVersion).zip]" Importance="high" />
 		
-		<Zip Files="@(PackageContents)" WorkingDirectory="$(BuildTempDirectory)" ZipFileName="$(PackageOutputDirectory)\$(ProjectName).v$(Version).zip" ZipLevel="9" />
+		<Zip Files="@(PackageContents)" WorkingDirectory="$(BuildTempDirectory)" ZipFileName="$(PackageOutputDirectory)\$(ProjectName).v$(AssemblyVersion).zip" ZipLevel="9" />
 	</Target>
 
 </Project>
