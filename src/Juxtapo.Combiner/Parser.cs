@@ -79,7 +79,7 @@ namespace Juxtapo.Combiner
 					}
 				}
 
-				outputFiles.Add(new SourceFile(body, null));
+				outputFiles.Add(new SourceFile(body, markedFile.FileName));
 			}
 
 			return outputFiles;

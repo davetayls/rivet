@@ -15,7 +15,7 @@ namespace Juxtapo.Combiner.Specifications.TestUtils
 {
 	public static class AssertExtensions
 	{
-		public static void ShouldEqual<T>(this T actual, T expected)
+		public static void ShouldBe<T>(this T actual, T expected)
 		{
 			Assert.Equal(expected, actual);
 		}
