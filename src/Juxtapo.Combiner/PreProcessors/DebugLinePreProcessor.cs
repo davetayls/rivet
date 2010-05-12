@@ -13,7 +13,7 @@ using System.Text.RegularExpressions;
 
 namespace Juxtapo.Combiner.PreProcessors
 {
-	public class DebugLinePreProcessor : IPreProcessor
+	internal class DebugLinePreProcessor : IPreProcessor
 	{
 		private static readonly Regex Expression = new Regex(@"[\r]?\n.*//##DEBUG", RegexOptions.Multiline | RegexOptions.Compiled);
 

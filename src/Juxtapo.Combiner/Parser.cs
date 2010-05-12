@@ -18,7 +18,7 @@ using Juxtapo.Combiner.Scanners;
 
 namespace Juxtapo.Combiner
 {
-	public class Parser
+	public sealed class Parser
 	{
 		private const string m_combinerToken = "@juxtapo.combiner";
 		private readonly List<IPreProcessor> _preProcessors;

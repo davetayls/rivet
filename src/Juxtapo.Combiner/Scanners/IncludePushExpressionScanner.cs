@@ -15,7 +15,7 @@ using System.Text.RegularExpressions;
 
 namespace Juxtapo.Combiner.Scanners
 {
-	public static class IncludePushExpressionScanner
+	internal static class IncludePushExpressionScanner
 	{
 		private const string m_captureGroupName = "filename";
 		private static readonly Regex IncludePushExpression;
@@ -34,7 +34,7 @@ namespace Juxtapo.Combiner.Scanners
 			IncludePushExpression = new Regex(pattern, RegexOptions.Multiline | RegexOptions.Compiled);
 		}
 
-		public static IEnumerable<string> GetFilenameReferences(string body)
+		internal static IEnumerable<string> GetFilenameReferences(string body)
 		{
 			return (from Match match in IncludePushExpression.Matches(body)
 			        select match.Groups[m_captureGroupName].Value);

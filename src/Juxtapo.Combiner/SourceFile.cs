@@ -14,7 +14,7 @@ using System.Diagnostics;
 namespace Juxtapo.Combiner
 {
 	[DebuggerDisplay("{FileName}")]
-	public class SourceFile
+	public sealed class SourceFile
 	{
 		public SourceFile(string body, string fileName)
 		{

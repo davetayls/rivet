@@ -13,7 +13,7 @@ using System.Text.RegularExpressions;
 
 namespace Juxtapo.Combiner.PreProcessors
 {
-	public class DebugBlockPreProcessor : IPreProcessor
+	internal sealed class DebugBlockPreProcessor : IPreProcessor
 	{
 		private static readonly Regex Expression = new Regex(@"(//##DEBUG_START)([\s\S]*?)(//##DEBUG_END)", RegexOptions.Multiline | RegexOptions.Compiled);
 

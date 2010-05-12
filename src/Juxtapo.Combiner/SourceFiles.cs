@@ -13,7 +13,7 @@ using System.Collections.ObjectModel;
 
 namespace Juxtapo.Combiner
 {
-	public class SourceFiles : Collection<SourceFile>
+	public sealed class SourceFiles : Collection<SourceFile>
 	{
 	}
 }
