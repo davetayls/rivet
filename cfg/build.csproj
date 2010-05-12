@@ -33,19 +33,32 @@
 			<Description>TODO - Add description</Description>
 			<Copyright>Copyright © 2010 Dave Taylor and Arnold Zokas</Copyright>
 			<Guid>eea757eb-1703-4221-961b-417a47610313</Guid>
+			<InformationalVersion> alpha</InformationalVersion>
+		</AssemblyInfoFiles>
+		<AssemblyInfoFiles Include="$(ProjectDirectory)\src\Juxtapo.Combiner.Console\Properties\AssemblyInfo.cs">
+			<Title>$(ProjectName) Console</Title>
+			<Description>TODO - Add description</Description>
+			<Copyright>Copyright © 2010 Dave Taylor and Arnold Zokas</Copyright>
+			<Guid>277215ed-550d-4ecb-9c6e-18ab31d24167</Guid>
+			<InformationalVersion> alpha</InformationalVersion>
 		</AssemblyInfoFiles>
 
 		<Solution Include="$(ProjectDirectory)\src\juxtapo.combiner.sln" />
 		
 		<Specifications Include="$(ProjectDirectory)\src\Juxtapo.Combiner.Specifications\bin\$(BuildConfiguration)\Juxtapo.Combiner.Specifications.dll" />
+		<Specifications Include="$(ProjectDirectory)\src\Juxtapo.Combiner.Console.Specifications\bin\$(BuildConfiguration)\Juxtapo.Combiner.Console.Specifications.dll" />
 		
 		<BuildArtifacts Include="$(ProjectDirectory)\src\Juxtapo.Combiner\bin\$(BuildConfiguration)\Juxtapo.Combiner.dll" />
 		<BuildArtifacts Include="$(ProjectDirectory)\src\Juxtapo.Combiner\bin\$(BuildConfiguration)\Juxtapo.Combiner.pdb" />
+		<BuildArtifacts Include="$(ProjectDirectory)\src\Juxtapo.Combiner.Console\bin\$(BuildConfiguration)\Juxtapo.Combiner.Console.exe" />
+		<BuildArtifacts Include="$(ProjectDirectory)\src\Juxtapo.Combiner.Console\bin\$(BuildConfiguration)\Juxtapo.Combiner.Console.pdb" />
 		<BuildArtifacts Include="$(ProjectDirectory)\license.txt" />
 		<BuildArtifacts Include="$(ProjectDirectory)\davetayls's juxtapo-combiner - GitHub.url" />
 
 		<PackageContents Include="$(BuildTempDirectory)\Juxtapo.Combiner.dll" />
 		<PackageContents Include="$(BuildTempDirectory)\Juxtapo.Combiner.pdb" />
+		<PackageContents Include="$(BuildTempDirectory)\Juxtapo.Combiner.Console.exe" />
+		<PackageContents Include="$(BuildTempDirectory)\Juxtapo.Combiner.Console.pdb" />
 		<PackageContents Include="$(BuildTempDirectory)\license.txt" />
 		<PackageContents Include="$(BuildTempDirectory)\davetayls's juxtapo-combiner - GitHub.url" />
 	</ItemGroup>
