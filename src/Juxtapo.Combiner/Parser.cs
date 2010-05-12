@@ -44,10 +44,10 @@ namespace Juxtapo.Combiner
 			if (sourceFiles.Count(sourceFile => sourceFile.Body.Trim().Length == 0) > 0)
 				throw new InvalidOperationException(ExceptionMessages.InvalidOperationException__CannotCombine_SourceFileContainsEmptyBody);
 
-			if (sourceFiles.Count(sourceFile => sourceFile.FileName == null) > 0)
+			if (sourceFiles.Count(sourceFile => sourceFile.Identity == null) > 0)
 				throw new InvalidOperationException(ExceptionMessages.InvalidOperationException__CannotCombine_SourceFileContainsNullFileName);
 
-			if (sourceFiles.Count(sourceFile => sourceFile.FileName.Trim().Length == 0) > 0)
+			if (sourceFiles.Count(sourceFile => sourceFile.Identity.Trim().Length == 0) > 0)
 				throw new InvalidOperationException(ExceptionMessages.InvalidOperationException__CannotCombine_SourceFileContainsEmptyFileName);
 
 			if (sourceFiles.Count(sourceFile => sourceFile.Body.Contains(m_combinerToken)) == 0)
@@ -64,11 +64,11 @@ namespace Juxtapo.Combiner
 
 			foreach (var markedFile in markedFiles)
 			{
-				var outputFile = new SourceFile(string.Empty, markedFile.FileName);
+				var outputFile = new SourceFile(string.Empty, markedFile.Identity);
 
 				foreach (var reference in IncludePushExpressionScanner.GetFilenameReferences(markedFile.Body))
 				{
-					var include = includes.SingleOrDefault(x => x.FileName == reference);
+					var include = includes.SingleOrDefault(x => x.Identity == reference);
 
 					if (include != null)
 					{

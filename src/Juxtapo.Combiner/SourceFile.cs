@@ -13,18 +13,18 @@ using System.Diagnostics;
 
 namespace Juxtapo.Combiner
 {
-	[DebuggerDisplay("{FileName}")]
+	[DebuggerDisplay("{Identity}")]
 	public sealed class SourceFile
 	{
 		public SourceFile(string body, string fileName)
 		{
 			Body = body;
-			FileName = fileName;
+			Identity = fileName;
 			Components = new SourceFiles();
 		}
 
 		public string Body { get; internal set; }
-		public string FileName { get; private set; }
+		public string Identity { get; private set; }
 		public SourceFiles Components { get; private set; }
 	}
 }

@@ -45,14 +45,14 @@ namespace Juxtapo.Combiner.Specifications
 				        		Assert.Throws<InvalidOperationException>(() => parser.ParseSourceFiles(sourceFiles));
 				        	});
 
-			"ParseSourceFiles() throws InvalidOperationException when any source file passed contains a null FileName"
+			"ParseSourceFiles() throws InvalidOperationException when any source file passed contains a null Identity"
 				.Assert(() =>
 				        	{
 				        		var sourceFiles = new SourceFiles {new SourceFile("@juxtapo.combiner", null)};
 				        		Assert.Throws<InvalidOperationException>(() => parser.ParseSourceFiles(sourceFiles));
 				        	});
 
-			"ParseSourceFiles() throws InvalidOperationException when any source file passed contains an empty FileName"
+			"ParseSourceFiles() throws InvalidOperationException when any source file passed contains an empty Identity"
 				.Assert(() =>
 				        	{
 				        		var sourceFiles = new SourceFiles {new SourceFile("@juxtapo.combiner", string.Empty)};
@@ -80,11 +80,11 @@ namespace Juxtapo.Combiner.Specifications
 				        		parser.ParseSourceFiles(sourceFiles).ShouldNotBeNull();
 				        	});
 
-			"ParseSourceFiles() returns a SourceFile with a FileName"
+			"ParseSourceFiles() returns a SourceFile with a Identity"
 				.Assert(() =>
 				        	{
 				        		var sourceFiles = new SourceFiles {new SourceFile("@juxtapo.combiner", "filename.js")};
-				        		parser.ParseSourceFiles(sourceFiles).First().FileName.ShouldBe("filename.js");
+				        		parser.ParseSourceFiles(sourceFiles).First().Identity.ShouldBe("filename.js");
 				        	});
 
 			"ParseSourceFiles() includes files referenced using \"include\" token in the output SourceFile"
@@ -95,17 +95,17 @@ namespace Juxtapo.Combiner.Specifications
 				        		sourceFiles.Add(new SourceFile("@juxtapo.combiner includes.push(\"second.js\"); includes.push(\"third.js\"); FIRST", "first.js"));
 				        		sourceFiles.Add(new SourceFile("THIRD", "third.js"));
 				        		parser.ParseSourceFiles(sourceFiles).First().Body.ShouldBe("SECONDTHIRD");
-							});
+				        	});
 
 			"ParseSourceFiles() adds files referenced using \"include\" token to Components of output SourceFile"
 				.Assert(() =>
-				{
-					var sourceFiles = new SourceFiles();
-					sourceFiles.Add(new SourceFile("SECOND", "second.js"));
-					sourceFiles.Add(new SourceFile("@juxtapo.combiner includes.push(\"third.js\"); FIRST", "first.js"));
-					sourceFiles.Add(new SourceFile("THIRD", "third.js"));
-					parser.ParseSourceFiles(sourceFiles).First().Components.First().FileName.ShouldBe("third.js");
-				});
+				        	{
+				        		var sourceFiles = new SourceFiles();
+				        		sourceFiles.Add(new SourceFile("SECOND", "second.js"));
+				        		sourceFiles.Add(new SourceFile("@juxtapo.combiner includes.push(\"third.js\"); FIRST", "first.js"));
+				        		sourceFiles.Add(new SourceFile("THIRD", "third.js"));
+				        		parser.ParseSourceFiles(sourceFiles).First().Components.First().Identity.ShouldBe("third.js");
+				        	});
 
 			"ParseSourceFiles() removes lines marked //## DEBUG from output SourceFile"
 				.Assert(() =>
