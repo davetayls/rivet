@@ -1,16 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F11AD1B9-AD1F-4A7C-9122-59532428929B}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Solution Items", "_Solution Items", "{F11AD1B9-AD1F-4A7C-9122-59532428929B}"
 	ProjectSection(SolutionItems) = preProject
 		..\.gitignore = ..\.gitignore
 		..\License.txt = ..\License.txt
 		..\readme.markdown = ..\readme.markdown
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Specifications", "Specifications", "{A284D652-D4E7-45FE-81C5-3E1F950E5185}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Juxtapo.Combiner", "Juxtapo.Combiner", "{A284D652-D4E7-45FE-81C5-3E1F950E5185}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build Configuration", "Build Configuration", "{0D6CC2B8-0EB4-46B2-B8B3-F6BEA9401D72}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Build Configuration", "_Build Configuration", "{0D6CC2B8-0EB4-46B2-B8B3-F6BEA9401D72}"
 	ProjectSection(SolutionItems) = preProject
 		..\cfg\build.bat = ..\cfg\build.bat
 		..\cfg\build.csproj = ..\cfg\build.csproj
@@ -49,6 +49,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{91631D7D-9AC2-4D3F-BF9F-D3D1261BBC6A} = {A284D652-D4E7-45FE-81C5-3E1F950E5185}
+		{E4929603-9ED2-4785-AC0D-51A9A40E0B2A} = {A284D652-D4E7-45FE-81C5-3E1F950E5185}
 		{AB68F34C-170A-44D1-8DAE-93C287EDDB6C} = {0D6CC2B8-0EB4-46B2-B8B3-F6BEA9401D72}
 	EndGlobalSection
 EndGlobal
