@@ -95,7 +95,17 @@ namespace Juxtapo.Combiner.Specifications
 				        		sourceFiles.Add(new SourceFile("@juxtapo.combiner includes.push(\"second.js\"); includes.push(\"third.js\"); FIRST", "first.js"));
 				        		sourceFiles.Add(new SourceFile("THIRD", "third.js"));
 				        		parser.ParseSourceFiles(sourceFiles).First().Body.ShouldBe("SECONDTHIRD");
-				        	});
+							});
+
+			"ParseSourceFiles() adds files referenced using \"include\" token to Components of output SourceFile"
+				.Assert(() =>
+				{
+					var sourceFiles = new SourceFiles();
+					sourceFiles.Add(new SourceFile("SECOND", "second.js"));
+					sourceFiles.Add(new SourceFile("@juxtapo.combiner includes.push(\"third.js\"); FIRST", "first.js"));
+					sourceFiles.Add(new SourceFile("THIRD", "third.js"));
+					parser.ParseSourceFiles(sourceFiles).First().Components.First().FileName.ShouldBe("third.js");
+				});
 
 			"ParseSourceFiles() removes lines marked //## DEBUG from output SourceFile"
 				.Assert(() =>

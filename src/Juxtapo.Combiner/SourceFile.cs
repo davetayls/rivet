@@ -20,9 +20,11 @@ namespace Juxtapo.Combiner
 		{
 			Body = body;
 			FileName = fileName;
+			Components = new SourceFiles();
 		}
 
-		public string Body { get; private set; }
+		public string Body { get; internal set; }
 		public string FileName { get; private set; }
+		public SourceFiles Components { get; private set; }
 	}
 }

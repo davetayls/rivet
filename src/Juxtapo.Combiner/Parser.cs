@@ -64,7 +64,7 @@ namespace Juxtapo.Combiner
 
 			foreach (var markedFile in markedFiles)
 			{
-				var body = string.Empty;
+				var outputFile = new SourceFile(string.Empty, markedFile.FileName);
 
 				foreach (var reference in IncludePushExpressionScanner.GetFilenameReferences(markedFile.Body))
 				{
@@ -72,11 +72,12 @@ namespace Juxtapo.Combiner
 
 					if (include != null)
 					{
-						body += _preProcessors.Aggregate(include.Body, (current, preProcessor) => preProcessor.Process(current));
+						outputFile.Body += _preProcessors.Aggregate(include.Body, (current, preProcessor) => preProcessor.Process(current));
+						outputFile.Components.Add(include);
 					}
 				}
 
-				outputFiles.Add(new SourceFile(body, markedFile.FileName));
+				outputFiles.Add(outputFile);
 			}
 
 			return outputFiles;
