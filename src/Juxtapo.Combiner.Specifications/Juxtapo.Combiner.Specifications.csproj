@@ -32,7 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="TestUtils\AssertExtensions.cs" />
     <Compile Include="ParserSpecifications.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -47,7 +46,7 @@
       <HintPath>..\..\lib\xUnit.net 1.5\xunit.dll</HintPath>
     </Reference>
     <Reference Include="Xunit.Specifications">
-      <HintPath>..\..\lib\xUnit.net Specifications 1.0\Xunit.Specifications.dll</HintPath>
+      <HintPath>..\..\lib\xUnit.net Specifications 1.1\Xunit.Specifications.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

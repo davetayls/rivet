@@ -40,10 +40,6 @@
       <Project>{90C4A3E1-BC78-4E3B-816B-6A3A8D5EE94C}</Project>
       <Name>Juxtapo.Combiner.Console %28Juxtapo.Combiner.Console\Juxtapo.Combiner.Console%29</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Juxtapo.Combiner.Specifications\Juxtapo.Combiner.Specifications.csproj">
-      <Project>{91631D7D-9AC2-4D3F-BF9F-D3D1261BBC6A}</Project>
-      <Name>Juxtapo.Combiner.Specifications</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Juxtapo.Combiner\Juxtapo.Combiner.csproj">
       <Project>{E4929603-9ED2-4785-AC0D-51A9A40E0B2A}</Project>
       <Name>Juxtapo.Combiner %28Juxtapo.Combiner\Juxtapo.Combiner%29</Name>
@@ -54,7 +50,7 @@
       <HintPath>..\..\lib\xUnit.net 1.5\xunit.dll</HintPath>
     </Reference>
     <Reference Include="Xunit.Specifications">
-      <HintPath>..\..\lib\xUnit.net Specifications 1.0\Xunit.Specifications.dll</HintPath>
+      <HintPath>..\..\lib\xUnit.net Specifications 1.1\Xunit.Specifications.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

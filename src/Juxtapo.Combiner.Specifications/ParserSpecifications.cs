@@ -1,17 +1,16 @@
-//  #######################################################
-//  
-//  # Copyright (C) 2010, Dave Taylor and Arnold Zokas
-//  
-//  # This source code is subject to terms and conditions of the New BSD License.
-//  # A copy of the license can be found in the license.txt file at the root of this distribution.
-//  # If you cannot locate the New BSD License, please send an email to dave@the-taylors.org or arnold.zokas@coderoom.net.
-//  # By using this source code in any fashion, you are agreeing to be bound by the terms of the New BSD License.
-//  # You must not remove this notice, or any other, from this software.
-//  
-//  #######################################################
+// #######################################################
+// 
+// # Copyright (C) 2010, Dave Taylor and Arnold Zokas
+// 
+// # This source code is subject to terms and conditions of the New BSD License.
+// # A copy of the license can be found in the license.txt file at the root of this distribution.
+// # If you cannot locate the New BSD License, please send an email to dave@the-taylors.org or arnold.zokas@coderoom.net.
+// # By using this source code in any fashion, you are agreeing to be bound by the terms of the New BSD License.
+// # You must not remove this notice, or any other, from this software.
+// 
+// #######################################################
 using System;
 using System.Linq;
-using Juxtapo.Combiner.Specifications.TestUtils;
 using Xunit;
 using Xunit.Specifications;
 
@@ -84,7 +83,7 @@ namespace Juxtapo.Combiner.Specifications
 				.Assert(() =>
 				        	{
 				        		var sourceFiles = new SourceFiles {new SourceFile("@juxtapo.combiner", "filename.js")};
-				        		parser.ParseSourceFiles(sourceFiles).First().Identity.ShouldBe("filename.js");
+				        		parser.ParseSourceFiles(sourceFiles).First().Identity.ShouldEqual("filename.js");
 				        	});
 
 			"ParseSourceFiles() includes files referenced using \"include\" token in the output SourceFile"
@@ -94,7 +93,7 @@ namespace Juxtapo.Combiner.Specifications
 				        		sourceFiles.Add(new SourceFile("SECOND", "second.js"));
 				        		sourceFiles.Add(new SourceFile("@juxtapo.combiner includes.push(\"second.js\"); includes.push(\"third.js\"); FIRST", "first.js"));
 				        		sourceFiles.Add(new SourceFile("THIRD", "third.js"));
-				        		parser.ParseSourceFiles(sourceFiles).First().Body.ShouldBe("SECONDTHIRD");
+				        		parser.ParseSourceFiles(sourceFiles).First().Body.ShouldEqual("SECONDTHIRD");
 				        	});
 
 			"ParseSourceFiles() adds files referenced using \"include\" token to Components of output SourceFile"
@@ -104,7 +103,7 @@ namespace Juxtapo.Combiner.Specifications
 				        		sourceFiles.Add(new SourceFile("SECOND", "second.js"));
 				        		sourceFiles.Add(new SourceFile("@juxtapo.combiner includes.push(\"third.js\"); FIRST", "first.js"));
 				        		sourceFiles.Add(new SourceFile("THIRD", "third.js"));
-				        		parser.ParseSourceFiles(sourceFiles).First().Components.First().Identity.ShouldBe("third.js");
+				        		parser.ParseSourceFiles(sourceFiles).First().Components.First().Identity.ShouldEqual("third.js");
 				        	});
 
 			"ParseSourceFiles() removes lines marked //## DEBUG from output SourceFile"
@@ -113,7 +112,7 @@ namespace Juxtapo.Combiner.Specifications
 				        		var sourceFiles = new SourceFiles();
 				        		sourceFiles.Add(new SourceFile("@juxtapo.combiner includes.push(\"second.js\"); FIRST", "first.js"));
 				        		sourceFiles.Add(new SourceFile("BEFORE\r\nTEST//##DEBUG\r\nAFTER\r\n", "second.js"));
-				        		parser.ParseSourceFiles(sourceFiles).First().Body.ShouldBe("BEFORE\r\nAFTER\r\n");
+				        		parser.ParseSourceFiles(sourceFiles).First().Body.ShouldEqual("BEFORE\r\nAFTER\r\n");
 				        	});
 
 			"ParseSourceFiles() removes blocks between //##DEBUG_START //##DEBUG_END tokens from output SourceFile"
@@ -122,7 +121,7 @@ namespace Juxtapo.Combiner.Specifications
 				        		var sourceFiles = new SourceFiles();
 				        		sourceFiles.Add(new SourceFile("@juxtapo.combiner includes.push(\"second.js\"); FIRST", "first.js"));
 				        		sourceFiles.Add(new SourceFile("BEFORE\r\n//##DEBUG_STARTTEST\r\n//##DEBUG_ENDAFTER\r\n", "second.js"));
-				        		parser.ParseSourceFiles(sourceFiles).First().Body.ShouldBe("BEFORE\r\nAFTER\r\n");
+				        		parser.ParseSourceFiles(sourceFiles).First().Body.ShouldEqual("BEFORE\r\nAFTER\r\n");
 				        	});
 		}
 	}
