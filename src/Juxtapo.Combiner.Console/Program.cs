@@ -9,13 +9,33 @@
 // # You must not remove this notice, or any other, from this software.
 // 
 // #######################################################
+using System;
+using System.Reflection;
+using SysConsole = System.Console;
+
 namespace Juxtapo.Combiner.Console
 {
-	internal class Program
+	public class Program
 	{
-		private static void Main(string[] args)
+		public static void Main(string[] args)
 		{
-			
+			ConsoleParameters parameters = ConsoleParameterParser.Parse(args);
+
+			if (parameters.DisplayHelpInformation)
+			{
+				DisplayHelpInformation();
+				return;
+			}
+		}
+
+		private static void DisplayHelpInformation()
+		{
+			Version version = Assembly.GetExecutingAssembly().GetName().Version;
+			SysConsole.WriteLine("Juxtapo Combiner v{0}.{1}", version.Major, version.Minor);
+			SysConsole.WriteLine("Copyright (C) 2010, Dave Taylor and Arnold Zokas{0}", Environment.NewLine);
+			SysConsole.WriteLine("Usage: Juxtapo.Combiner.Console.exe [/help] <path-to-directory> [options]{0}", Environment.NewLine);
+			SysConsole.Write("\t/help\t\tshows this help information{0}{0}", Environment.NewLine);
+			SysConsole.WriteLine("Options:");
 		}
 	}
 }

@@ -34,6 +34,7 @@
   <ItemGroup>
     <Compile Include="ProgramSpecifications.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestUtils\ConsoleSession.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Juxtapo.Combiner.Console\Juxtapo.Combiner.Console.csproj">
