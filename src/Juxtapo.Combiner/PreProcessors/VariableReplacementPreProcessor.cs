@@ -15,11 +15,13 @@ namespace Juxtapo.Combiner.PreProcessors
 {
 	public class VariableReplacementPreProcessor : IPreProcessor
 	{
+		private const string m_variableTokenFormat = "@{0}";
+
 		#region IPreProcessor Members
 
 		public string Process(string body, ParserOptions parserOptions)
 		{
-			return parserOptions.Variables.Aggregate(body, (current, variable) => current.Replace(string.Format("#{0}#", variable.Key), variable.Value));
+			return parserOptions.Variables.Aggregate(body, (current, variable) => current.Replace(string.Format(m_variableTokenFormat, variable.Key), variable.Value));
 		}
 
 		#endregion

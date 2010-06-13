@@ -32,7 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Pair.cs" />
+    <Compile Include="Variable.cs" />
     <Compile Include="ParserOptions.cs" />
     <Compile Include="PreProcessors\DebugBlockPreProcessor.cs" />
     <Compile Include="PreProcessors\DebugLinePreProcessor.cs" />
