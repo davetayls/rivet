@@ -11,15 +11,15 @@
 // #######################################################
 namespace Juxtapo.Combiner
 {
-	public sealed class Pair<TKey, TValue>
+	public sealed class Variable
 	{
-		public Pair(TKey key, TValue value)
+		public Variable(string key, string value)
 		{
 			Key = key;
 			Value = value;
 		}
 
-		public TKey Key { get; private set; }
-		public TValue Value { get; private set; }
+		public string Key { get; private set; }
+		public string Value { get; private set; }
 	}
 }

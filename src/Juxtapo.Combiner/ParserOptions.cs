@@ -11,29 +11,32 @@
 // #######################################################
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace Juxtapo.Combiner
 {
 	public sealed class ParserOptions
 	{
-		private static readonly ParserOptions DefaultParserOptions;
+		private static readonly ParserOptions DefaultParserOptions = new ParserOptions();
+		private readonly IList<Variable> _variables;
 
-		static ParserOptions()
+		public ParserOptions()
 		{
-			DefaultParserOptions = new ParserOptions(new List<Pair<string, string>>());
+			_variables = new List<Variable>();
 		}
 
-		public ParserOptions(IEnumerable<Pair<string, string>> variables)
+		public ReadOnlyCollection<Variable> Variables
 		{
-			Variables = new ReadOnlyCollection<Pair<string, string>>(variables.ToList());
+			get { return new ReadOnlyCollection<Variable>(_variables); }
 		}
-
-		public ReadOnlyCollection<Pair<string, string>> Variables { get; private set; }
 
 		public static ParserOptions Default
 		{
 			get { return DefaultParserOptions; }
+		}
+
+		public void AddVariable(Variable variable)
+		{
+			_variables.Add(variable);
 		}
 	}
 }

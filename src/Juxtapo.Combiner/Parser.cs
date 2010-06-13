@@ -25,6 +25,7 @@ namespace Juxtapo.Combiner
 
 		public Parser()
 		{
+			// NOTE: A good candidate for constructor injection
 			_preProcessors = new List<IPreProcessor>();
 			_preProcessors.Add(new DebugBlockPreProcessor());
 			_preProcessors.Add(new DebugLinePreProcessor());

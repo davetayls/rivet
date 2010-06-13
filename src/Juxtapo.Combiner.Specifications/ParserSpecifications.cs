@@ -131,7 +131,9 @@ namespace Juxtapo.Combiner.Specifications
 				        		sourceFiles.Add(new SourceFile("first.js", "@juxtapo.combiner includes.push(\"second.js\"); FIRST"));
 				        		sourceFiles.Add(new SourceFile("second.js", "var i = #VARIABLE_1#;var j = #VARIABLE_2#;"));
 
-				        		var options = new ParserOptions(new[] {new Pair<string, string>("VARIABLE_1", "1"), new Pair<string, string>("VARIABLE_2", "2")});
+				        		var options = new ParserOptions();
+				        		options.AddVariable(new Variable("VARIABLE_1", "1"));
+				        		options.AddVariable(new Variable("VARIABLE_2", "2"));
 
 				        		parser.ParseSourceFiles(sourceFiles, options).First().Body.ShouldEqual("var i = 1;var j = 2;");
 				        	});
