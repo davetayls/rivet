@@ -9,15 +9,29 @@
 // # You must not remove this notice, or any other, from this software.
 // 
 // #######################################################
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+
 namespace Juxtapo.Combiner.Console
 {
 	internal static class ConsoleParameterParser
 	{
-		public static ConsoleParameters Parse(string[] args)
+		private static readonly Regex VariableScanExpression = new Regex(@"-v:(?'key'.*)=(?'value'.*)", RegexOptions.Singleline | RegexOptions.Compiled);
+
+		public static ConsoleParameters Parse(IEnumerable<string> args)
 		{
 			var parameters = new ConsoleParameters();
 
 			parameters.DisplayHelpInformation = true;
+
+			foreach (var arg in args)
+			{
+				var matches = VariableScanExpression.Matches(arg);
+				if (matches.Count == 1)
+				{
+					parameters.AddVariable(matches[0].Groups["key"].Value, matches[0].Groups["value"].Value);
+				}
+			}
 
 			return parameters;
 		}

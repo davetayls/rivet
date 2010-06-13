@@ -9,10 +9,30 @@
 // # You must not remove this notice, or any other, from this software.
 // 
 // #######################################################
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+
 namespace Juxtapo.Combiner.Console
 {
-	internal class ConsoleParameters
+	public sealed class ConsoleParameters
 	{
+		private readonly IList<Variable> _variables;
+
+		public ConsoleParameters()
+		{
+			_variables = new List<Variable>();
+		}
+
 		public bool DisplayHelpInformation { get; set; }
+
+		public ReadOnlyCollection<Variable> Variables
+		{
+			get { return new ReadOnlyCollection<Variable>(_variables); }
+		}
+
+		public void AddVariable(string key, string value)
+		{
+			_variables.Add(new Variable(key, value));
+		}
 	}
 }

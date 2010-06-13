@@ -35,16 +35,26 @@ namespace Juxtapo.Combiner.Console.Specifications
 				        				"Copyright (C) 2010, Dave Taylor and Arnold Zokas{0}{0}" +
 				        				"Usage: Juxtapo.Combiner.Console.exe [/help] <path> [options]{0}{0}" +
 				        				"\t/help\tShows this help information{0}" +
-										"\t<path>\tPath to directory containing javascript files{0}{0}" +
+				        				"\t<path>\tPath to directory containing javascript files{0}{0}" +
 				        				"Options:{0}" +
-										"\t-v:name=value\tReplaces token [name] with [value] in processed files.{0}" +
-										"\t\t\tThis can be specified multiple times to replace{0}" +
-										"\t\t\tmultiple tokens.{0}{0}" +
-										"Example:{0}{0}" +
-										"\tJuxtapo.Combiner.Console.exe D:\\website\\js -v:debug=false -v:trace=true{0}"
-										, Environment.NewLine);
+				        				"\t-v:name=value\tReplaces token [name] with [value] in processed files.{0}" +
+				        				"\t\t\tThis can be specified multiple times to replace{0}" +
+				        				"\t\t\tmultiple tokens.{0}{0}" +
+				        				"Example:{0}{0}" +
+				        				"\tJuxtapo.Combiner.Console.exe D:\\website\\js -v:debug=false -v:trace=true{0}"
+				        				, Environment.NewLine);
 				        			session.StandardOutput.ShouldEqual(helpText);
 				        		}
+				        	});
+
+			"Parameters contain 2 variables when command-line parameters \"-v:debug=false -v:trace=true\" are passed"
+				.Assert(() =>
+				        	{
+				        		Program.Main(new[] {"-v:debug=false", "-v:trace=true"});
+				        		Program.Parameters.Variables[0].Key.ShouldEqual("debug");
+				        		Program.Parameters.Variables[0].Value.ShouldEqual("false");
+				        		Program.Parameters.Variables[1].Key.ShouldEqual("trace");
+				        		Program.Parameters.Variables[1].Value.ShouldEqual("true");
 				        	});
 		}
 	}
