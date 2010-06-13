@@ -9,6 +9,7 @@
 // # You must not remove this notice, or any other, from this software.
 // 
 // #######################################################
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 
 namespace Juxtapo.Combiner
@@ -16,15 +17,26 @@ namespace Juxtapo.Combiner
 	[DebuggerDisplay("{Identity}")]
 	public sealed class SourceFile
 	{
+		private readonly SourceFiles _components;
+
 		public SourceFile(string body, string fileName)
 		{
 			Body = body;
 			Identity = fileName;
-			Components = new SourceFiles();
+			_components = new SourceFiles();
 		}
 
 		public string Body { get; internal set; }
 		public string Identity { get; private set; }
-		public SourceFiles Components { get; private set; }
+
+		public ReadOnlyCollection<SourceFile> Components
+		{
+			get { return new ReadOnlyCollection<SourceFile>(_components); }
+		}
+
+		public void AddComponent(SourceFile component)
+		{
+			_components.Add(component);
+		}
 	}
 }

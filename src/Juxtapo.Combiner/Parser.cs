@@ -79,7 +79,7 @@ namespace Juxtapo.Combiner
 					if (include != null)
 					{
 						outputFile.Body += _preProcessors.Aggregate(include.Body, (current, preProcessor) => preProcessor.Process(current, parserOptions));
-						outputFile.Components.Add(include);
+						outputFile.AddComponent(include);
 					}
 				}
 
