@@ -11,7 +11,7 @@
 // #######################################################
 namespace Juxtapo.Combiner.PreProcessors
 {
-	public interface IPreProcessor
+	internal interface IPreProcessor
 	{
 		string Process(string body, ParserOptions parserOptions);
 	}

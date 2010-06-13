@@ -13,7 +13,7 @@ using System.Linq;
 
 namespace Juxtapo.Combiner.PreProcessors
 {
-	public class VariableReplacementPreProcessor : IPreProcessor
+	internal sealed class VariableReplacementPreProcessor : IPreProcessor
 	{
 		private const string m_variableTokenFormat = "@{0}";
 
