@@ -15,7 +15,7 @@ namespace Juxtapo.Combiner.Console
 	{
 		private static void Main(string[] args)
 		{
-			ConsoleApp.Run(args); // This is the only line in the entire solution, not covered by specifications
+			
 		}
 	}
 }
