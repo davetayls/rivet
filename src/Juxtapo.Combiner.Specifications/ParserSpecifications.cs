@@ -33,35 +33,35 @@ namespace Juxtapo.Combiner.Specifications
 			"ParseSourceFiles() throws InvalidOperationException when any source file passed contains a null Body"
 				.Assert(() =>
 				        	{
-				        		var sourceFiles = new SourceFiles {new SourceFile(null, "filename.js")};
+				        		var sourceFiles = new SourceFiles {new SourceFile("filename.js", null)};
 				        		Assert.Throws<InvalidOperationException>(() => parser.ParseSourceFiles(sourceFiles));
 				        	});
 
 			"ParseSourceFiles() throws InvalidOperationException when any source file passed contains an empty Body"
 				.Assert(() =>
 				        	{
-				        		var sourceFiles = new SourceFiles {new SourceFile(string.Empty, "filename.js")};
+				        		var sourceFiles = new SourceFiles {new SourceFile("filename.js", string.Empty)};
 				        		Assert.Throws<InvalidOperationException>(() => parser.ParseSourceFiles(sourceFiles));
 				        	});
 
 			"ParseSourceFiles() throws InvalidOperationException when any source file passed contains a null Identity"
 				.Assert(() =>
 				        	{
-				        		var sourceFiles = new SourceFiles {new SourceFile("@juxtapo.combiner", null)};
+				        		var sourceFiles = new SourceFiles {new SourceFile(null, "@juxtapo.combiner")};
 				        		Assert.Throws<InvalidOperationException>(() => parser.ParseSourceFiles(sourceFiles));
 				        	});
 
 			"ParseSourceFiles() throws InvalidOperationException when any source file passed contains an empty Identity"
 				.Assert(() =>
 				        	{
-				        		var sourceFiles = new SourceFiles {new SourceFile("@juxtapo.combiner", string.Empty)};
+				        		var sourceFiles = new SourceFiles {new SourceFile(string.Empty, "@juxtapo.combiner")};
 				        		Assert.Throws<InvalidOperationException>(() => parser.ParseSourceFiles(sourceFiles));
 				        	});
 
 			"ParseSourceFiles() throws InvalidOperationException when none of source files passed contain @juxtapo.combiner token"
 				.Assert(() =>
 				        	{
-				        		var sourceFiles = new SourceFiles {new SourceFile("TEST", "filename.js")};
+				        		var sourceFiles = new SourceFiles {new SourceFile("filename.js", "TEST")};
 				        		Assert.Throws<InvalidOperationException>(() => parser.ParseSourceFiles(sourceFiles));
 				        	});
 		}
@@ -75,14 +75,14 @@ namespace Juxtapo.Combiner.Specifications
 			"ParseSourceFiles() returns a SourceFile when 1 source files are passed"
 				.Assert(() =>
 				        	{
-				        		var sourceFiles = new SourceFiles {new SourceFile("@juxtapo.combiner", "filename.js")};
+				        		var sourceFiles = new SourceFiles {new SourceFile("filename.js", "@juxtapo.combiner")};
 				        		parser.ParseSourceFiles(sourceFiles).ShouldNotBeNull();
 				        	});
 
 			"ParseSourceFiles() returns a SourceFile with a Identity"
 				.Assert(() =>
 				        	{
-				        		var sourceFiles = new SourceFiles {new SourceFile("@juxtapo.combiner", "filename.js")};
+				        		var sourceFiles = new SourceFiles {new SourceFile("filename.js", "@juxtapo.combiner")};
 				        		parser.ParseSourceFiles(sourceFiles).First().Identity.ShouldEqual("filename.js");
 				        	});
 
@@ -90,9 +90,9 @@ namespace Juxtapo.Combiner.Specifications
 				.Assert(() =>
 				        	{
 				        		var sourceFiles = new SourceFiles();
-				        		sourceFiles.Add(new SourceFile("SECOND", "second.js"));
-				        		sourceFiles.Add(new SourceFile("@juxtapo.combiner includes.push(\"second.js\"); includes.push(\"third.js\"); FIRST", "first.js"));
-				        		sourceFiles.Add(new SourceFile("THIRD", "third.js"));
+				        		sourceFiles.Add(new SourceFile("second.js", "SECOND"));
+				        		sourceFiles.Add(new SourceFile("first.js", "@juxtapo.combiner includes.push(\"second.js\"); includes.push(\"third.js\"); FIRST"));
+				        		sourceFiles.Add(new SourceFile("third.js", "THIRD"));
 				        		parser.ParseSourceFiles(sourceFiles).First().Body.ShouldEqual("SECONDTHIRD");
 				        	});
 
@@ -100,9 +100,9 @@ namespace Juxtapo.Combiner.Specifications
 				.Assert(() =>
 				        	{
 				        		var sourceFiles = new SourceFiles();
-				        		sourceFiles.Add(new SourceFile("SECOND", "second.js"));
-				        		sourceFiles.Add(new SourceFile("@juxtapo.combiner includes.push(\"third.js\"); FIRST", "first.js"));
-				        		sourceFiles.Add(new SourceFile("THIRD", "third.js"));
+				        		sourceFiles.Add(new SourceFile("second.js", "SECOND"));
+				        		sourceFiles.Add(new SourceFile("first.js", "@juxtapo.combiner includes.push(\"third.js\"); FIRST"));
+				        		sourceFiles.Add(new SourceFile("third.js", "THIRD"));
 				        		parser.ParseSourceFiles(sourceFiles).First().Components.First().Identity.ShouldEqual("third.js");
 				        	});
 
@@ -110,8 +110,8 @@ namespace Juxtapo.Combiner.Specifications
 				.Assert(() =>
 				        	{
 				        		var sourceFiles = new SourceFiles();
-				        		sourceFiles.Add(new SourceFile("@juxtapo.combiner includes.push(\"second.js\"); FIRST", "first.js"));
-				        		sourceFiles.Add(new SourceFile("BEFORE\r\nTEST//##DEBUG\r\nAFTER\r\n", "second.js"));
+				        		sourceFiles.Add(new SourceFile("first.js", "@juxtapo.combiner includes.push(\"second.js\"); FIRST"));
+				        		sourceFiles.Add(new SourceFile("second.js", "BEFORE\r\nTEST//##DEBUG\r\nAFTER\r\n"));
 				        		parser.ParseSourceFiles(sourceFiles).First().Body.ShouldEqual("BEFORE\r\nAFTER\r\n");
 				        	});
 
@@ -119,8 +119,8 @@ namespace Juxtapo.Combiner.Specifications
 				.Assert(() =>
 				        	{
 				        		var sourceFiles = new SourceFiles();
-				        		sourceFiles.Add(new SourceFile("@juxtapo.combiner includes.push(\"second.js\"); FIRST", "first.js"));
-				        		sourceFiles.Add(new SourceFile("BEFORE\r\n//##DEBUG_STARTTEST\r\n//##DEBUG_ENDAFTER\r\n", "second.js"));
+				        		sourceFiles.Add(new SourceFile("first.js", "@juxtapo.combiner includes.push(\"second.js\"); FIRST"));
+				        		sourceFiles.Add(new SourceFile("second.js", "BEFORE\r\n//##DEBUG_STARTTEST\r\n//##DEBUG_ENDAFTER\r\n"));
 				        		parser.ParseSourceFiles(sourceFiles).First().Body.ShouldEqual("BEFORE\r\nAFTER\r\n");
 				        	});
 
@@ -128,8 +128,8 @@ namespace Juxtapo.Combiner.Specifications
 				.Assert(() =>
 				        	{
 				        		var sourceFiles = new SourceFiles();
-				        		sourceFiles.Add(new SourceFile("@juxtapo.combiner includes.push(\"second.js\"); FIRST", "first.js"));
-				        		sourceFiles.Add(new SourceFile("var i = #VARIABLE_1#;var j = #VARIABLE_2#;", "second.js"));
+				        		sourceFiles.Add(new SourceFile("first.js", "@juxtapo.combiner includes.push(\"second.js\"); FIRST"));
+				        		sourceFiles.Add(new SourceFile("second.js", "var i = #VARIABLE_1#;var j = #VARIABLE_2#;"));
 
 				        		var options = new ParserOptions(new[] {new Pair<string, string>("VARIABLE_1", "1"), new Pair<string, string>("VARIABLE_2", "2")});
 

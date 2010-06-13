@@ -19,10 +19,10 @@ namespace Juxtapo.Combiner
 	{
 		private readonly SourceFiles _components;
 
-		public SourceFile(string body, string fileName)
+		public SourceFile(string identity, string body)
 		{
 			Body = body;
-			Identity = fileName;
+			Identity = identity;
 			_components = new SourceFiles();
 		}
 

@@ -70,7 +70,7 @@ namespace Juxtapo.Combiner
 
 			foreach (var markedFile in markedFiles)
 			{
-				var outputFile = new SourceFile(string.Empty, markedFile.Identity);
+				var outputFile = new SourceFile(markedFile.Identity, string.Empty);
 
 				foreach (var reference in IncludePushExpressionScanner.GetFilenameReferences(markedFile.Body))
 				{
