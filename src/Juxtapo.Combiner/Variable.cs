@@ -9,8 +9,11 @@
 // # You must not remove this notice, or any other, from this software.
 // 
 // #######################################################
+using System.Diagnostics;
+
 namespace Juxtapo.Combiner
 {
+	[DebuggerDisplay("Key={Key},Value={Value}")]
 	public sealed class Variable
 	{
 		public Variable(string key, string value)

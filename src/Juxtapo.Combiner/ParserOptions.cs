@@ -11,9 +11,11 @@
 // #######################################################
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace Juxtapo.Combiner
 {
+	[DebuggerDisplay("{Variables.Count}")]
 	public sealed class ParserOptions
 	{
 		private static readonly ParserOptions DefaultParserOptions = new ParserOptions();

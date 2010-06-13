@@ -10,9 +10,11 @@
 // 
 // #######################################################
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace Juxtapo.Combiner
 {
+	[DebuggerDisplay("{Count}")]
 	public sealed class SourceFiles : Collection<SourceFile>
 	{
 	}
