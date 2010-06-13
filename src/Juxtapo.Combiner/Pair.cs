@@ -1,4 +1,4 @@
-﻿// #######################################################
+// #######################################################
 // 
 // # Copyright (C) 2010, Dave Taylor and Arnold Zokas
 // 
@@ -9,21 +9,17 @@
 // # You must not remove this notice, or any other, from this software.
 // 
 // #######################################################
-using System.Text.RegularExpressions;
-
-namespace Juxtapo.Combiner.PreProcessors
+namespace Juxtapo.Combiner
 {
-	internal sealed class DebugBlockPreProcessor : IPreProcessor
+	public sealed class Pair<TKey, TValue>
 	{
-		private static readonly Regex Expression = new Regex(@"(//##DEBUG_START)([\s\S]*?)(//##DEBUG_END)", RegexOptions.Multiline | RegexOptions.Compiled);
-
-		#region IPreProcessor Members
-
-		public string Process(string body, ParserOptions parserOptions)
+		public Pair(TKey key, TValue value)
 		{
-			return Expression.Replace(body, string.Empty);
+			Key = key;
+			Value = value;
 		}
 
-		#endregion
+		public TKey Key { get; private set; }
+		public TValue Value { get; private set; }
 	}
 }

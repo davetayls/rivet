@@ -13,6 +13,6 @@ namespace Juxtapo.Combiner.PreProcessors
 {
 	public interface IPreProcessor
 	{
-		string Process(string body);
+		string Process(string body, ParserOptions parserOptions);
 	}
 }

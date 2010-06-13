@@ -32,8 +32,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Pair.cs" />
+    <Compile Include="ParserOptions.cs" />
     <Compile Include="PreProcessors\DebugBlockPreProcessor.cs" />
     <Compile Include="PreProcessors\DebugLinePreProcessor.cs" />
+    <Compile Include="PreProcessors\VariableReplacementPreProcessor.cs" />
     <Compile Include="Resources\ExceptionMessages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

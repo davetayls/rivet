@@ -19,7 +19,7 @@ namespace Juxtapo.Combiner.PreProcessors
 
 		#region IPreProcessor Members
 
-		public string Process(string body)
+		public string Process(string body, ParserOptions parserOptions)
 		{
 			return Expression.Replace(body, string.Empty);
 		}

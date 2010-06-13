@@ -28,9 +28,15 @@ namespace Juxtapo.Combiner
 			_preProcessors = new List<IPreProcessor>();
 			_preProcessors.Add(new DebugBlockPreProcessor());
 			_preProcessors.Add(new DebugLinePreProcessor());
+			_preProcessors.Add(new VariableReplacementPreProcessor());
 		}
 
 		public SourceFiles ParseSourceFiles(SourceFiles sourceFiles)
+		{
+			return ParseSourceFiles(sourceFiles, ParserOptions.Default);
+		}
+
+		public SourceFiles ParseSourceFiles(SourceFiles sourceFiles, ParserOptions parserOptions)
 		{
 			if (sourceFiles == null)
 				throw new ArgumentNullException("sourceFiles");
@@ -53,10 +59,10 @@ namespace Juxtapo.Combiner
 			if (sourceFiles.Count(sourceFile => sourceFile.Body.Contains(m_combinerToken)) == 0)
 				throw new InvalidOperationException(ExceptionMessages.InvalidOperationException__CannotCombine_NoSourceFilesContainCombinerToken);
 
-			return ParseSourceFilesInternal(sourceFiles);
+			return ParseSourceFilesInternal(sourceFiles, parserOptions);
 		}
 
-		private SourceFiles ParseSourceFilesInternal(IEnumerable<SourceFile> sourceFiles)
+		private SourceFiles ParseSourceFilesInternal(IEnumerable<SourceFile> sourceFiles, ParserOptions parserOptions)
 		{
 			IEnumerable<SourceFile> markedFiles = sourceFiles.Where(sourceFile => sourceFile.Body.Contains(m_combinerToken));
 			IEnumerable<SourceFile> includes = sourceFiles.Where(sourceFile => !sourceFile.Body.Contains(m_combinerToken));
@@ -72,7 +78,7 @@ namespace Juxtapo.Combiner
 
 					if (include != null)
 					{
-						outputFile.Body += _preProcessors.Aggregate(include.Body, (current, preProcessor) => preProcessor.Process(current));
+						outputFile.Body += _preProcessors.Aggregate(include.Body, (current, preProcessor) => preProcessor.Process(current, parserOptions));
 						outputFile.Components.Add(include);
 					}
 				}

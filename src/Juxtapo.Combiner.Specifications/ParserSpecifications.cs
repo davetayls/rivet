@@ -123,6 +123,18 @@ namespace Juxtapo.Combiner.Specifications
 				        		sourceFiles.Add(new SourceFile("BEFORE\r\n//##DEBUG_STARTTEST\r\n//##DEBUG_ENDAFTER\r\n", "second.js"));
 				        		parser.ParseSourceFiles(sourceFiles).First().Body.ShouldEqual("BEFORE\r\nAFTER\r\n");
 				        	});
+
+			"ParseSourceFiles() populates variable placeholders"
+				.Assert(() =>
+				        	{
+				        		var sourceFiles = new SourceFiles();
+				        		sourceFiles.Add(new SourceFile("@juxtapo.combiner includes.push(\"second.js\"); FIRST", "first.js"));
+				        		sourceFiles.Add(new SourceFile("var i = #VARIABLE_1#;var j = #VARIABLE_2#;", "second.js"));
+
+				        		var options = new ParserOptions(new[] {new Pair<string, string>("VARIABLE_1", "1"), new Pair<string, string>("VARIABLE_2", "2")});
+
+				        		parser.ParseSourceFiles(sourceFiles, options).First().Body.ShouldEqual("var i = 1;var j = 2;");
+				        	});
 		}
 	}
 }
