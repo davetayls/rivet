@@ -30,20 +30,22 @@ namespace Juxtapo.Combiner.Console.Specifications
 				        		{
 				        			Program.Main(new string[0]);
 
-				        			var helpText = GenerateHelpText();
+				        			var helpText = string.Format(
+				        				"{0}Juxtapo Combiner v0.0{0}" +
+				        				"Copyright (C) 2010, Dave Taylor and Arnold Zokas{0}{0}" +
+				        				"Usage: Juxtapo.Combiner.Console.exe [/help] <path> [options]{0}{0}" +
+				        				"\t/help\tShows this help information{0}" +
+										"\t<path>\tPath to directory containing javascript files{0}{0}" +
+				        				"Options:{0}" +
+										"\t-v:name=value\tReplaces token [name] with [value] in processed files.{0}" +
+										"\t\t\tThis can be specified multiple times to replace{0}" +
+										"\t\t\tmultiple tokens.{0}{0}" +
+										"Example:{0}{0}" +
+										"\tJuxtapo.Combiner.Console.exe D:\\website\\js -v:debug=false -v:trace=true{0}"
+										, Environment.NewLine);
 				        			session.StandardOutput.ShouldEqual(helpText);
 				        		}
 				        	});
-		}
-
-		private static string GenerateHelpText()
-		{
-			return string.Format(
-				"Juxtapo Combiner v0.0{0}" +
-				"Copyright (C) 2010, Dave Taylor and Arnold Zokas{0}{0}" +
-				"Usage: Juxtapo.Combiner.Console.exe [/help] <path-to-directory> [options]{0}{0}" +
-				"\t/help\t\tshows this help information{0}{0}" +
-				"Options:{0}", Environment.NewLine);
 		}
 	}
 }

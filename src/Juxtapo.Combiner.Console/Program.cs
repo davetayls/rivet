@@ -31,11 +31,25 @@ namespace Juxtapo.Combiner.Console
 		private static void DisplayHelpInformation()
 		{
 			Version version = Assembly.GetExecutingAssembly().GetName().Version;
+			SysConsole.ForegroundColor = ConsoleColor.DarkCyan;
+			SysConsole.WriteLine();
 			SysConsole.WriteLine("Juxtapo Combiner v{0}.{1}", version.Major, version.Minor);
-			SysConsole.WriteLine("Copyright (C) 2010, Dave Taylor and Arnold Zokas{0}", Environment.NewLine);
-			SysConsole.WriteLine("Usage: Juxtapo.Combiner.Console.exe [/help] <path-to-directory> [options]{0}", Environment.NewLine);
-			SysConsole.Write("\t/help\t\tshows this help information{0}{0}", Environment.NewLine);
+			SysConsole.WriteLine("Copyright (C) 2010, Dave Taylor and Arnold Zokas");
+			SysConsole.WriteLine();
+			SysConsole.ResetColor();
+			SysConsole.WriteLine("Usage: Juxtapo.Combiner.Console.exe [/help] <path> [options]");
+			SysConsole.WriteLine();
+			SysConsole.WriteLine("\t/help\tShows this help information");
+			SysConsole.WriteLine("\t<path>\tPath to directory containing javascript files");
+			SysConsole.WriteLine();
 			SysConsole.WriteLine("Options:");
+			SysConsole.WriteLine("\t-v:name=value\tReplaces token [name] with [value] in processed files.");
+			SysConsole.WriteLine("\t\t\tThis can be specified multiple times to replace");
+			SysConsole.WriteLine("\t\t\tmultiple tokens.");
+			SysConsole.WriteLine();
+			SysConsole.WriteLine("Example:");
+			SysConsole.WriteLine();
+			SysConsole.WriteLine("\tJuxtapo.Combiner.Console.exe D:\\website\\js -v:debug=false -v:trace=true");
 		}
 	}
 }
