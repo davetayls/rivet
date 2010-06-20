@@ -10,6 +10,7 @@
 // 
 // #######################################################
 using System;
+using System.IO;
 using Juxtapo.Combiner.Console.Specifications.TestUtils;
 using Xunit.Specifications;
 using SysConsole = System.Console;
@@ -44,17 +45,32 @@ namespace Juxtapo.Combiner.Console.Specifications
 				        				"\tJuxtapo.Combiner.Console.exe D:\\website\\js -v:debug=false -v:trace=true{0}"
 				        				, Environment.NewLine);
 				        			session.StandardOutput.ShouldEqual(helpText);
+									Program.Parameters.DisplayHelpInformation.ShouldBeTrue();
 				        		}
 				        	});
 
-			"Parameters contain 2 variables when command-line parameters \"-v:debug=false -v:trace=true\" are passed"
+			"Parameters contain 2 variables when Main() is invoked with command-line parameters \"-v:debug=false -v:trace=true\""
 				.Assert(() =>
 				        	{
-				        		Program.Main(new[] {"-v:debug=false", "-v:trace=true"});
-				        		Program.Parameters.Variables[0].Key.ShouldEqual("debug");
-				        		Program.Parameters.Variables[0].Value.ShouldEqual("false");
-				        		Program.Parameters.Variables[1].Key.ShouldEqual("trace");
-				        		Program.Parameters.Variables[1].Value.ShouldEqual("true");
+								using (var tempDirectory = new TempDirectory())
+								{
+									Program.Main(new[] { tempDirectory.Path + " -v:debug=false", "-v:trace=true" });
+									Program.Parameters.Variables[0].Key.ShouldEqual("debug");
+									Program.Parameters.Variables[0].Value.ShouldEqual("false");
+									Program.Parameters.Variables[1].Key.ShouldEqual("trace");
+									Program.Parameters.Variables[1].Value.ShouldEqual("true");
+								}
+				        	});
+
+			"Parameters.TargetDirectory is set when Main() is invoked with directory path"
+				.Assert(() =>
+				        	{
+				        		using (var tempDirectory = new TempDirectory())
+				        		{
+									Program.Main(new[] { tempDirectory.Path });
+									Program.Parameters.TargetDirectory.ShouldEqual(tempDirectory.Path);
+									Program.Parameters.DisplayHelpInformation.ShouldBeFalse();
+				        		}
 				        	});
 		}
 	}

@@ -23,12 +23,14 @@ namespace Juxtapo.Combiner.Console
 			_variables = new List<Variable>();
 		}
 
-		public bool DisplayHelpInformation { get; set; }
+		public bool DisplayHelpInformation { get; internal set; }
 
 		public ReadOnlyCollection<Variable> Variables
 		{
 			get { return new ReadOnlyCollection<Variable>(_variables); }
 		}
+
+		public string TargetDirectory { get; internal set; }
 
 		public void AddVariable(string key, string value)
 		{

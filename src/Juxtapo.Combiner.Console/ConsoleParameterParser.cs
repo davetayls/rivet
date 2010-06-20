@@ -9,21 +9,30 @@
 // # You must not remove this notice, or any other, from this software.
 // 
 // #######################################################
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace Juxtapo.Combiner.Console
 {
 	internal static class ConsoleParameterParser
 	{
+		private static readonly Regex TargetDirectoryScanExpression = new Regex(@"^([A-Za-z]:|\\\\.+)(\\(.+))*$", RegexOptions.Singleline | RegexOptions.Compiled);
 		private static readonly Regex VariableScanExpression = new Regex(@"-v:(?'key'.*)=(?'value'.*)", RegexOptions.Singleline | RegexOptions.Compiled);
 
-		public static ConsoleParameters Parse(IEnumerable<string> args)
+		public static ConsoleParameters Parse(string[] args)
 		{
 			var parameters = new ConsoleParameters();
 
-			parameters.DisplayHelpInformation = true;
+			// extract target directory
+			var targetDirectoryMatch = TargetDirectoryScanExpression.Match(string.Join(" ", args));
+			if (!targetDirectoryMatch.Success)
+			{
+				parameters.DisplayHelpInformation = true;
+				return parameters;
+			}
 
+			parameters.TargetDirectory = targetDirectoryMatch.Value;
+
+			// extract variables)
 			foreach (var arg in args)
 			{
 				var matches = VariableScanExpression.Matches(arg);
