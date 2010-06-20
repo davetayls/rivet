@@ -34,7 +34,7 @@ namespace Juxtapo.Combiner
 			get { return new ReadOnlyCollection<SourceFile>(_components); }
 		}
 
-		public void AddComponent(SourceFile component)
+		internal void AddComponent(SourceFile component)
 		{
 			_components.Add(component);
 		}
