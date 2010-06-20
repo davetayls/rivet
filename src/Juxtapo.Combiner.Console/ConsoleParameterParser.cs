@@ -9,6 +9,8 @@
 // # You must not remove this notice, or any other, from this software.
 // 
 // #######################################################
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Juxtapo.Combiner.Console
@@ -31,21 +33,28 @@ namespace Juxtapo.Combiner.Console
 				@"$"			// end of string
 				, RegexOptions.Singleline | RegexOptions.Compiled);
 
-			// should match -v:debug=true
+			// should match "-v:debug=true"
 			VariableScanExpression = new Regex(
-				@"-v:" + // -v:
+				@"-v:" +		// -v:
 				@"(?'key'.*)" + // match "key"
-				@"=" + // =
+				@"=" +			// =
 				@"(?'value'.*)" // match "value"
 				, RegexOptions.Singleline | RegexOptions.Compiled);
 		}
 
-		public static ConsoleParameters Parse(string[] args)
+		public static ConsoleParameters Parse(IEnumerable<string> args)
 		{
 			var parameters = new ConsoleParameters();
 
+			var targetDirectoryArgument = args.FirstOrDefault();
+			if (string.IsNullOrEmpty(targetDirectoryArgument))
+			{
+				parameters.DisplayHelpInformation = true;
+				return parameters;
+			}
+
 			// extract target directory
-			var targetDirectoryMatch = TargetDirectoryScanExpression.Match(string.Join(" ", args));
+			var targetDirectoryMatch = TargetDirectoryScanExpression.Match(targetDirectoryArgument);
 			if (!targetDirectoryMatch.Success)
 			{
 				parameters.DisplayHelpInformation = true;

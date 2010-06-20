@@ -40,10 +40,25 @@ namespace Juxtapo.Combiner.Console.Specifications.TestUtils
 		{
 			if (Directory.Exists(_path))
 			{
-				Directory.Delete(_path);
+				Directory.Delete(_path, recursive: true);
 			}
 		}
 
 		#endregion
+
+		public void CreateFile(string filename, string contents)
+		{
+			File.WriteAllText(System.IO.Path.Combine(_path, filename), contents);
+		}
+
+		public string ReadFile(string filename)
+		{
+			return File.ReadAllText(System.IO.Path.Combine(_path, filename));
+		}
+
+		public bool FileExists(string filename)
+		{
+			return File.Exists(System.IO.Path.Combine(_path, filename));
+		}
 	}
 }

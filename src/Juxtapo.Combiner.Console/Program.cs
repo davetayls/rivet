@@ -10,6 +10,8 @@
 // 
 // #######################################################
 using System;
+using System.IO;
+using System.Linq;
 using System.Reflection;
 using SysConsole = System.Console;
 
@@ -28,6 +30,54 @@ namespace Juxtapo.Combiner.Console
 				DisplayHelpInformation();
 				return;
 			}
+
+			SourceFiles sourceFiles = GetSourceFiles();
+			if (sourceFiles.Count == 0)
+				return;
+
+			ParserOptions parserOptions = GetParserOptions();
+
+			Combine(sourceFiles, parserOptions);
+		}
+
+		private static void Combine(SourceFiles sourceFiles, ParserOptions parserOptions)
+		{
+			var parser = new Parser();
+			var outputFiles = parser.ParseSourceFiles(sourceFiles, parserOptions);
+
+			foreach (var outputFile in outputFiles)
+			{
+				File.WriteAllText(Path.Combine(Parameters.TargetDirectory, outputFile.Identity), outputFile.Body);
+
+				foreach (var component in outputFile.Components)
+				{
+					var componentPath = Path.Combine(Parameters.TargetDirectory, component.Identity);
+					if (File.Exists(componentPath))
+						File.Delete(componentPath);
+				}
+			}
+		}
+
+		private static SourceFiles GetSourceFiles()
+		{
+			string[] filePaths = Directory.GetFiles(Parameters.TargetDirectory, "*.js");
+			return new SourceFiles(filePaths.Select(path => new SourceFile(Path.GetFileName(path), File.ReadAllText(path))).ToArray());
+		}
+
+		private static ParserOptions GetParserOptions()
+		{
+			if (Parameters.Variables.Count == 0)
+			{
+				return ParserOptions.Default;
+			}
+
+			var parserOptions = new ParserOptions();
+			foreach (var variable in Parameters.Variables)
+			{
+				parserOptions.AddVariable(variable);
+			}
+
+			return parserOptions;
 		}
 
 		private static void DisplayHelpInformation()

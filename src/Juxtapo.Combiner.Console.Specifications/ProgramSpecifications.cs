@@ -53,7 +53,7 @@ namespace Juxtapo.Combiner.Console.Specifications
 				        	{
 				        		using (var tempDirectory = new TempDirectory())
 				        		{
-				        			Program.Main(new[] {tempDirectory.Path + " -v:debug=false", "-v:trace=true"});
+				        			Program.Main(new[] {tempDirectory.Path, " -v:debug=false", "-v:trace=true"});
 				        			Program.Parameters.Variables[0].Key.ShouldEqual("debug");
 				        			Program.Parameters.Variables[0].Value.ShouldEqual("false");
 				        			Program.Parameters.Variables[1].Key.ShouldEqual("trace");
@@ -66,9 +66,26 @@ namespace Juxtapo.Combiner.Console.Specifications
 				        	{
 				        		using (var tempDirectory = new TempDirectory())
 				        		{
-				        			Program.Main(new[] {tempDirectory.Path});
+				        			Program.Main(new[] {tempDirectory.Path, " -v:debug=false", "-v:trace=true"});
 				        			Program.Parameters.TargetDirectory.ShouldEqual(tempDirectory.Path);
 				        			Program.Parameters.DisplayHelpInformation.ShouldBeFalse();
+				        		}
+				        	});
+
+			"Javascript files in the target directory are combined"
+				.Assert(() =>
+				        	{
+				        		using (var tempDirectory = new TempDirectory())
+				        		{
+				        			tempDirectory.CreateFile("main.js", "@juxtapo.combiner includes.push(\"include_1.js\");includes.push(\"include_2.js\");");
+				        			tempDirectory.CreateFile("include_1.js", "BEFORE\r\n//##DEBUG_STARTTEST\r\n//##DEBUG_ENDAFTER\r\n");
+				        			tempDirectory.CreateFile("include_2.js", "var i = @VARIABLE_1;var j = @VARIABLE_2;");
+
+				        			Program.Main(new[] {tempDirectory.Path, " -v:VARIABLE_1=false", "-v:VARIABLE_2=true"});
+
+				        			tempDirectory.ReadFile("main.js").ShouldEqual("BEFORE\r\nAFTER\r\nvar i = false;var j = true;");
+				        			tempDirectory.FileExists("include_1.js").ShouldBeFalse();
+				        			tempDirectory.FileExists("include_2.js").ShouldBeFalse();
 				        		}
 				        	});
 		}

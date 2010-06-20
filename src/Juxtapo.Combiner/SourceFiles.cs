@@ -9,6 +9,7 @@
 // # You must not remove this notice, or any other, from this software.
 // 
 // #######################################################
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 
@@ -17,5 +18,16 @@ namespace Juxtapo.Combiner
 	[DebuggerDisplay("{Count}")]
 	public sealed class SourceFiles : Collection<SourceFile>
 	{
+		public SourceFiles()
+		{
+		}
+
+		public SourceFiles(IEnumerable<SourceFile> sourceFiles)
+		{
+			foreach (var sourceFile in sourceFiles)
+			{
+				Add(sourceFile);
+			}
+		}
 	}
 }
