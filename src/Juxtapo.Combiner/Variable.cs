@@ -13,7 +13,7 @@ using System.Diagnostics;
 
 namespace Juxtapo.Combiner
 {
-	[DebuggerDisplay("Key={Key},Value={Value}")]
+	[DebuggerDisplay("Key:{Key},Value:{Value}")]
 	public sealed class Variable
 	{
 		public Variable(string key, string value)

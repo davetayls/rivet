@@ -15,7 +15,7 @@ using System.Diagnostics;
 
 namespace Juxtapo.Combiner
 {
-	[DebuggerDisplay("{Count}")]
+	[DebuggerDisplay("Count: {Count}")]
 	public sealed class SourceFiles : Collection<SourceFile>
 	{
 		public SourceFiles()

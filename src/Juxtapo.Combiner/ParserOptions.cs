@@ -15,7 +15,7 @@ using System.Diagnostics;
 
 namespace Juxtapo.Combiner
 {
-	[DebuggerDisplay("{Variables.Count}")]
+	[DebuggerDisplay("Variable Count: {Variables.Count}")]
 	public sealed class ParserOptions
 	{
 		private static readonly ParserOptions DefaultParserOptions = new ParserOptions();
