@@ -88,6 +88,29 @@ namespace Juxtapo.Combiner.Console.Specifications
 				        			tempDirectory.FileExists("include_2.js").ShouldBeFalse();
 				        		}
 				        	});
+
+			"Javascript files in the target directory are combined"
+				.Assert(() =>
+				        	{
+				        		using (var tempDirectory = new TempDirectory())
+				        		{
+				        			tempDirectory.CreateFile("main.js", "@juxtapo.combiner includes.push(\"dir1\\include_1.js\");includes.push(\"dir2\\include_2.js\");");
+				        			tempDirectory.CreateDirectory("dir1");
+				        			tempDirectory.CreateDirectory("dir2");
+				        			tempDirectory.CreateFile("dir1\\include_1.js", "BEFORE\r\n//##DEBUG_STARTTEST\r\n//##DEBUG_ENDAFTER\r\n");
+				        			tempDirectory.CreateFile("dir2\\include_2.js", "var i = @VARIABLE_1;var j = @VARIABLE_2;");
+				        			tempDirectory.CreateFile("dir2\\standalone.js", "standalone js file");
+
+				        			Program.Main(new[] {tempDirectory.Path, " -v:VARIABLE_1=false", "-v:VARIABLE_2=true"});
+
+				        			tempDirectory.ReadFile("main.js").ShouldEqual("BEFORE\r\nAFTER\r\nvar i = false;var j = true;");
+				        			tempDirectory.DirectoryExists("dir1").ShouldBeFalse();
+				        			tempDirectory.DirectoryExists("dir2").ShouldBeTrue();
+				        			tempDirectory.FileExists("dir1\\include_1.js").ShouldBeFalse();
+				        			tempDirectory.FileExists("dir2\\include_2.js").ShouldBeFalse();
+				        			tempDirectory.FileExists("dir2\\standalone.js").ShouldBeTrue();
+				        		}
+				        	});
 		}
 	}
 }

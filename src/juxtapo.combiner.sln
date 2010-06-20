@@ -5,7 +5,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Solution Items", "_Solutio
 	ProjectSection(SolutionItems) = preProject
 		..\.gitignore = ..\.gitignore
 		..\License.txt = ..\License.txt
-		..\readme.markdown = ..\readme.markdown
+		..\readme.md = ..\readme.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Juxtapo.Combiner", "Juxtapo.Combiner", "{A284D652-D4E7-45FE-81C5-3E1F950E5185}"

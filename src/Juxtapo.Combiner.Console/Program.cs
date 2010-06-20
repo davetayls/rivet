@@ -10,6 +10,7 @@
 // 
 // #######################################################
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -45,6 +46,11 @@ namespace Juxtapo.Combiner.Console
 			var parser = new Parser();
 			var outputFiles = parser.ParseSourceFiles(sourceFiles, parserOptions);
 
+			DeleteComponents(outputFiles);
+		}
+
+		private static void DeleteComponents(IEnumerable<SourceFile> outputFiles)
+		{
 			foreach (var outputFile in outputFiles)
 			{
 				File.WriteAllText(Path.Combine(Parameters.TargetDirectory, outputFile.Identity), outputFile.Body);
@@ -53,15 +59,29 @@ namespace Juxtapo.Combiner.Console
 				{
 					var componentPath = Path.Combine(Parameters.TargetDirectory, component.Identity);
 					if (File.Exists(componentPath))
+					{
 						File.Delete(componentPath);
+
+						var componentDirectoryPath = Path.GetDirectoryName(componentPath);
+						if (Directory.GetFiles(componentDirectoryPath).Length == 0)
+						{
+							Directory.Delete(componentDirectoryPath);
+						}
+					}
 				}
 			}
 		}
 
 		private static SourceFiles GetSourceFiles()
 		{
-			string[] filePaths = Directory.GetFiles(Parameters.TargetDirectory, "*.js");
-			return new SourceFiles(filePaths.Select(path => new SourceFile(Path.GetFileName(path), File.ReadAllText(path))).ToArray());
+			const int lengthOfDirectorySeparatorChar = 1;
+
+			var sourceFiles = from path in Directory.GetFiles(Parameters.TargetDirectory, "*.js", SearchOption.AllDirectories)
+			                  let identity = path.Remove(0, Parameters.TargetDirectory.Length + lengthOfDirectorySeparatorChar)
+			                  let content = File.ReadAllText(path)
+			                  select new SourceFile(identity, content);
+
+			return new SourceFiles(sourceFiles);
 		}
 
 		private static ParserOptions GetParserOptions()

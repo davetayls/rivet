@@ -60,5 +60,15 @@ namespace Juxtapo.Combiner.Console.Specifications.TestUtils
 		{
 			return File.Exists(System.IO.Path.Combine(_path, filename));
 		}
+
+		public void CreateDirectory(string name)
+		{
+			Directory.CreateDirectory(System.IO.Path.Combine(_path, name));
+		}
+
+		public bool DirectoryExists(string name)
+		{
+			return Directory.Exists(System.IO.Path.Combine(_path, name));
+		}
 	}
 }
