@@ -10,7 +10,6 @@
 // 
 // #######################################################
 using System;
-using System.Diagnostics;
 using System.Reflection;
 using SysConsole = System.Console;
 
@@ -23,7 +22,7 @@ namespace Juxtapo.Combiner.Console
 		public static void Main(string[] args)
 		{
 			Parameters = ConsoleParameterParser.Parse(args);
-			
+
 			if (Parameters.DisplayHelpInformation)
 			{
 				DisplayHelpInformation();

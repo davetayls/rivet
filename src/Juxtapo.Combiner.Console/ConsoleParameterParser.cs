@@ -15,8 +15,30 @@ namespace Juxtapo.Combiner.Console
 {
 	internal static class ConsoleParameterParser
 	{
-		private static readonly Regex TargetDirectoryScanExpression = new Regex(@"^([A-Za-z]:|\\\\.+)(\\(.+))*$", RegexOptions.Singleline | RegexOptions.Compiled);
-		private static readonly Regex VariableScanExpression = new Regex(@"-v:(?'key'.*)=(?'value'.*)", RegexOptions.Singleline | RegexOptions.Compiled);
+		private static readonly Regex TargetDirectoryScanExpression;
+		private static readonly Regex VariableScanExpression;
+
+		static ConsoleParameterParser()
+		{
+			// should match "C:\temp"
+			// should match "\\PC\c$\temp"
+			TargetDirectoryScanExpression = new Regex(
+				@"^" +			// beginning of string
+				@"([A-Za-z]:" +	// "[drive_letter]:"
+				@"|" +			// or
+				@"\\\\.+)" +	// \\UNC_ROOT
+				@"(\\(.+))*" +	// on or more "/subdirectory"
+				@"$"			// end of string
+				, RegexOptions.Singleline | RegexOptions.Compiled);
+
+			// should match -v:debug=true
+			VariableScanExpression = new Regex(
+				@"-v:" + // -v:
+				@"(?'key'.*)" + // match "key"
+				@"=" + // =
+				@"(?'value'.*)" // match "value"
+				, RegexOptions.Singleline | RegexOptions.Compiled);
+		}
 
 		public static ConsoleParameters Parse(string[] args)
 		{
