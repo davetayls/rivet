@@ -33,6 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="ConsoleAppSpecifications.cs" />
+    <Compile Include="ProgramSpecifications.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestUtils\ConsoleSession.cs" />
     <Compile Include="TestUtils\StringExtensions.cs" />

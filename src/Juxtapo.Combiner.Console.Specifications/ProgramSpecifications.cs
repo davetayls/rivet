@@ -1,4 +1,4 @@
-﻿// #######################################################
+// #######################################################
 // 
 // # Copyright (C) 2010, Dave Taylor and Arnold Zokas
 // 
@@ -9,24 +9,23 @@
 // # You must not remove this notice, or any other, from this software.
 // 
 // #######################################################
-namespace Juxtapo.Combiner.Console
+using Xunit.Specifications;
+
+namespace Juxtapo.Combiner.Console.Specifications
 {
-	// ReSharper disable ClassNeverInstantiated.Global
-	public sealed class Program
+	public class ProgramSpecifications
 	{
-		private static ConsoleApp _consoleApp;
-
-		public static ConsoleParameters Parameters
+		[Specification]
+		public void MainSpecifications()
 		{
-			get { return _consoleApp.Parameters; }
-		}
+			"Given Program".Context();
 
-		public static void Main(string[] args)
-		{
-			_consoleApp = new ConsoleApp();
-			_consoleApp.Execute(args);
+			"when Main is invoked with no parameters, DisplayHelpInformation parameter is set to true"
+				.Assert(() =>
+				        	{
+				        		Program.Main(new string[0]);
+				        		Program.Parameters.DisplayHelpInformation.ShouldBeTrue();
+				        	});
 		}
 	}
-
-	// ReSharper restore ClassNeverInstantiated.Global
 }
