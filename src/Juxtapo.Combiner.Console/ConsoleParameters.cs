@@ -39,11 +39,6 @@ namespace Juxtapo.Combiner.Console
 
 		public ParserOptions ToParserOptions()
 		{
-			if (Variables.Count == 0)
-			{
-				return ParserOptions.Default;
-			}
-
 			var parserOptions = new ParserOptions();
 			foreach (var variable in Variables)
 			{
