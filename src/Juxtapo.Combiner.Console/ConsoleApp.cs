@@ -32,81 +32,89 @@ namespace Juxtapo.Combiner.Console
 				return;
 			}
 
-			// TODO: report missing directory
+			// TODO: LOGIC: report missing directory
 
-			SourceFiles sourceFiles = GetSourceFiles();
+			SourceFiles sourceFiles = GetSourceFiles(Parameters.TargetDirectory);
+			// TODO: output source files
+
 			if (sourceFiles.Count == 0)
 			{
-				// TODO: report empty directory
+				// TODO: LOGIC: report empty directory
 				return;
 			}
 
 			ParserOptions parserOptions = Parameters.ToParserOptions();
-
 			// TODO: output variables
 
-			Combine(sourceFiles, parserOptions);
+			var outputFiles = Combine(sourceFiles, parserOptions);
+
+			SaveOutputFiles(outputFiles);
+			DeleteComponents(outputFiles);
 		}
 
-		private void Combine(SourceFiles sourceFiles, ParserOptions parserOptions)
+		private void SaveOutputFiles(IEnumerable<SourceFile> outputFiles)
+		{
+			foreach (var outputFile in outputFiles)
+			{
+				// TODO: output save trace info
+				File.WriteAllText(Path.Combine(Parameters.TargetDirectory, outputFile.Identity), outputFile.Body);
+			}
+		}
+
+		private static SourceFiles GetSourceFiles(string sourceDirectoryPath)
+		{
+			const int lengthOfDirectorySeparatorChar = 1;
+			const string fileSearchPattern = "*.js";
+
+			var sourceFiles = from path in Directory.GetFiles(sourceDirectoryPath, fileSearchPattern, SearchOption.AllDirectories)
+							  let identity = path.Remove(0, sourceDirectoryPath.Length + lengthOfDirectorySeparatorChar)
+							  let content = File.ReadAllText(path)
+							  select new SourceFile(identity, content);
+
+			return new SourceFiles(sourceFiles);
+		}
+
+		private static IEnumerable<SourceFile> Combine(SourceFiles sourceFiles, ParserOptions parserOptions)
 		{
 			var parser = new Parser();
-			var outputFiles = parser.ParseSourceFiles(sourceFiles, parserOptions);
-
-			DeleteComponents(outputFiles);
+			return parser.ParseSourceFiles(sourceFiles, parserOptions);
 		}
 
 		private void DeleteComponents(IEnumerable<SourceFile> outputFiles)
 		{
-			// TODO: output delete trace info
-
 			foreach (var outputFile in outputFiles)
 			{
-				File.WriteAllText(Path.Combine(Parameters.TargetDirectory, outputFile.Identity), outputFile.Body);
-
-				// first pass - delete files
+				// delete components
 				foreach (var component in outputFile.Components)
 				{
 					var componentPath = Path.Combine(Parameters.TargetDirectory, component.Identity);
 					if (File.Exists(componentPath))
 					{
+						// TODO: output delete trace info
 						File.Delete(componentPath);
 					}
 				}
 
-				// second pass - delete subdirectories
+				// delete empty subdirectories
 				DeleteSubDirectories(Parameters.TargetDirectory);
 			}
 		}
 
 		private static void DeleteSubDirectories(string targetDirectory)
 		{
+			const string fileSearchPattern = "*";
 			var subDirectories = Directory.GetDirectories(targetDirectory);
+
 			foreach (var subDirectory in subDirectories)
 			{
-				if (Directory.GetFiles(subDirectory, "*", SearchOption.AllDirectories).Length == 0)
-				{
-					Directory.Delete(subDirectory, recursive: true);
-				}
+				if (Directory.GetFiles(subDirectory, fileSearchPattern, SearchOption.AllDirectories).Any())
+					DeleteSubDirectories(subDirectory);
 				else
 				{
-					DeleteSubDirectories(subDirectory);
+					// TODO: output delete trace info
+					Directory.Delete(subDirectory, recursive: true);
 				}
 			}
-		}
-
-		private SourceFiles GetSourceFiles()
-		{
-			const int lengthOfDirectorySeparatorChar = 1;
-
-			var sourceFiles = from path in Directory.GetFiles(Parameters.TargetDirectory, "*.js", SearchOption.AllDirectories)
-			                  let identity = path.Remove(0, Parameters.TargetDirectory.Length + lengthOfDirectorySeparatorChar)
-			                  let content = File.ReadAllText(path)
-			                  select new SourceFile(identity, content);
-
-			// TODO: output source files
-
-			return new SourceFiles(sourceFiles);
 		}
 
 		private static void DisplayHelpInformation()
