@@ -41,7 +41,9 @@ namespace Juxtapo.Combiner.Console
 				return;
 			}
 
-			ParserOptions parserOptions = GetParserOptions();
+			ParserOptions parserOptions = Parameters.ToParserOptions();
+
+			// TODO: output variables
 
 			Combine(sourceFiles, parserOptions);
 		}
@@ -77,7 +79,7 @@ namespace Juxtapo.Combiner.Console
 			}
 		}
 
-		private void DeleteSubDirectories(string targetDirectory)
+		private static void DeleteSubDirectories(string targetDirectory)
 		{
 			var subDirectories = Directory.GetDirectories(targetDirectory);
 			foreach (var subDirectory in subDirectories)
@@ -105,24 +107,6 @@ namespace Juxtapo.Combiner.Console
 			// TODO: output source files
 
 			return new SourceFiles(sourceFiles);
-		}
-
-		private ParserOptions GetParserOptions()
-		{
-			if (Parameters.Variables.Count == 0)
-			{
-				return ParserOptions.Default;
-			}
-
-			var parserOptions = new ParserOptions();
-			foreach (var variable in Parameters.Variables)
-			{
-				parserOptions.AddVariable(variable);
-			}
-
-			// TODO: output variables
-
-			return parserOptions;
 		}
 
 		private static void DisplayHelpInformation()

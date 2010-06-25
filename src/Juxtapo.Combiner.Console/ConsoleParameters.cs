@@ -36,5 +36,21 @@ namespace Juxtapo.Combiner.Console
 		{
 			_variables.Add(new Variable(key, value));
 		}
+
+		public ParserOptions ToParserOptions()
+		{
+			if (Variables.Count == 0)
+			{
+				return ParserOptions.Default;
+			}
+
+			var parserOptions = new ParserOptions();
+			foreach (var variable in Variables)
+			{
+				parserOptions.AddVariable(variable);
+			}
+
+			return parserOptions;
+		}
 	}
 }
