@@ -73,6 +73,18 @@ namespace Juxtapo.Combiner.Console.Specifications
 		}
 
 		[Specification]
+		public void InvalidDirectoryParameterParsingSpecifications()
+		{
+			ConsoleApp consoleApp = null;
+			"Given new ConsoleApp".Context(() => consoleApp = new ConsoleApp());
+
+			IEnumerable<string> parameters = new[] { "NOT_A_DIRECTORY_PATH" };
+			"when Execute is invoked with parameters \"NOT_A_DIRECTORY_PATH\"".Do(() => consoleApp.Execute(parameters));
+
+			"DisplayHelpInformation parameter is set to \"false\"".Assert(() => consoleApp.Parameters.DisplayHelpInformation.ShouldBeTrue());
+		}
+
+		[Specification]
 		public void CombiningSpecifications()
 		{
 			// NOTE: this is a good candidate for refactoring. I need to implement some sort of API in xUnit.Specifications to simplify FS testing
