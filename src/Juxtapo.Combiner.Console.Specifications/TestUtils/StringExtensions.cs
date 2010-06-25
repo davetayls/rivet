@@ -1,4 +1,4 @@
-﻿// #######################################################
+// #######################################################
 // 
 // # Copyright (C) 2010, Dave Taylor and Arnold Zokas
 // 
@@ -9,16 +9,13 @@
 // # You must not remove this notice, or any other, from this software.
 // 
 // #######################################################
-namespace Juxtapo.Combiner.Console
+namespace Juxtapo.Combiner.Console.Specifications.TestUtils
 {
-	// ReSharper disable ClassNeverInstantiated.Global
-	internal sealed class Program
+	public static class StringExtensions
 	{
-		public static void Main(string[] args)
+		public static string FormatWith(this string format, params object[] args)
 		{
-			// TODO: add call
+			return string.Format(format, args);
 		}
 	}
-
-	// ReSharper restore ClassNeverInstantiated.Global
 }

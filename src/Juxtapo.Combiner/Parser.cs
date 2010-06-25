@@ -69,8 +69,12 @@ namespace Juxtapo.Combiner
 			IEnumerable<SourceFile> includes = sourceFiles.Where(sourceFile => !sourceFile.Body.Contains(m_combinerToken));
 			var outputFiles = new SourceFiles();
 
+			// TODO: list marked files
+			// TODO: list includes
+
 			foreach (var markedFile in markedFiles)
 			{
+				// TODO: report start of processing
 				var outputFile = new SourceFile(markedFile.Identity, string.Empty);
 
 				foreach (var reference in IncludePushExpressionScanner.GetFilenameReferences(markedFile.Body))
@@ -81,6 +85,8 @@ namespace Juxtapo.Combiner
 					{
 						outputFile.Body += _preProcessors.Aggregate(include.Body, (current, preProcessor) => preProcessor.Process(current, parserOptions));
 						outputFile.AddComponent(include);
+
+						// TODO: report added component
 					}
 				}
 

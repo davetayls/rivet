@@ -32,9 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ProgramSpecifications.cs" />
+    <Compile Include="ConsoleAppSpecifications.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestUtils\ConsoleSession.cs" />
+    <Compile Include="TestUtils\StringExtensions.cs" />
     <Compile Include="TestUtils\TempDirectory.cs" />
   </ItemGroup>
   <ItemGroup>
