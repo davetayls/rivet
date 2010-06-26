@@ -140,19 +140,15 @@ namespace Juxtapo.Combiner.Console
 			var copyright = (combinerAssembly.GetCustomAttributes(typeof (AssemblyCopyrightAttribute), inherit: false).First() as AssemblyCopyrightAttribute).Copyright;
 
 			SysConsole.WriteLine();
+			SysConsole.ForegroundColor = ConsoleColor.DarkCyan;
 			SysConsole.WriteLine("Juxtapo Combiner v{0}.{1}", version.Major, version.Minor);
 			SysConsole.WriteLine(copyright);
+			SysConsole.ResetColor();
 		}
 
 		private static void DisplayHelpInformation()
 		{
-			Version version = Assembly.GetExecutingAssembly().GetName().Version;
-			SysConsole.ForegroundColor = ConsoleColor.DarkCyan;
 			SysConsole.WriteLine();
-			SysConsole.WriteLine("Juxtapo Combiner v{0}.{1}", version.Major, version.Minor);
-			SysConsole.WriteLine("Copyright (C) 2010, Dave Taylor and Arnold Zokas");
-			SysConsole.WriteLine();
-			SysConsole.ResetColor();
 			SysConsole.WriteLine("Usage: Juxtapo.Combiner.Console.exe [/help] <path> [options]");
 			SysConsole.WriteLine();
 			SysConsole.WriteLine("\t/help\tShows this help information");

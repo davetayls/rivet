@@ -14,7 +14,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Build Configuration", "_Bu
 	ProjectSection(SolutionItems) = preProject
 		..\cfg\build.bat = ..\cfg\build.bat
 		..\cfg\build.csproj = ..\cfg\build.csproj
-		GlobalAssemblyInfo.cs = GlobalAssemblyInfo.cs
 		..\cfg\package.bat = ..\cfg\package.bat
 		..\cfg\test.bat = ..\cfg\test.bat
 	EndProjectSection

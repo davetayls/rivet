@@ -63,7 +63,7 @@ namespace Juxtapo.Combiner.Console.Specifications
 				.Assert(() =>
 				        	{
 				        		var version = Assembly.GetAssembly(typeof (Parser)).GetName().Version;
-								var expectedText = string.Format("\r\nJuxtapo Combiner v{0}.{1}\r\nCopyright (C) 2010, Dave Taylor and Arnold Zokas\r\n", version.Major, version.Minor);
+								var expectedText = string.Format("\r\nJuxtapo Combiner v{0}.{1}\r\nCopyright © 2010, Dave Taylor and Arnold Zokas\r\n", version.Major, version.Minor);
 
 				        		using (var session = new ConsoleSession())
 				        		{
