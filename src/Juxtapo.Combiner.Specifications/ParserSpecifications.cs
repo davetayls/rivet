@@ -11,7 +11,6 @@
 // #######################################################
 using System;
 using System.Linq;
-using Xunit;
 using Xunit.Specifications;
 
 namespace Juxtapo.Combiner.Specifications
@@ -19,51 +18,43 @@ namespace Juxtapo.Combiner.Specifications
 	public class ParserSpecifications
 	{
 		[Specification]
-		public void ParseSourceFilesInputValidationSpecifications()
+		public void InputValidationSpecifications()
 		{
 			Parser parser = null;
 			"Given new Parser".Context(() => parser = new Parser());
 
-			"ParseSourceFiles() throws ArgumentNullException when null is passed"
-				.Assert(() => Assert.Throws<ArgumentNullException>(() => parser.ParseSourceFiles(null)));
-
-			"ParseSourceFiles() throws InvalidOperationException when 0 source files are passed"
-				.Assert(() => Assert.Throws<InvalidOperationException>(() => parser.ParseSourceFiles(new SourceFiles())));
-
-			"ParseSourceFiles() throws InvalidOperationException when any source file passed contains a null Body"
-				.Assert(() =>
-				        	{
-				        		var sourceFiles = new SourceFiles {new SourceFile("filename.js", null)};
-				        		Assert.Throws<InvalidOperationException>(() => parser.ParseSourceFiles(sourceFiles));
-				        	});
-
-			"ParseSourceFiles() throws InvalidOperationException when any source file passed contains an empty Body"
-				.Assert(() =>
-				        	{
-				        		var sourceFiles = new SourceFiles {new SourceFile("filename.js", string.Empty)};
-				        		Assert.Throws<InvalidOperationException>(() => parser.ParseSourceFiles(sourceFiles));
-				        	});
-
-			"ParseSourceFiles() throws InvalidOperationException when any source file passed contains a null Identity"
-				.Assert(() =>
-				        	{
-				        		var sourceFiles = new SourceFiles {new SourceFile(null, "@juxtapo.combiner")};
-				        		Assert.Throws<InvalidOperationException>(() => parser.ParseSourceFiles(sourceFiles));
-				        	});
-
-			"ParseSourceFiles() throws InvalidOperationException when any source file passed contains an empty Identity"
-				.Assert(() =>
-				        	{
-				        		var sourceFiles = new SourceFiles {new SourceFile(string.Empty, "@juxtapo.combiner")};
-				        		Assert.Throws<InvalidOperationException>(() => parser.ParseSourceFiles(sourceFiles));
-				        	});
-
-			"ParseSourceFiles() throws InvalidOperationException when none of source files passed contain @juxtapo.combiner token"
-				.Assert(() =>
-				        	{
-				        		var sourceFiles = new SourceFiles {new SourceFile("filename.js", "TEST")};
-				        		Assert.Throws<InvalidOperationException>(() => parser.ParseSourceFiles(sourceFiles));
-				        	});
+			"ParseSourceFiles() throws ArgumentNullException when invoked with null".AssertThrows<ArgumentNullException>(() => parser.ParseSourceFiles(null));
+			"ParseSourceFiles() throws InvalidOperationException when invoked with 0 source files".AssertThrows<InvalidOperationException>(() => parser.ParseSourceFiles(new SourceFiles()));
+			"ParseSourceFiles() throws InvalidOperationException when invoked with source file containing a null Body"
+				.AssertThrows<InvalidOperationException>(() =>
+				                                         	{
+				                                         		var sourceFiles = new SourceFiles {new SourceFile("filename.js", null)};
+				                                         		parser.ParseSourceFiles(sourceFiles);
+				                                         	});
+			"ParseSourceFiles() throws InvalidOperationException when invoked with source file containing an empty Body"
+				.AssertThrows<InvalidOperationException>(() =>
+				                                         	{
+				                                         		var sourceFiles = new SourceFiles {new SourceFile("filename.js", string.Empty)};
+				                                         		parser.ParseSourceFiles(sourceFiles);
+				                                         	});
+			"ParseSourceFiles() throws InvalidOperationException when invoked with source file containing a null Identity"
+				.AssertThrows<InvalidOperationException>(() =>
+				                                         	{
+				                                         		var sourceFiles = new SourceFiles {new SourceFile(null, "@juxtapo.combiner")};
+				                                         		parser.ParseSourceFiles(sourceFiles);
+				                                         	});
+			"ParseSourceFiles() throws InvalidOperationExceptionwhen when invoked with source file containing an empty Identity"
+				.AssertThrows<InvalidOperationException>(() =>
+				                                         	{
+				                                         		var sourceFiles = new SourceFiles {new SourceFile(string.Empty, "@juxtapo.combiner")};
+				                                         		parser.ParseSourceFiles(sourceFiles);
+				                                         	});
+			"ParseSourceFiles() throws InvalidOperationException when invoked with source files not containing \"@juxtapo.combiner\" token"
+				.AssertThrows<InvalidOperationException>(() =>
+				                                         	{
+				                                         		var sourceFiles = new SourceFiles {new SourceFile("filename.js", "NO_TOKEN")};
+				                                         		parser.ParseSourceFiles(sourceFiles);
+				                                         	});
 		}
 
 		[Specification]
@@ -72,71 +63,31 @@ namespace Juxtapo.Combiner.Specifications
 			Parser parser = null;
 			"Given new Parser".Context(() => parser = new Parser());
 
-			"ParseSourceFiles() returns a SourceFile when 1 source files are passed"
-				.Assert(() =>
-				        	{
-				        		var sourceFiles = new SourceFiles {new SourceFile("filename.js", "@juxtapo.combiner")};
-				        		parser.ParseSourceFiles(sourceFiles).ShouldNotBeNull();
-				        	});
+			SourceFiles parserOutput = null;
+			"when ParseSourceFiles() is invoked with SourceFiles"
+				.Do(() =>
+				    	{
+				    		var sourceFiles = new SourceFiles
+				    		                  	{
+				    		                  		new SourceFile("main.js", "@juxtapo.combiner includes.push(\"include.js\"); includes.push(\"dir/include.js\"); includes.push(\"dir/dir/include.js\");"),
+				    		                  		new SourceFile("include.js", "BEFORE\r\nTEST//##DEBUG\r\nAFTER\r\n"),
+				    		                  		new SourceFile("dir\\include.js", "BEFORE\r\n//##DEBUG_STARTTEST\r\n//##DEBUG_ENDAFTER\r\n"),
+				    		                  		new SourceFile("dir\\dir\\include.js", "var i = @VARIABLE_1;var j = @VARIABLE_2;")
+				    		                  	};
+				    		var parserOptions = new ParserOptions();
+				    		parserOptions.AddVariable(new Variable("VARIABLE_1", "1"));
+				    		parserOptions.AddVariable(new Variable("VARIABLE_2", "2"));
 
-			"ParseSourceFiles() returns a SourceFile with a Identity"
-				.Assert(() =>
-				        	{
-				        		var sourceFiles = new SourceFiles {new SourceFile("filename.js", "@juxtapo.combiner")};
-				        		parser.ParseSourceFiles(sourceFiles).First().Identity.ShouldEqual("filename.js");
-				        	});
+				    		parserOutput = parser.ParseSourceFiles(sourceFiles, parserOptions);
+				    	});
 
-			"ParseSourceFiles() includes files referenced using \"include\" token in the output SourceFile"
-				.Assert(() =>
-				        	{
-				        		var sourceFiles = new SourceFiles();
-				        		sourceFiles.Add(new SourceFile("second.js", "SECOND"));
-				        		sourceFiles.Add(new SourceFile("first.js", "@juxtapo.combiner includes.push(\"second.js\"); includes.push(\"third.js\"); FIRST"));
-				        		sourceFiles.Add(new SourceFile("third.js", "THIRD"));
-				        		parser.ParseSourceFiles(sourceFiles).First().Body.ShouldEqual("SECONDTHIRD");
-				        	});
-
-			"ParseSourceFiles() adds files referenced using \"include\" token to Components of output SourceFile"
-				.Assert(() =>
-				        	{
-				        		var sourceFiles = new SourceFiles();
-				        		sourceFiles.Add(new SourceFile("second.js", "SECOND"));
-				        		sourceFiles.Add(new SourceFile("first.js", "@juxtapo.combiner includes.push(\"third.js\"); FIRST"));
-				        		sourceFiles.Add(new SourceFile("third.js", "THIRD"));
-				        		parser.ParseSourceFiles(sourceFiles).First().Components.First().Identity.ShouldEqual("third.js");
-				        	});
-
-			"ParseSourceFiles() removes lines marked //## DEBUG from output SourceFile"
-				.Assert(() =>
-				        	{
-				        		var sourceFiles = new SourceFiles();
-				        		sourceFiles.Add(new SourceFile("first.js", "@juxtapo.combiner includes.push(\"second.js\"); FIRST"));
-				        		sourceFiles.Add(new SourceFile("second.js", "BEFORE\r\nTEST//##DEBUG\r\nAFTER\r\n"));
-				        		parser.ParseSourceFiles(sourceFiles).First().Body.ShouldEqual("BEFORE\r\nAFTER\r\n");
-				        	});
-
-			"ParseSourceFiles() removes blocks between //##DEBUG_START //##DEBUG_END tokens from output SourceFile"
-				.Assert(() =>
-				        	{
-				        		var sourceFiles = new SourceFiles();
-				        		sourceFiles.Add(new SourceFile("first.js", "@juxtapo.combiner includes.push(\"second.js\"); FIRST"));
-				        		sourceFiles.Add(new SourceFile("second.js", "BEFORE\r\n//##DEBUG_STARTTEST\r\n//##DEBUG_ENDAFTER\r\n"));
-				        		parser.ParseSourceFiles(sourceFiles).First().Body.ShouldEqual("BEFORE\r\nAFTER\r\n");
-				        	});
-
-			"ParseSourceFiles() populates variable placeholders"
-				.Assert(() =>
-				        	{
-				        		var sourceFiles = new SourceFiles();
-				        		sourceFiles.Add(new SourceFile("first.js", "@juxtapo.combiner includes.push(\"second.js\"); FIRST"));
-				        		sourceFiles.Add(new SourceFile("second.js", "var i = @VARIABLE_1;var j = @VARIABLE_2;"));
-
-				        		var options = new ParserOptions();
-				        		options.AddVariable(new Variable("VARIABLE_1", "1"));
-				        		options.AddVariable(new Variable("VARIABLE_2", "2"));
-
-				        		parser.ParseSourceFiles(sourceFiles, options).First().Body.ShouldEqual("var i = 1;var j = 2;");
-				        	});
+			"output contains 1 SourceFile".Assert(() => parserOutput.Count.ShouldEqual(1));
+			"Identity of output file is \"main.js\"".Assert(() => parserOutput.First().Identity.ShouldEqual("main.js"));
+			"Body of output file is \"XXX\"".Assert(() => parserOutput.First().Body.ShouldEqual("BEFORE\r\nAFTER\r\nBEFORE\r\nAFTER\r\nvar i = 1;var j = 2;"));
+			"first output file has 3 components".Assert(() => parserOutput.First().Components.Count.ShouldEqual(3));
+			"Identity of first component of output file is \"include.js\"".Assert(() => parserOutput.First().Components[0].Identity.ShouldEqual("include.js"));
+			"Identity of second component of output file is \"dir\\include.js\"".Assert(() => parserOutput.First().Components[1].Identity.ShouldEqual("dir\\include.js"));
+			"Identity of third component of output file is \"dir\\dir\\include.js\"".Assert(() => parserOutput.First().Components[2].Identity.ShouldEqual("dir\\dir\\include.js"));
 		}
 	}
 }

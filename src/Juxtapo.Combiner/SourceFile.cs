@@ -29,10 +29,12 @@ namespace Juxtapo.Combiner
 		public string Body { get; internal set; }
 		public string Identity { get; private set; }
 
+		// ReSharper disable ReturnTypeCanBeEnumerable.Global
 		public ReadOnlyCollection<SourceFile> Components
 		{
 			get { return new ReadOnlyCollection<SourceFile>(_components); }
 		}
+		// ReSharper restore ReturnTypeCanBeEnumerable.Global
 
 		internal void AddComponent(SourceFile component)
 		{
