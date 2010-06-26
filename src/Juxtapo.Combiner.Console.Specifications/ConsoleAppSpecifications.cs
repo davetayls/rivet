@@ -39,7 +39,8 @@ namespace Juxtapo.Combiner.Console.Specifications
 
 			"Given new ConsoleApp".Context(() => consoleApp = new ConsoleApp());
 
-			"when Execute is invoked with no parameters".Do(() => consoleApp.Execute(new string[0]));
+			var parameters = new string[0];
+			"when Execute is invoked with no parameters".Do(() => consoleApp.Execute(parameters));
 
 			"DisplayHelpInformation parameter is set to true".Assert(() => consoleApp.Parameters.DisplayHelpInformation.ShouldBeTrue());
 			"help information is written to console"
@@ -47,7 +48,7 @@ namespace Juxtapo.Combiner.Console.Specifications
 				        	{
 				        		using (var session = new ConsoleSession())
 				        		{
-				        			consoleApp.Execute(new string[0]);
+				        			consoleApp.Execute(parameters);
 				        			session.StandardOutput.ShouldEqual(expectedOutput);
 				        		}
 				        	});
@@ -81,7 +82,27 @@ namespace Juxtapo.Combiner.Console.Specifications
 			IEnumerable<string> parameters = new[] { "NOT_A_DIRECTORY_PATH" };
 			"when Execute is invoked with parameters \"NOT_A_DIRECTORY_PATH\"".Do(() => consoleApp.Execute(parameters));
 
-			"DisplayHelpInformation parameter is set to \"false\"".Assert(() => consoleApp.Parameters.DisplayHelpInformation.ShouldBeTrue());
+			"DisplayHelpInformation parameter is set to \"true\"".Assert(() => consoleApp.Parameters.DisplayHelpInformation.ShouldBeTrue());
+		}
+
+		[Specification]
+		public void MissingDirectoryParameterParsingSpecifications()
+		{
+			ConsoleApp consoleApp = null;
+			"Given new ConsoleApp".Context(() => consoleApp = new ConsoleApp());
+
+			IEnumerable<string> parameters = new[] { "X:\\not_a_real_directory" };
+			"when Execute is invoked with parameters \"X:\\not_a_real_directory\"".Do(() => consoleApp.Execute(parameters));
+
+			"message \"Directory X:\\not_a_real_directory could not be found.\" is written to console"
+				.Assert(() =>
+				{
+					using (var session = new ConsoleSession())
+					{
+						consoleApp.Execute(parameters);
+						session.StandardOutput.ShouldContain("Directory \"X:\\not_a_real_directory\" could not be found.");
+					}
+				});
 		}
 
 		[Specification]

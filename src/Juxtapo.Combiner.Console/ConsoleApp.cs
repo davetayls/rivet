@@ -32,7 +32,11 @@ namespace Juxtapo.Combiner.Console
 				return;
 			}
 
-			// TODO: LOGIC: report missing directory
+			if (!Directory.Exists(Parameters.TargetDirectory))
+			{
+				SysConsole.WriteLine("Directory \"{0}\" could not be found.", Parameters.TargetDirectory);
+				return;
+			}
 
 			SourceFiles sourceFiles = GetSourceFiles(Parameters.TargetDirectory);
 			// TODO: output source files
