@@ -10,6 +10,7 @@
 // 
 // #######################################################
 using System;
+using System.IO;
 using Juxtapo.Combiner.Console.Specifications.TestUtils;
 using Xunit.Specifications;
 using SysConsole = System.Console;
@@ -49,6 +50,116 @@ namespace Juxtapo.Combiner.Console.Specifications
 				        		{
 				        			consoleApp.Execute(parameters);
 				        			session.StandardOutput.ShouldEqual(expectedOutput);
+				        		}
+				        	});
+		}
+
+		[Specification]
+		public void RuntimeInfoSpecifications()
+		{
+			ConsoleApp consoleApp = null;
+			"Given new ConsoleApp".Context(() => consoleApp = new ConsoleApp());
+
+			"when Execute is invoked, TargetDirectory path is written to console"
+				.Assert(() =>
+				        	{
+				        		using (var session = new ConsoleSession())
+				        		{
+				        			using (var tempDirectory = new TempDirectory())
+				        			{
+				        				tempDirectory.CreateFile("main.js", "@juxtapo.combiner");
+
+				        				consoleApp.Execute(tempDirectory.Path);
+
+				        				var expectedText = string.Format("\r\nTarget directory: {0}\r\n", tempDirectory.Path);
+				        				session.StandardOutput.ShouldContain(expectedText);
+				        			}
+				        		}
+				        	});
+			"when Execute is invoked, list of discovered source files is written to console"
+				.Assert(() =>
+				        	{
+				        		using (var session = new ConsoleSession())
+				        		{
+				        			using (var tempDirectory = new TempDirectory())
+				        			{
+				        				tempDirectory.CreateFile("main.js", "@juxtapo.combiner");
+				        				tempDirectory.CreateDirectory("dir");
+				        				tempDirectory.CreateFile("dir\\include.js", "TEST");
+
+				        				consoleApp.Execute(tempDirectory.Path);
+
+				        				const string expectedText = "Discovered 2 javascript file(s):\r\n\t- main.js\r\n\t- dir\\include.js\r\n";
+				        				session.StandardOutput.ShouldContain(expectedText);
+				        			}
+				        		}
+				        	});
+			"when Execute is invoked, list of parser options is written to console"
+				.Assert(() =>
+				        	{
+				        		using (var session = new ConsoleSession())
+				        		{
+				        			using (var tempDirectory = new TempDirectory())
+				        			{
+				        				tempDirectory.CreateFile("main.js", "@juxtapo.combiner");
+
+				        				consoleApp.Execute(tempDirectory.Path, "-v:debug=false", "-v:trace=true");
+
+				        				const string expectedText = "Variables:\r\n\t- debug=false\r\n\t- trace=true";
+				        				session.StandardOutput.ShouldContain(expectedText);
+				        			}
+				        		}
+				        	});
+			"when Execute is invoked, path of combiner output file is written to console"
+				.Assert(() =>
+				        	{
+				        		using (var session = new ConsoleSession())
+				        		{
+				        			using (var tempDirectory = new TempDirectory())
+				        			{
+				        				tempDirectory.CreateFile("main.js", "@juxtapo.combiner");
+
+				        				consoleApp.Execute(tempDirectory.Path);
+
+				        				var expectedText = string.Format("\r\nSaved combined file: {0}\r\n", Path.Combine(tempDirectory.Path, "main.js"));
+				        				session.StandardOutput.ShouldContain(expectedText);
+				        			}
+				        		}
+				        	});
+			"when Execute is invoked, list of deleted files is written to console"
+				.Assert(() =>
+				        	{
+				        		using (var session = new ConsoleSession())
+				        		{
+				        			using (var tempDirectory = new TempDirectory())
+				        			{
+				        				tempDirectory.CreateFile("main.js", "@juxtapo.combiner includes.push(\"dir/include.js\");");
+				        				tempDirectory.CreateDirectory("dir");
+				        				tempDirectory.CreateFile("dir\\include.js", "TEST");
+
+				        				consoleApp.Execute(tempDirectory.Path);
+
+				        				var expectedText = string.Format("\r\nDeleting components:\r\n\t- dir\\include.js");
+				        				session.StandardOutput.ShouldContain(expectedText);
+				        			}
+				        		}
+				        	});
+			"when Execute is invoked, list of deleted directories is written to console"
+				.Assert(() =>
+				        	{
+				        		using (var session = new ConsoleSession())
+				        		{
+				        			using (var tempDirectory = new TempDirectory())
+				        			{
+				        				tempDirectory.CreateFile("main.js", "@juxtapo.combiner");
+				        				tempDirectory.CreateDirectory("dir");
+				        				tempDirectory.CreateDirectory("dir2");
+
+				        				consoleApp.Execute(tempDirectory.Path);
+
+										var expectedText = string.Format("\r\nDeleted empty subdirectory \"{0}\\dir\"\r\n\r\nDeleted empty subdirectory \"{0}\\dir2\"\r\n", tempDirectory.Path);
+				        				session.StandardOutput.ShouldContain(expectedText);
+				        			}
 				        		}
 				        	});
 		}
@@ -95,7 +206,7 @@ namespace Juxtapo.Combiner.Console.Specifications
 				        		using (var session = new ConsoleSession())
 				        		{
 				        			consoleApp.Execute("X:\\not_a_real_directory");
-				        			session.StandardOutput.ShouldContain("Directory \"X:\\not_a_real_directory\" could not be found.");
+				        			session.StandardError.ShouldContain("Directory \"X:\\not_a_real_directory\" could not be found.");
 				        		}
 				        	});
 		}
@@ -113,7 +224,7 @@ namespace Juxtapo.Combiner.Console.Specifications
 				        		{
 				        			var tempDirectoryPath = GetTempDirectoryPath();
 				        			consoleApp.Execute(tempDirectoryPath);
-				        			session.StandardOutput.ShouldContain(string.Format("Directory \"{0}\" does not contain any javascript files.", tempDirectoryPath));
+				        			session.StandardError.ShouldContain(string.Format("Directory \"{0}\" does not contain any javascript files.", tempDirectoryPath));
 				        		}
 				        	});
 		}

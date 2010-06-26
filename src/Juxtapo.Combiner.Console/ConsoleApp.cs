@@ -34,21 +34,25 @@ namespace Juxtapo.Combiner.Console
 
 			if (!Directory.Exists(Parameters.TargetDirectory))
 			{
-				SysConsole.WriteLine("Directory \"{0}\" could not be found.", Parameters.TargetDirectory);
+				SysConsole.ForegroundColor = ConsoleColor.Red;
+				SysConsole.Error.WriteLine("Directory \"{0}\" could not be found.", Parameters.TargetDirectory);
+				SysConsole.ResetColor();
 				return;
 			}
+			DisplayTargetDirectory(Parameters.TargetDirectory);
 
 			SourceFiles sourceFiles = GetSourceFiles(Parameters.TargetDirectory);
-			// TODO: output source files
-
 			if (sourceFiles.Count == 0)
 			{
-				SysConsole.WriteLine("Directory \"{0}\" does not contain any javascript files.", Parameters.TargetDirectory);
+				SysConsole.ForegroundColor = ConsoleColor.Red;
+				SysConsole.Error.WriteLine("Directory \"{0}\" does not contain any javascript files.", Parameters.TargetDirectory);
+				SysConsole.ResetColor();
 				return;
 			}
+			DisplayDiscoveredSourceFiles(sourceFiles);
 
 			ParserOptions parserOptions = Parameters.ToParserOptions();
-			// TODO: output variables
+			DisplayParserOptions(parserOptions);
 
 			var outputFiles = Combine(sourceFiles, parserOptions);
 
@@ -60,8 +64,10 @@ namespace Juxtapo.Combiner.Console
 		{
 			foreach (var outputFile in outputFiles)
 			{
-				// TODO: output save trace info
-				File.WriteAllText(Path.Combine(Parameters.TargetDirectory, outputFile.Identity), outputFile.Body);
+				var path = Path.Combine(Parameters.TargetDirectory, outputFile.Identity);
+				File.WriteAllText(path, outputFile.Body);
+
+				DisplaySavedOutputFilePath(path);
 			}
 		}
 
@@ -86,6 +92,9 @@ namespace Juxtapo.Combiner.Console
 
 		private void DeleteComponents(IEnumerable<SourceFile> outputFiles)
 		{
+			SysConsole.WriteLine();
+			SysConsole.WriteLine("Deleting components:");
+
 			foreach (var outputFile in outputFiles)
 			{
 				// delete components
@@ -94,8 +103,8 @@ namespace Juxtapo.Combiner.Console
 					var componentPath = Path.Combine(Parameters.TargetDirectory, component.Identity);
 					if (File.Exists(componentPath))
 					{
-						// TODO: output delete trace info
 						File.Delete(componentPath);
+						SysConsole.WriteLine("\t- {0}", component.Identity);
 					}
 				}
 
@@ -115,8 +124,9 @@ namespace Juxtapo.Combiner.Console
 					DeleteSubDirectories(subDirectory);
 				else
 				{
-					// TODO: output delete trace info
 					Directory.Delete(subDirectory, recursive: true);
+					SysConsole.WriteLine();
+					SysConsole.WriteLine("Deleted empty subdirectory \"{0}\"", subDirectory);
 				}
 			}
 		}
@@ -143,6 +153,40 @@ namespace Juxtapo.Combiner.Console
 			SysConsole.WriteLine("Example:");
 			SysConsole.WriteLine();
 			SysConsole.WriteLine("\tJuxtapo.Combiner.Console.exe D:\\website\\js -v:debug=false -v:trace=true");
+		}
+
+		private static void DisplayTargetDirectory(string targetDirectory)
+		{
+			SysConsole.WriteLine();
+			SysConsole.WriteLine(string.Format("Target directory: {0}", targetDirectory));
+		}
+
+		private static void DisplayDiscoveredSourceFiles(SourceFiles sourceFiles)
+		{
+			SysConsole.WriteLine();
+			SysConsole.WriteLine("Discovered {0} javascript file(s):", sourceFiles.Count);
+			foreach (var sourceFile in sourceFiles)
+			{
+				SysConsole.WriteLine("\t- {0}", sourceFile.Identity);
+			}
+		}
+
+		private static void DisplayParserOptions(ParserOptions parserOptions)
+		{
+			SysConsole.WriteLine();
+			SysConsole.WriteLine("Variables:");
+			foreach (var variable in parserOptions.Variables)
+			{
+				SysConsole.WriteLine("\t- {0}={1}", variable.Key, variable.Value);
+			}
+		}
+
+		private static void DisplaySavedOutputFilePath(string path)
+		{
+			SysConsole.WriteLine();
+			SysConsole.ForegroundColor = ConsoleColor.DarkGreen;
+			SysConsole.WriteLine("Saved combined file: {0}", path);
+			SysConsole.ResetColor();
 		}
 	}
 }

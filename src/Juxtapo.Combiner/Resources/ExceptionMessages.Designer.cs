@@ -61,56 +61,56 @@ namespace Juxtapo.Combiner.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot combine. None of the source files passed contain a @juxtapo.combiner token..
+        ///   Looks up a localized string similar to Unable to combine. None of the source files passed contain a @juxtapo.combiner token..
         /// </summary>
-        internal static string InvalidOperationException__CannotCombine_NoSourceFilesContainCombinerToken {
+        internal static string InvalidOperationException__UnableToCombine_NoSourceFilesContainCombinerToken {
             get {
-                return ResourceManager.GetString("InvalidOperationException__CannotCombine_NoSourceFilesContainCombinerToken", resourceCulture);
+                return ResourceManager.GetString("InvalidOperationException__UnableToCombine_NoSourceFilesContainCombinerToken", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot combine. No source files have been passed..
+        ///   Looks up a localized string similar to Unable to combine. No source files have been passed..
         /// </summary>
-        internal static string InvalidOperationException__CannotCombine_NoSourceFilesPassed {
+        internal static string InvalidOperationException__UnableToCombine_NoSourceFilesPassed {
             get {
-                return ResourceManager.GetString("InvalidOperationException__CannotCombine_NoSourceFilesPassed", resourceCulture);
+                return ResourceManager.GetString("InvalidOperationException__UnableToCombine_NoSourceFilesPassed", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot combine. Source file contains an empty body..
+        ///   Looks up a localized string similar to Unable to combine. Source file contains an empty body..
         /// </summary>
-        internal static string InvalidOperationException__CannotCombine_SourceFileContainsEmptyBody {
+        internal static string InvalidOperationException__UnableToCombine_SourceFileContainsEmptyBody {
             get {
-                return ResourceManager.GetString("InvalidOperationException__CannotCombine_SourceFileContainsEmptyBody", resourceCulture);
+                return ResourceManager.GetString("InvalidOperationException__UnableToCombine_SourceFileContainsEmptyBody", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot combine. Source file contains an empty file name..
+        ///   Looks up a localized string similar to Unable to combine. Source file contains an empty file name..
         /// </summary>
-        internal static string InvalidOperationException__CannotCombine_SourceFileContainsEmptyFileName {
+        internal static string InvalidOperationException__UnableToCombine_SourceFileContainsEmptyFileName {
             get {
-                return ResourceManager.GetString("InvalidOperationException__CannotCombine_SourceFileContainsEmptyFileName", resourceCulture);
+                return ResourceManager.GetString("InvalidOperationException__UnableToCombine_SourceFileContainsEmptyFileName", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot combine. Source file contains a null body..
+        ///   Looks up a localized string similar to Unable to combine. Source file contains a null body..
         /// </summary>
-        internal static string InvalidOperationException__CannotCombine_SourceFileContainsNullBody {
+        internal static string InvalidOperationException__UnableToCombine_SourceFileContainsNullBody {
             get {
-                return ResourceManager.GetString("InvalidOperationException__CannotCombine_SourceFileContainsNullBody", resourceCulture);
+                return ResourceManager.GetString("InvalidOperationException__UnableToCombine_SourceFileContainsNullBody", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot combine. Source file contains a null file name..
+        ///   Looks up a localized string similar to Unable to combine. Source file contains a null file name..
         /// </summary>
-        internal static string InvalidOperationException__CannotCombine_SourceFileContainsNullFileName {
+        internal static string InvalidOperationException__UnableToCombine_SourceFileContainsNullFileName {
             get {
-                return ResourceManager.GetString("InvalidOperationException__CannotCombine_SourceFileContainsNullFileName", resourceCulture);
+                return ResourceManager.GetString("InvalidOperationException__UnableToCombine_SourceFileContainsNullFileName", resourceCulture);
             }
         }
     }

@@ -17,18 +17,26 @@ namespace Juxtapo.Combiner.Console.Specifications.TestUtils
 {
 	internal class ConsoleSession : IDisposable
 	{
+		private readonly StringWriter _standardErrorWriter;
 		private readonly StringWriter _standardOutputWriter;
 
 		public ConsoleSession()
 		{
 			_standardOutputWriter = new StringWriter();
+			_standardErrorWriter = new StringWriter();
 
 			SysConsole.SetOut(_standardOutputWriter);
+			SysConsole.SetError(_standardErrorWriter);
 		}
 
 		public string StandardOutput
 		{
 			get { return _standardOutputWriter.ToString(); }
+		}
+
+		public string StandardError
+		{
+			get { return _standardErrorWriter.ToString(); }
 		}
 
 		#region IDisposable Members

@@ -23,37 +23,37 @@ namespace Juxtapo.Combiner.Specifications
 			Parser parser = null;
 			"Given new Parser".Context(() => parser = new Parser());
 
-			"ParseSourceFiles() throws ArgumentNullException when invoked with null".AssertThrows<ArgumentNullException>(() => parser.ParseSourceFiles(null));
-			"ParseSourceFiles() throws InvalidOperationException when invoked with 0 source files".AssertThrows<InvalidOperationException>(() => parser.ParseSourceFiles(new SourceFiles()));
-			"ParseSourceFiles() throws InvalidOperationException when invoked with source file containing a null Body"
+			"ParseSourceFiles throws ArgumentNullException when invoked with null".AssertThrows<ArgumentNullException>(() => parser.ParseSourceFiles(null, ParserOptions.Default));
+			"ParseSourceFiles throws InvalidOperationException when invoked with 0 source files".AssertThrows<InvalidOperationException>(() => parser.ParseSourceFiles(new SourceFiles(), ParserOptions.Default));
+			"ParseSourceFiles throws InvalidOperationException when invoked with source file containing a null Body"
 				.AssertThrows<InvalidOperationException>(() =>
 				                                         	{
 				                                         		var sourceFiles = new SourceFiles {new SourceFile("filename.js", null)};
-				                                         		parser.ParseSourceFiles(sourceFiles);
+																parser.ParseSourceFiles(sourceFiles, ParserOptions.Default);
 				                                         	});
-			"ParseSourceFiles() throws InvalidOperationException when invoked with source file containing an empty Body"
+			"ParseSourceFiles throws InvalidOperationException when invoked with source file containing an empty Body"
 				.AssertThrows<InvalidOperationException>(() =>
 				                                         	{
 				                                         		var sourceFiles = new SourceFiles {new SourceFile("filename.js", string.Empty)};
-				                                         		parser.ParseSourceFiles(sourceFiles);
+																parser.ParseSourceFiles(sourceFiles, ParserOptions.Default);
 				                                         	});
-			"ParseSourceFiles() throws InvalidOperationException when invoked with source file containing a null Identity"
+			"ParseSourceFiles throws InvalidOperationException when invoked with source file containing a null Identity"
 				.AssertThrows<InvalidOperationException>(() =>
 				                                         	{
 				                                         		var sourceFiles = new SourceFiles {new SourceFile(null, "@juxtapo.combiner")};
-				                                         		parser.ParseSourceFiles(sourceFiles);
+																parser.ParseSourceFiles(sourceFiles, ParserOptions.Default);
 				                                         	});
-			"ParseSourceFiles() throws InvalidOperationExceptionwhen when invoked with source file containing an empty Identity"
+			"ParseSourceFiles throws InvalidOperationExceptionwhen when invoked with source file containing an empty Identity"
 				.AssertThrows<InvalidOperationException>(() =>
 				                                         	{
 				                                         		var sourceFiles = new SourceFiles {new SourceFile(string.Empty, "@juxtapo.combiner")};
-				                                         		parser.ParseSourceFiles(sourceFiles);
+																parser.ParseSourceFiles(sourceFiles, ParserOptions.Default);
 				                                         	});
-			"ParseSourceFiles() throws InvalidOperationException when invoked with source files not containing \"@juxtapo.combiner\" token"
+			"ParseSourceFiles throws InvalidOperationException when invoked with source files not containing \"@juxtapo.combiner\" token"
 				.AssertThrows<InvalidOperationException>(() =>
 				                                         	{
 				                                         		var sourceFiles = new SourceFiles {new SourceFile("filename.js", "NO_TOKEN")};
-				                                         		parser.ParseSourceFiles(sourceFiles);
+																parser.ParseSourceFiles(sourceFiles, ParserOptions.Default);
 				                                         	});
 		}
 
@@ -64,7 +64,7 @@ namespace Juxtapo.Combiner.Specifications
 			"Given new Parser".Context(() => parser = new Parser());
 
 			SourceFiles parserOutput = null;
-			"when ParseSourceFiles() is invoked with SourceFiles"
+			"when ParseSourceFiles is invoked with SourceFiles"
 				.Do(() =>
 				    	{
 				    		var sourceFiles = new SourceFiles
