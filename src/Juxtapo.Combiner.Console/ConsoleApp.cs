@@ -24,6 +24,8 @@ namespace Juxtapo.Combiner.Console
 
 		public void Execute(params string[] args)
 		{
+			DisplayVersionAndCopyrightInformation();
+
 			Parameters = ConsoleParameterParser.Parse(args);
 
 			if (Parameters.DisplayHelpInformation)
@@ -129,6 +131,17 @@ namespace Juxtapo.Combiner.Console
 					SysConsole.WriteLine("Deleted empty subdirectory \"{0}\"", subDirectory);
 				}
 			}
+		}
+
+		private static void DisplayVersionAndCopyrightInformation()
+		{
+			var combinerAssembly = Assembly.GetAssembly(typeof (Parser));
+			var version = combinerAssembly.GetName().Version;
+			var copyright = (combinerAssembly.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), inherit: false).First() as AssemblyCopyrightAttribute).Copyright;
+
+			SysConsole.WriteLine();
+			SysConsole.WriteLine("Juxtapo Combiner v{0}.{1}", version.Major, version.Minor);
+			SysConsole.WriteLine(copyright);
 		}
 
 		private static void DisplayHelpInformation()

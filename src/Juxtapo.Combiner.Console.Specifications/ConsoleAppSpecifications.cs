@@ -49,7 +49,24 @@ namespace Juxtapo.Combiner.Console.Specifications
 				        		using (var session = new ConsoleSession())
 				        		{
 				        			consoleApp.Execute(parameters);
-				        			session.StandardOutput.ShouldEqual(expectedOutput);
+				        			session.StandardOutput.ShouldContain(expectedOutput);
+				        		}
+				        	});
+		}
+
+		[Specification]
+		public void VersionHeaderSpecifications()
+		{
+			ConsoleApp consoleApp = null;
+			"Given new ConsoleApp".Context(() => consoleApp = new ConsoleApp());
+
+			"version and copyright information is written to console"
+				.Assert(() =>
+				        	{
+				        		using (var session = new ConsoleSession())
+				        		{
+				        			consoleApp.Execute(new string[0]);
+									session.StandardOutput.ShouldContain("\r\nJuxtapo Combiner v0.0\r\nCopyright (C) 2010, Dave Taylor and Arnold Zokas\r\n");
 				        		}
 				        	});
 		}

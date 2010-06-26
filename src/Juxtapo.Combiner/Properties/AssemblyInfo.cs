@@ -9,3 +9,10 @@
 // # You must not remove this notice, or any other, from this software.
 // 
 // #######################################################
+using System.Reflection;
+using System.Runtime.InteropServices;
+
+[assembly: AssemblyTitle("Juxtapo Combiner")]
+[assembly: AssemblyDescription("Javascript file combiner")]
+[assembly: AssemblyCopyright("Copyright © 2010, Dave Taylor and Arnold Zokas")]
+[assembly: Guid("eea757eb-1703-4221-961b-417a47610313")]
