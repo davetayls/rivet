@@ -25,7 +25,7 @@ namespace Juxtapo.Combiner
 
 		public Parser()
 		{
-			// NOTE: A good candidate for constructor injection
+			// NOTE: Consider using constructor injection.
 			_preProcessors = new List<IPreProcessor>();
 			_preProcessors.Add(new DebugBlockPreProcessor());
 			_preProcessors.Add(new DebugLinePreProcessor());
@@ -77,7 +77,7 @@ namespace Juxtapo.Combiner
 				// TODO: report start of processing
 				var outputFile = new SourceFile(markedFile.Identity, string.Empty);
 
-				foreach (var reference in IncludePushExpressionScanner.GetFilenameReferences(markedFile.Body))
+				foreach (var reference in IncludePushExpressionScanner.GetSourceFileReferences(markedFile.Body))
 				{
 					var include = includes.SingleOrDefault(x => x.Identity == reference);
 

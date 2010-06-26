@@ -34,10 +34,11 @@ namespace Juxtapo.Combiner.Scanners
 			IncludePushExpression = new Regex(pattern, RegexOptions.Multiline | RegexOptions.Compiled);
 		}
 
-		internal static IEnumerable<string> GetFilenameReferences(string body)
+		internal static IEnumerable<string> GetSourceFileReferences(string body)
 		{
 			return (from Match match in IncludePushExpression.Matches(body)
-			        select match.Groups[m_captureGroupName].Value);
+					let reference = match.Groups[m_captureGroupName].Value
+			        select reference.Replace('/', '\\'));
 		}
 	}
 }

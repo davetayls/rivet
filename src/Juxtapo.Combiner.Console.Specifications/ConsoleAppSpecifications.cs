@@ -121,7 +121,7 @@ namespace Juxtapo.Combiner.Console.Specifications
 		[Specification]
 		public void CombiningSpecifications()
 		{
-			// NOTE: this is a good candidate for refactoring. I need to implement some sort of API in xUnit.Specifications to simplify FS testing
+			// NOTE: this is a good candidate for refactoring. I need to implement some sort of API in xUnit.Specifications to simplify filesystem testing
 			ConsoleApp consoleApp = null;
 			"Given new ConsoleApp".Context(() => consoleApp = new ConsoleApp());
 
@@ -146,20 +146,20 @@ namespace Juxtapo.Combiner.Console.Specifications
 									 */
 
 				        			tempDirectory.CreateFile("main.js", @"@juxtapo.combiner 
-																			includes.push(""dirWithComponentFile\include.js"");
-																			includes.push(""dirWithNestedComponentFiles\include.js"");
-																			includes.push(""dirWithNestedComponentFiles\subdir\include.js"");
-																			includes.push(""dirWithNestedComponentFilesAndStandaloneFile\include.js"");
-																			includes.push(""dirWithNestedComponentFilesAndStandaloneFile\subdir\include.js"");
-																			includes.push(""dirWithNestedComponentFilesAndStandaloneFile2\include.js"");
-																			includes.push(""dirWithNestedComponentFilesAndStandaloneFile2\subdir\include.js"");
+																			includes.push(""dirWithComponentFile/include.js"");
+																			includes.push(""dirWithNestedComponentFiles/include.js"");
+																			includes.push(""dirWithNestedComponentFiles/subdir/include.js"");
+																			includes.push(""dirWithNestedComponentFilesAndStandaloneFile/include.js"");
+																			includes.push(""dirWithNestedComponentFilesAndStandaloneFile/subdir/include.js"");
+																			includes.push(""dirWithNestedComponentFilesAndStandaloneFile2/include.js"");
+																			includes.push(""dirWithNestedComponentFilesAndStandaloneFile2/subdir/include.js"");
 																		");
 
 				        			tempDirectory.CreateFile("secondary.js", @"@juxtapo.combiner 
-																			includes.push(""dirWithNestedComponentFiles\subdir\include.js"");
-																			includes.push(""dirWithNestedComponentFilesAndStandaloneFile\include.js"");
-																			includes.push(""dirWithNestedComponentFilesAndStandaloneFile\subdir\include.js"");
-																			includes.push(""dirWithNestedComponentFilesAndStandaloneFile2\include.js"");
+																			includes.push(""dirWithNestedComponentFiles/subdir/include.js"");
+																			includes.push(""dirWithNestedComponentFilesAndStandaloneFile/include.js"");
+																			includes.push(""dirWithNestedComponentFilesAndStandaloneFile/subdir/include.js"");
+																			includes.push(""dirWithNestedComponentFilesAndStandaloneFile2/include.js"");
 																		");
 
 				        			tempDirectory.CreateDirectory("dirWithComponentFile");
