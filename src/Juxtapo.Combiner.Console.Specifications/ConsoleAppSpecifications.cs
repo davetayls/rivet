@@ -10,7 +10,6 @@
 // 
 // #######################################################
 using System;
-using System.Collections.Generic;
 using Juxtapo.Combiner.Console.Specifications.TestUtils;
 using Xunit.Specifications;
 using SysConsole = System.Console;
@@ -61,7 +60,7 @@ namespace Juxtapo.Combiner.Console.Specifications
 			"Given new ConsoleApp".Context(() => consoleApp = new ConsoleApp());
 
 			var tempDirectoryPath = GetTempDirectoryPath();
-			IEnumerable<string> parameters = new[] {tempDirectoryPath, "-v:debug=false", "-v:trace=true"};
+			var parameters = new[] {tempDirectoryPath, "-v:debug=false", "-v:trace=true"};
 			"when Execute is invoked with parameters \"{0} -v:debug=false -v:trace=true\"".FormatWith(tempDirectoryPath).Do(() => consoleApp.Execute(parameters));
 
 			"Parameters contain 2 variables".Assert(() => consoleApp.Parameters.Variables.Count.ShouldEqual(2));
@@ -79,8 +78,7 @@ namespace Juxtapo.Combiner.Console.Specifications
 			ConsoleApp consoleApp = null;
 			"Given new ConsoleApp".Context(() => consoleApp = new ConsoleApp());
 
-			IEnumerable<string> parameters = new[] { "NOT_A_DIRECTORY_PATH" };
-			"when Execute is invoked with parameters \"NOT_A_DIRECTORY_PATH\"".Do(() => consoleApp.Execute(parameters));
+			"when Execute is invoked with parameters \"NOT_A_DIRECTORY_PATH\"".Do(() => consoleApp.Execute("NOT_A_DIRECTORY_PATH"));
 
 			"DisplayHelpInformation parameter is set to \"true\"".Assert(() => consoleApp.Parameters.DisplayHelpInformation.ShouldBeTrue());
 		}
@@ -91,18 +89,33 @@ namespace Juxtapo.Combiner.Console.Specifications
 			ConsoleApp consoleApp = null;
 			"Given new ConsoleApp".Context(() => consoleApp = new ConsoleApp());
 
-			IEnumerable<string> parameters = new[] { "X:\\not_a_real_directory" };
-			"when Execute is invoked with parameters \"X:\\not_a_real_directory\"".Do(() => consoleApp.Execute(parameters));
-
-			"message \"Directory X:\\not_a_real_directory could not be found.\" is written to console"
+			"when Execute is invoked with parameter \"X:\\not_a_real_directory\", message \"Directory X:\\not_a_real_directory could not be found.\" is written to console"
 				.Assert(() =>
-				{
-					using (var session = new ConsoleSession())
-					{
-						consoleApp.Execute(parameters);
-						session.StandardOutput.ShouldContain("Directory \"X:\\not_a_real_directory\" could not be found.");
-					}
-				});
+				        	{
+				        		using (var session = new ConsoleSession())
+				        		{
+				        			consoleApp.Execute("X:\\not_a_real_directory");
+				        			session.StandardOutput.ShouldContain("Directory \"X:\\not_a_real_directory\" could not be found.");
+				        		}
+				        	});
+		}
+
+		[Specification]
+		public void EmptyDirectoryParameterParsingSpecifications()
+		{
+			ConsoleApp consoleApp = null;
+			"Given new ConsoleApp".Context(() => consoleApp = new ConsoleApp());
+
+			"when Execute is invoked with parameter pointing to an empty directory, message \"Directory <path-to-dir> does not contain any javascript files.\" is written to console"
+				.Assert(() =>
+				        	{
+				        		using (var session = new ConsoleSession())
+				        		{
+				        			var tempDirectoryPath = GetTempDirectoryPath();
+				        			consoleApp.Execute(tempDirectoryPath);
+				        			session.StandardOutput.ShouldContain(string.Format("Directory \"{0}\" does not contain any javascript files.", tempDirectoryPath));
+				        		}
+				        	});
 		}
 
 		[Specification]

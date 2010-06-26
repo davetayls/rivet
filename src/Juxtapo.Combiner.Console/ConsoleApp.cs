@@ -22,7 +22,7 @@ namespace Juxtapo.Combiner.Console
 	{
 		public ConsoleParameters Parameters { get; private set; }
 
-		public void Execute(IEnumerable<string> args)
+		public void Execute(params string[] args)
 		{
 			Parameters = ConsoleParameterParser.Parse(args);
 
@@ -43,7 +43,7 @@ namespace Juxtapo.Combiner.Console
 
 			if (sourceFiles.Count == 0)
 			{
-				// TODO: LOGIC: report empty directory
+				SysConsole.WriteLine("Directory \"{0}\" does not contain any javascript files.", Parameters.TargetDirectory);
 				return;
 			}
 
@@ -71,9 +71,9 @@ namespace Juxtapo.Combiner.Console
 			const string fileSearchPattern = "*.js";
 
 			var sourceFiles = from path in Directory.GetFiles(sourceDirectoryPath, fileSearchPattern, SearchOption.AllDirectories)
-							  let identity = path.Remove(0, sourceDirectoryPath.Length + lengthOfDirectorySeparatorChar)
-							  let content = File.ReadAllText(path)
-							  select new SourceFile(identity, content);
+			                  let identity = path.Remove(0, sourceDirectoryPath.Length + lengthOfDirectorySeparatorChar)
+			                  let content = File.ReadAllText(path)
+			                  select new SourceFile(identity, content);
 
 			return new SourceFiles(sourceFiles);
 		}
