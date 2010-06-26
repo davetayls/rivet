@@ -29,31 +29,31 @@ namespace Juxtapo.Combiner.Specifications
 				.AssertThrows<InvalidOperationException>(() =>
 				                                         	{
 				                                         		var sourceFiles = new SourceFiles {new SourceFile("filename.js", null)};
-																parser.ParseSourceFiles(sourceFiles, ParserOptions.Default);
+				                                         		parser.ParseSourceFiles(sourceFiles, ParserOptions.Default);
 				                                         	});
 			"ParseSourceFiles throws InvalidOperationException when invoked with source file containing an empty Body"
 				.AssertThrows<InvalidOperationException>(() =>
 				                                         	{
 				                                         		var sourceFiles = new SourceFiles {new SourceFile("filename.js", string.Empty)};
-																parser.ParseSourceFiles(sourceFiles, ParserOptions.Default);
+				                                         		parser.ParseSourceFiles(sourceFiles, ParserOptions.Default);
 				                                         	});
 			"ParseSourceFiles throws InvalidOperationException when invoked with source file containing a null Identity"
 				.AssertThrows<InvalidOperationException>(() =>
 				                                         	{
 				                                         		var sourceFiles = new SourceFiles {new SourceFile(null, "@juxtapo.combiner")};
-																parser.ParseSourceFiles(sourceFiles, ParserOptions.Default);
+				                                         		parser.ParseSourceFiles(sourceFiles, ParserOptions.Default);
 				                                         	});
 			"ParseSourceFiles throws InvalidOperationExceptionwhen when invoked with source file containing an empty Identity"
 				.AssertThrows<InvalidOperationException>(() =>
 				                                         	{
 				                                         		var sourceFiles = new SourceFiles {new SourceFile(string.Empty, "@juxtapo.combiner")};
-																parser.ParseSourceFiles(sourceFiles, ParserOptions.Default);
+				                                         		parser.ParseSourceFiles(sourceFiles, ParserOptions.Default);
 				                                         	});
 			"ParseSourceFiles throws InvalidOperationException when invoked with source files not containing \"@juxtapo.combiner\" token"
 				.AssertThrows<InvalidOperationException>(() =>
 				                                         	{
 				                                         		var sourceFiles = new SourceFiles {new SourceFile("filename.js", "NO_TOKEN")};
-																parser.ParseSourceFiles(sourceFiles, ParserOptions.Default);
+				                                         		parser.ParseSourceFiles(sourceFiles, ParserOptions.Default);
 				                                         	});
 		}
 

@@ -34,6 +34,7 @@ namespace Juxtapo.Combiner
 		{
 			get { return new ReadOnlyCollection<SourceFile>(_components); }
 		}
+
 		// ReSharper restore ReturnTypeCanBeEnumerable.Global
 
 		internal void AddComponent(SourceFile component)

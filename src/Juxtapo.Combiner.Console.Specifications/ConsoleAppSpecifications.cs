@@ -66,7 +66,7 @@ namespace Juxtapo.Combiner.Console.Specifications
 				        		using (var session = new ConsoleSession())
 				        		{
 				        			consoleApp.Execute(new string[0]);
-									session.StandardOutput.ShouldContain("\r\nJuxtapo Combiner v0.0\r\nCopyright (C) 2010, Dave Taylor and Arnold Zokas\r\n");
+				        			session.StandardOutput.ShouldContain("\r\nJuxtapo Combiner v0.0\r\nCopyright (C) 2010, Dave Taylor and Arnold Zokas\r\n");
 				        		}
 				        	});
 		}
@@ -174,7 +174,7 @@ namespace Juxtapo.Combiner.Console.Specifications
 
 				        				consoleApp.Execute(tempDirectory.Path);
 
-										var expectedText = string.Format("\r\nDeleted empty subdirectory \"{0}\\dir\"\r\n\r\nDeleted empty subdirectory \"{0}\\dir2\"\r\n", tempDirectory.Path);
+				        				var expectedText = string.Format("\r\nDeleted empty subdirectory \"{0}\\dir\"\r\n\r\nDeleted empty subdirectory \"{0}\\dir2\"\r\n", tempDirectory.Path);
 				        				session.StandardOutput.ShouldContain(expectedText);
 				        			}
 				        		}
@@ -187,9 +187,16 @@ namespace Juxtapo.Combiner.Console.Specifications
 			ConsoleApp consoleApp = null;
 			"Given new ConsoleApp".Context(() => consoleApp = new ConsoleApp());
 
-			var tempDirectoryPath = GetTempDirectoryPath();
-			var parameters = new[] {tempDirectoryPath, "-v:debug=false", "-v:trace=true"};
-			"when Execute is invoked with parameters \"{0} -v:debug=false -v:trace=true\"".FormatWith(tempDirectoryPath).Do(() => consoleApp.Execute(parameters));
+			string tempDirectoryPath = null;
+			"when Execute is invoked with parameters \"<path-to-dir> -v:debug=false -v:trace=true\""
+				.Do(() =>
+				    	{
+				    		using (var tempDirectory = new TempDirectory())
+				    		{
+				    			consoleApp.Execute(new[] {tempDirectory.Path, "-v:debug=false", "-v:trace=true"});
+				    			tempDirectoryPath = tempDirectory.Path;
+				    		}
+				    	});
 
 			"Parameters contain 2 variables".Assert(() => consoleApp.Parameters.Variables.Count.ShouldEqual(2));
 			"key of first variable in Parameters is \"debug\"".Assert(() => consoleApp.Parameters.Variables[0].Key.ShouldEqual("debug"));
@@ -239,9 +246,11 @@ namespace Juxtapo.Combiner.Console.Specifications
 				        	{
 				        		using (var session = new ConsoleSession())
 				        		{
-				        			var tempDirectoryPath = GetTempDirectoryPath();
-				        			consoleApp.Execute(tempDirectoryPath);
-				        			session.StandardError.ShouldContain(string.Format("Directory \"{0}\" does not contain any javascript files.", tempDirectoryPath));
+				        			using (var tempDirectory = new TempDirectory())
+				        			{
+				        				consoleApp.Execute(tempDirectory.Path);
+				        				session.StandardError.ShouldContain(string.Format("Directory \"{0}\" does not contain any javascript files.", tempDirectory.Path));
+				        			}
 				        		}
 				        	});
 		}

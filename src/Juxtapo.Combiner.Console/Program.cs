@@ -27,5 +27,6 @@ namespace Juxtapo.Combiner.Console
 			_consoleApp.Execute(args);
 		}
 	}
+
 	// ReSharper restore ClassNeverInstantiated.Global
 }

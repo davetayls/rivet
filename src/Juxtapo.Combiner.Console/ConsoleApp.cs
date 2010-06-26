@@ -137,7 +137,7 @@ namespace Juxtapo.Combiner.Console
 		{
 			var combinerAssembly = Assembly.GetAssembly(typeof (Parser));
 			var version = combinerAssembly.GetName().Version;
-			var copyright = (combinerAssembly.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), inherit: false).First() as AssemblyCopyrightAttribute).Copyright;
+			var copyright = (combinerAssembly.GetCustomAttributes(typeof (AssemblyCopyrightAttribute), inherit: false).First() as AssemblyCopyrightAttribute).Copyright;
 
 			SysConsole.WriteLine();
 			SysConsole.WriteLine("Juxtapo Combiner v{0}.{1}", version.Major, version.Minor);
