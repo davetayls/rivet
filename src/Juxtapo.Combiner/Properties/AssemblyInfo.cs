@@ -16,3 +16,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("Javascript file combiner")]
 [assembly: AssemblyCopyright("Copyright © 2010, Dave Taylor and Arnold Zokas")]
 [assembly: Guid("eea757eb-1703-4221-961b-417a47610313")]
+[assembly: ComVisible(false)]

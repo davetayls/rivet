@@ -37,6 +37,9 @@
     <StartupObject>Juxtapo.Combiner.Console.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\GlobalAssemblyInfo.cs">
+      <Link>Properties\GlobalAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="ConsoleApp.cs" />
     <Compile Include="ConsoleParameterParser.cs" />
     <Compile Include="ConsoleParameters.cs" />

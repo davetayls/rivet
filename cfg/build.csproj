@@ -3,12 +3,12 @@
 
 	<PropertyGroup>
 		<!--Metadata-->
-		<ProjectName>juxtapo combiner</ProjectName>
+		<ProjectName>Juxtapo Combiner</ProjectName>
 		<BuildConfiguration>Release</BuildConfiguration>
 		<BuildTargets>Rebuild</BuildTargets>
-		<MajorVersion>0</MajorVersion>
-		<MinorVersion>1</MinorVersion>
-		<InformationalVersion>.alpha</InformationalVersion>
+		<MajorVersion>1</MajorVersion>
+		<MinorVersion>0</MinorVersion>
+		<InformationalVersion> Beta 1</InformationalVersion>
 
 		<!--Directory Paths-->
 		<ProjectDirectory>$(MSBuildProjectDirectory)\..</ProjectDirectory>
@@ -20,6 +20,7 @@
 		
 		<!--Set the property below if automatic Git path discovery fails-->
 		<!--<GitExePath>C:\Program Files (x86)\Git\bin\git.exe</GitExePath>-->
+		<RevertLocalChanges>true</RevertLocalChanges>
 	</PropertyGroup>
 
 	<Import Project="$(ProjectDirectory)\lib\MSBuildCommunityTasks 1.2.0.306\MSBuild.Community.Tasks.Targets"/>
@@ -29,20 +30,9 @@
 		<WorkingDirectories Include="$(BuildTempDirectory)" />
 		<WorkingDirectories Include="$(PackageOutputDirectory)" />
 
-		<AssemblyInfoFiles Include="$(ProjectDirectory)\src\Juxtapo.Combiner\Properties\AssemblyInfo.cs">
-			<Title>$(ProjectName)</Title>
-			<Description>TODO - Add description</Description>
-			<Copyright>Copyright © 2010 Dave Taylor and Arnold Zokas</Copyright>
-			<Guid>eea757eb-1703-4221-961b-417a47610313</Guid>
-		</AssemblyInfoFiles>
-		<AssemblyInfoFiles Include="$(ProjectDirectory)\src\Juxtapo.Combiner.Console\Properties\AssemblyInfo.cs">
-			<Title>$(ProjectName) Console</Title>
-			<Description>TODO - Add description</Description>
-			<Copyright>Copyright © 2010 Dave Taylor and Arnold Zokas</Copyright>
-			<Guid>277215ed-550d-4ecb-9c6e-18ab31d24167</Guid>
-		</AssemblyInfoFiles>
-
 		<Solution Include="$(ProjectDirectory)\src\juxtapo.combiner.sln" />
+
+		<GlobalAssemblyInfo Include="$(ProjectDirectory)\src\GlobalAssemblyInfo.cs" />
 		
 		<Specifications Include="$(ProjectDirectory)\src\Juxtapo.Combiner.Specifications\bin\$(BuildConfiguration)\Juxtapo.Combiner.Specifications.dll" />
 		<Specifications Include="$(ProjectDirectory)\src\Juxtapo.Combiner.Console.Specifications\bin\$(BuildConfiguration)\Juxtapo.Combiner.Console.Specifications.dll" />

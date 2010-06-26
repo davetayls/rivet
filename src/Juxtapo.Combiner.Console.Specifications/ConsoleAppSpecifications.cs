@@ -11,6 +11,7 @@
 // #######################################################
 using System;
 using System.IO;
+using System.Reflection;
 using Juxtapo.Combiner.Console.Specifications.TestUtils;
 using Xunit.Specifications;
 using SysConsole = System.Console;
@@ -24,9 +25,7 @@ namespace Juxtapo.Combiner.Console.Specifications
 		{
 			ConsoleApp consoleApp = null;
 			var expectedOutput = string.Format(
-				"{0}Juxtapo Combiner v0.0{0}" +
-				"Copyright (C) 2010, Dave Taylor and Arnold Zokas{0}{0}" +
-				"Usage: Juxtapo.Combiner.Console.exe [/help] <path> [options]{0}{0}" +
+				"{0}Usage: Juxtapo.Combiner.Console.exe [/help] <path> [options]{0}{0}" +
 				"\t/help\tShows this help information{0}" +
 				"\t<path>\tPath to directory containing javascript files{0}{0}" +
 				"Options:{0}" +
@@ -63,10 +62,13 @@ namespace Juxtapo.Combiner.Console.Specifications
 			"version and copyright information is written to console"
 				.Assert(() =>
 				        	{
+				        		var version = Assembly.GetAssembly(typeof (Parser)).GetName().Version;
+								var expectedText = string.Format("\r\nJuxtapo Combiner v{0}.{1}\r\nCopyright (C) 2010, Dave Taylor and Arnold Zokas\r\n", version.Major, version.Minor);
+
 				        		using (var session = new ConsoleSession())
 				        		{
 				        			consoleApp.Execute(new string[0]);
-				        			session.StandardOutput.ShouldContain("\r\nJuxtapo Combiner v0.0\r\nCopyright (C) 2010, Dave Taylor and Arnold Zokas\r\n");
+				        			session.StandardOutput.ShouldContain(expectedText);
 				        		}
 				        	});
 		}

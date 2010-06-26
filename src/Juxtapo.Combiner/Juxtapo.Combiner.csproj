@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\GlobalAssemblyInfo.cs">
+      <Link>Properties\GlobalAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Variable.cs" />
     <Compile Include="ParserOptions.cs" />
     <Compile Include="PreProcessors\DebugBlockPreProcessor.cs" />
