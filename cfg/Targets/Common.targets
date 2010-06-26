@@ -79,6 +79,8 @@
 		</CreateProperty>
 		<Message Text="Using Git.exe found at path [$(GitExePath)]" Importance="high" Condition="Exists($(GitExePath))" />
 		<Error Text="Automatic Git path discovery failed - path could not be determined." Condition="!Exists($(GitExePath))" />
+
+		<Exec Command="&quot;$(GitExePath)&quot; reset --hard" StandardOutputImportance="Low" />
 	</Target>
 
 </Project>
