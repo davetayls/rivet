@@ -10,6 +10,7 @@
 // 
 // #######################################################
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -61,9 +62,9 @@ namespace Juxtapo.Combiner.Console
 				return parameters;
 			}
 
-			parameters.TargetDirectory = targetDirectoryMatch.Value;
+			parameters.TargetDirectory = targetDirectoryMatch.Value.TrimEnd('\\');
 
-			// extract variables)
+			// extract variables)))
 			foreach (var arg in args)
 			{
 				var matches = VariableScanExpression.Matches(arg);

@@ -63,7 +63,7 @@ namespace Juxtapo.Combiner.Console.Specifications
 				.Assert(() =>
 				        	{
 				        		var version = Assembly.GetAssembly(typeof (Parser)).GetName().Version;
-								var expectedText = string.Format("\r\nJuxtapo Combiner v{0}.{1}\r\nCopyright © 2010, Dave Taylor and Arnold Zokas\r\n", version.Major, version.Minor);
+				        		var expectedText = string.Format("\r\nJuxtapo Combiner v{0}.{1}\r\nCopyright © 2010, Dave Taylor and Arnold Zokas\r\n", version.Major, version.Minor);
 
 				        		using (var session = new ConsoleSession())
 				        		{
@@ -210,6 +210,24 @@ namespace Juxtapo.Combiner.Console.Specifications
 		}
 
 		[Specification]
+		public void TargetDirectoryParameterSpecifications()
+		{
+			ConsoleApp consoleApp = null;
+			"Given new ConsoleApp".Context(() => consoleApp = new ConsoleApp());
+
+			"when Execute is invoked with target directory that has a trailing backslash"
+				.Do(() =>
+				    	{
+				    		using (var tempDirectory = new TempDirectory())
+				    		{
+				    			consoleApp.Execute(new[] {tempDirectory.Path + "\\"});
+				    		}
+				    	});
+
+			"trailing backslash is removed from TargetDirectory path".Assert(() => consoleApp.Parameters.TargetDirectory.EndsWith("\\").ShouldBeFalse());
+		}
+
+		[Specification]
 		public void InvalidDirectoryParameterParsingSpecifications()
 		{
 			ConsoleApp consoleApp = null;
@@ -337,15 +355,6 @@ namespace Juxtapo.Combiner.Console.Specifications
 				        			tempDirectory.DirectoryExists("dirWithNestedComponentFilesAndStandaloneFile2\\subdir").ShouldBeTrue();
 				        		}
 				        	});
-		}
-
-		private static string GetTempDirectoryPath()
-		{
-			var tempDirectoryPath = Environment.GetEnvironmentVariable("TEMP", EnvironmentVariableTarget.Machine);
-			if (string.IsNullOrEmpty(tempDirectoryPath))
-				throw new InvalidOperationException("Environment variable \"TEMP\" is not set");
-
-			return tempDirectoryPath;
 		}
 	}
 }
