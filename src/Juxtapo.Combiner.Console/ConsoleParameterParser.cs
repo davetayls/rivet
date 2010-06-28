@@ -9,6 +9,7 @@
 // # You must not remove this notice, or any other, from this software.
 // 
 // #######################################################
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -56,13 +57,15 @@ namespace Juxtapo.Combiner.Console
 
 			// extract target directory
 			var targetDirectoryMatch = TargetDirectoryScanExpression.Match(targetDirectoryArgument);
-			if (!targetDirectoryMatch.Success)
+			if (targetDirectoryMatch.Success)
 			{
-				parameters.DisplayHelpInformation = true;
-				return parameters;
+				parameters.TargetDirectory = targetDirectoryMatch.Value.TrimEnd('\\');
 			}
-
-			parameters.TargetDirectory = targetDirectoryMatch.Value.TrimEnd('\\');
+			else
+			{
+				// not an absolute path, treat as relative path
+				parameters.TargetDirectory = Path.Combine(Environment.CurrentDirectory, targetDirectoryArgument.TrimEnd('\\'));
+			}
 
 			// extract variables)))
 			foreach (var arg in args)

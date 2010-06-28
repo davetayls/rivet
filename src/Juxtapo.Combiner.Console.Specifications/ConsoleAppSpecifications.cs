@@ -215,16 +215,24 @@ namespace Juxtapo.Combiner.Console.Specifications
 			ConsoleApp consoleApp = null;
 			"Given new ConsoleApp".Context(() => consoleApp = new ConsoleApp());
 
-			"when Execute is invoked with target directory that has a trailing backslash"
-				.Do(() =>
-				    	{
-				    		using (var tempDirectory = new TempDirectory())
-				    		{
-				    			consoleApp.Execute(new[] {tempDirectory.Path + "\\"});
-				    		}
-				    	});
+			"when Execute is invoked with target directory path that has a trailing backslash, trailing backslash is removed from TargetDirectory path"
+				.Assert(() =>
+				        	{
+				        		using (var tempDirectory = new TempDirectory())
+				        		{
+				        			consoleApp.Execute(new[] {tempDirectory.Path + "\\"});
 
-			"trailing backslash is removed from TargetDirectory path".Assert(() => consoleApp.Parameters.TargetDirectory.EndsWith("\\").ShouldBeFalse());
+				        			consoleApp.Parameters.TargetDirectory.ShouldEqual(tempDirectory.Path);
+				        		}
+				        	});
+
+			"when Execute is invoked with a relative target directory path, TargetDirectory uses working directory as base path"
+				.Assert(() =>
+				        	{
+				        		consoleApp.Execute(new[] {"relative_path\\"});
+
+				        		consoleApp.Parameters.TargetDirectory.ShouldEqual(Path.Combine(Environment.CurrentDirectory, "relative_path"));
+				        	});
 		}
 
 		[Specification]

@@ -39,6 +39,9 @@ namespace Juxtapo.Combiner.Console
 				SysConsole.ForegroundColor = ConsoleColor.Red;
 				SysConsole.Error.WriteLine("Directory \"{0}\" could not be found.", Parameters.TargetDirectory);
 				SysConsole.ResetColor();
+
+				Parameters.DisplayHelpInformation = true;
+				DisplayHelpInformation();
 				return;
 			}
 			DisplayTargetDirectory(Parameters.TargetDirectory);
