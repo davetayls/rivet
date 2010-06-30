@@ -41,15 +41,19 @@
 		<BuildArtifacts Include="$(ProjectDirectory)\src\Juxtapo.Combiner\bin\$(BuildConfiguration)\Juxtapo.Combiner.pdb" />
 		<BuildArtifacts Include="$(ProjectDirectory)\src\Juxtapo.Combiner.Console\bin\$(BuildConfiguration)\Juxtapo.Combiner.Console.exe" />
 		<BuildArtifacts Include="$(ProjectDirectory)\src\Juxtapo.Combiner.Console\bin\$(BuildConfiguration)\Juxtapo.Combiner.Console.pdb" />
-		<BuildArtifacts Include="$(ProjectDirectory)\license.txt" />
 		<BuildArtifacts Include="$(ProjectDirectory)\davetayls's juxtapo-combiner - GitHub.url" />
+		<BuildArtifacts Include="$(ProjectDirectory)\example-combiner.js" />
+		<BuildArtifacts Include="$(ProjectDirectory)\license.txt" />
+		<BuildArtifacts Include="$(ProjectDirectory)\readme.md" />
 
 		<PackageContents Include="$(BuildTempDirectory)\Juxtapo.Combiner.dll" />
 		<PackageContents Include="$(BuildTempDirectory)\Juxtapo.Combiner.pdb" />
 		<PackageContents Include="$(BuildTempDirectory)\Juxtapo.Combiner.Console.exe" />
 		<PackageContents Include="$(BuildTempDirectory)\Juxtapo.Combiner.Console.pdb" />
-		<PackageContents Include="$(BuildTempDirectory)\license.txt" />
 		<PackageContents Include="$(BuildTempDirectory)\davetayls's juxtapo-combiner - GitHub.url" />
+		<PackageContents Include="$(BuildTempDirectory)\example-combiner.js" />
+		<PackageContents Include="$(BuildTempDirectory)\license.txt" />
+		<PackageContents Include="$(BuildTempDirectory)\readme.md" />
 	</ItemGroup>
 
 	<Target Name="Build" DependsOnTargets="_Clean;_Compile;_CopyFilesToBuildTempDirectory" />
