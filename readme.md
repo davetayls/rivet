@@ -13,13 +13,19 @@
 	include with this file.
 4. Reference your combiner file in your markup.
 
+When developing you can use the following combiner comments:
+*	`//##DEBUG` at the end of a line will remove this line from the combined source
+*	Wrapping lines with `//##DEBUGSTART` and `//##DEBUGEND` will remove the whole block from the combined source
+
+You are also able to use variables `var versionNumber = '@VERSION_NUMBER'` within your javascript. 
+For each variable add `-v:VERSION_NUMBER=1.0` when using the combiner command line
+
 ### On deployment using the commandline tool    
 1.	Copy your javascript files in to a separate deployment directory
 2.	Run the Juxtapo.Combiner.Console.exe pointing it to your deployment directory
 	eg: Juxtapo.Combiner.Console.exe "c:\path\to\jsdirecory\"
 
-	Usage: Juxtapo.Combiner.Console.exe [/help] <path> [options]
-
+		Usage: Juxtapo.Combiner.Console.exe [/help] <path> [options]
 				/help   Shows this help information
 				<path>  Path to directory containing javascript files
 
