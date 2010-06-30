@@ -78,7 +78,9 @@ Build output is automatically placed into directory <strong>./_build/</strong>.
 
 ## 4. Related Links ##
 
-*TODO*
+*	Juxtapo Website: http://juxtapo.net
+*	Juxtapo docs: http://juxtapo.net/docs
+*	Juxtapo twitter: http://twitter.com/juxtapotools (use #juxtapotools to refer to this project)
 
 ## 5. License ##
 
