@@ -5,7 +5,34 @@
 
 ## 2. Usage Instructions ##
 
-*TODO*
+### Development
+1. 	Copy the contents of the /combiner/example-combiner.js for each file you want to 
+	split in to separate files.
+2.	Change the combinerFileName to filename of the combiner javascript file.
+3.	Add includes.push("javascriptfile.js") lines for each of the files you want to
+	include with this file.
+4. Reference your combiner file in your markup.
+
+### On deployment using the commandline tool    
+1.	Copy your javascript files in to a separate deployment directory
+2.	Run the Juxtapo.Combiner.Console.exe pointing it to your deployment directory
+	eg: Juxtapo.Combiner.Console.exe "c:\path\to\jsdirecory\"
+
+	Usage: Juxtapo.Combiner.Console.exe [/help] <path> [options]
+
+				/help   Shows this help information
+				<path>  Path to directory containing javascript files
+
+		Options:
+				-v:name=value   Replaces token [name] with [value] in processed files.
+								This can be specified multiple times to replace
+								multiple tokens.
+
+		Example:
+				Juxtapo.Combiner.Console.exe D:\website\js -v:debug=false -v:trace=true
+
+3.	This will add all the contents of the included javascript files in to
+	the root combiner file and delete the referenced files.
 
 ## 3. Build Instructions ##
 
