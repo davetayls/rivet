@@ -44,7 +44,9 @@
 		<BuildArtifacts Include="$(ProjectDirectory)\davetayls's juxtapo-combiner - GitHub.url" />
 		<BuildArtifacts Include="$(ProjectDirectory)\example-combiner.js" />
 		<BuildArtifacts Include="$(ProjectDirectory)\license.txt" />
-		<BuildArtifacts Include="$(ProjectDirectory)\readme.md" />
+		<BuildArtifacts Include="$(ProjectDirectory)\readme.md">
+			<RenameTo>readme.txt</RenameTo>
+		</BuildArtifacts>
 
 		<PackageContents Include="$(BuildTempDirectory)\Juxtapo.Combiner.dll" />
 		<PackageContents Include="$(BuildTempDirectory)\Juxtapo.Combiner.pdb" />
@@ -53,7 +55,7 @@
 		<PackageContents Include="$(BuildTempDirectory)\davetayls's juxtapo-combiner - GitHub.url" />
 		<PackageContents Include="$(BuildTempDirectory)\example-combiner.js" />
 		<PackageContents Include="$(BuildTempDirectory)\license.txt" />
-		<PackageContents Include="$(BuildTempDirectory)\readme.md" />
+		<PackageContents Include="$(BuildTempDirectory)\readme.txt" />
 	</ItemGroup>
 
 	<Target Name="Build" DependsOnTargets="_Clean;_Compile;_CopyFilesToBuildTempDirectory" />
