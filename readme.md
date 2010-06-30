@@ -6,15 +6,16 @@ has grown to the extent where it needs to be separated in to separate files.
 
 I itemised what I would ideally want to achieve before starting Juxtapo Combiner and we're getting there
 slowly.
+
 1.	I want to be able to split code in to appropriate sections so that i can save them across multiple files.
 	*	this will make it easier to find code
 	*	this will make code more modular and help to debug
 2.	I only want one script reference within the html file even at dev time
-	*	I don’t want to annoy the back end devs with the hassle of different versions of the html head area
+	*	I don't want to annoy the back end devs with the hassle of different versions of the html head area
 	*	I want to manage easily the order in which scripts are loaded and which scripts are grouped together.
 	*	I want the dev markup to mimic the live environment as closely as possible
 3.	I want a system which is flexible enough to allow me to specify which scripts get combined on deployment
-	*	if there are sub sections to the code which change more frequently to others i don’t want the 
+	*	if there are sub sections to the code which change more frequently to others i don't want the 
 		client to have to download the full whack when something small has changed
 4.	I want this to be extremely painless to implement
 	*	I'm not a big fan of pain
