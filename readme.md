@@ -1,12 +1,40 @@
 # juxtapo combiner #
 ## 1. Overview ##
 
-*TODO*
+The amount of JavaScript in my life is rising significantly the amount of code within one project 
+has grown to the extent where it needs to be separated in to separate files. 
+
+I itemised what I would ideally want to achieve before starting Juxtapo Combiner and we're getting there
+slowly.
+1.	I want to be able to split code in to appropriate sections so that i can save them across multiple files.
+	*	this will make it easier to find code
+	*	this will make code more modular and help to debug
+2.	I only want one script reference within the html file even at dev time
+	*	I don’t want to annoy the back end devs with the hassle of different versions of the html head area
+	*	I want to manage easily the order in which scripts are loaded and which scripts are grouped together.
+	*	I want the dev markup to mimic the live environment as closely as possible
+3.	I want a system which is flexible enough to allow me to specify which scripts get combined on deployment
+	*	if there are sub sections to the code which change more frequently to others i don’t want the 
+		client to have to download the full whack when something small has changed
+4.	I want this to be extremely painless to implement
+	*	I'm not a big fan of pain
+
+With these four requirements in mind we set about creating the Juxtapo Combiner strategy 
+and have come up with this:
+
+1.	A root file for each set which at dev time dynamically adds the linked files to the page
+2.	You can have as many root files as you want and you only need 
+	to maintain one list of links within each root file.
+3.	It only takes 3 very simple steps to create a combiner file 
+	and there are no front end dependencies:
+	*	Copy and paste short section of standalone code in to a root file
+	*	Include a reference to it in your page and set the root file js name
+	*	Include a list of files which will be combined on deployment
 
 ## 2. Usage Instructions ##
 
 ### Development
-1. 	Copy the contents of the /combiner/example-combiner.js for each file you want to 
+1. 	Copy the contents of the example-combiner.js for each file you want to 
 	split in to separate files.
 2.	Change the combinerFileName to filename of the combiner javascript file.
 3.	Add includes.push("javascriptfile.js") lines for each of the files you want to
@@ -14,6 +42,7 @@
 4. Reference your combiner file in your markup.
 
 When developing you can use the following combiner comments:
+
 *	`//##DEBUG` at the end of a line will remove this line from the combined source
 *	Wrapping lines with `//##DEBUGSTART` and `//##DEBUGEND` will remove the whole block from the combined source
 
