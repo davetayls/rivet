@@ -18,7 +18,11 @@
 (function() {
 
     var combinerFileName = "juxtapo.js";
+    var includes = [];
+    includes.push("example1.js");
+    includes.push("example2.js");
 
+	/* ********* DON'T CHANGE ANYTHING BELOW THIS LINE */
     function getJsLocation(jsFileName) {
 		if (typeof jsFileName === 'string') {
 			jsFileName = new RegExp(jsFileName.toLowerCase());
@@ -35,10 +39,6 @@
 		return null;
     };
     var combinerJsLocation = getJsLocation(combinerFileName);
-    var includes = [];
-    includes.push("example1.js");
-    includes.push("example2.js");
-
     function includeJs() {
         for (var i = 0; i < includes.length; i++) {
             document.write("<script type=\"text/javascript\" src=\"" + combinerJsLocation + includes[i] + "\"></script>");
