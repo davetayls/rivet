@@ -1,4 +1,5 @@
-# juxtapo combiner #
+# Rivet Combiner #
+**Originally Juxtapo Combiner...we are currently converting all naming over**
 ## 1. Overview ##
 
 The amount of JavaScript in my life is rising significantly the amount of code within one project 
