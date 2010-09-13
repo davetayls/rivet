@@ -1,0 +1,99 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Solution Items", "_Solution Items", "{F11AD1B9-AD1F-4A7C-9122-59532428929B}"
+	ProjectSection(SolutionItems) = preProject
+		..\.gitignore = ..\.gitignore
+		..\License.txt = ..\License.txt
+		..\readme.md = ..\readme.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Rivet", "Rivet", "{A284D652-D4E7-45FE-81C5-3E1F950E5185}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Build Configuration", "_Build Configuration", "{0D6CC2B8-0EB4-46B2-B8B3-F6BEA9401D72}"
+	ProjectSection(SolutionItems) = preProject
+		..\cfg\build.bat = ..\cfg\build.bat
+		..\cfg\build.csproj = ..\cfg\build.csproj
+		..\cfg\package.bat = ..\cfg\package.bat
+		..\cfg\test.bat = ..\cfg\test.bat
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Targets", "Targets", "{AB68F34C-170A-44D1-8DAE-93C287EDDB6C}"
+	ProjectSection(SolutionItems) = preProject
+		..\cfg\Targets\Common.targets = ..\cfg\Targets\Common.targets
+		..\cfg\Targets\Get32BitProgramFilesDirectory.task = ..\cfg\Targets\Get32BitProgramFilesDirectory.task
+		..\cfg\Targets\GitDescribe.task = ..\cfg\Targets\GitDescribe.task
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rivet", "Rivet\Rivet.csproj", "{E4929603-9ED2-4785-AC0D-51A9A40E0B2A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rivet.Specifications", "Rivet.Specifications\Rivet.Specifications.csproj", "{91631D7D-9AC2-4D3F-BF9F-D3D1261BBC6A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Rivet.Console", "Rivet.Console", "{78A6A468-45B2-4431-8816-02F078218532}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rivet.Console", "Rivet.Console\Rivet.Console.csproj", "{90C4A3E1-BC78-4E3B-816B-6A3A8D5EE94C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rivet.Console.Specifications", "Rivet.Console.Specifications\Rivet.Console.Specifications.csproj", "{F3BE5B2D-0917-46FA-B560-013EC0003D7F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E4929603-9ED2-4785-AC0D-51A9A40E0B2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4929603-9ED2-4785-AC0D-51A9A40E0B2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4929603-9ED2-4785-AC0D-51A9A40E0B2A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{E4929603-9ED2-4785-AC0D-51A9A40E0B2A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{E4929603-9ED2-4785-AC0D-51A9A40E0B2A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E4929603-9ED2-4785-AC0D-51A9A40E0B2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4929603-9ED2-4785-AC0D-51A9A40E0B2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4929603-9ED2-4785-AC0D-51A9A40E0B2A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{E4929603-9ED2-4785-AC0D-51A9A40E0B2A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{E4929603-9ED2-4785-AC0D-51A9A40E0B2A}.Release|x86.ActiveCfg = Release|Any CPU
+		{91631D7D-9AC2-4D3F-BF9F-D3D1261BBC6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91631D7D-9AC2-4D3F-BF9F-D3D1261BBC6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91631D7D-9AC2-4D3F-BF9F-D3D1261BBC6A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{91631D7D-9AC2-4D3F-BF9F-D3D1261BBC6A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{91631D7D-9AC2-4D3F-BF9F-D3D1261BBC6A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{91631D7D-9AC2-4D3F-BF9F-D3D1261BBC6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91631D7D-9AC2-4D3F-BF9F-D3D1261BBC6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91631D7D-9AC2-4D3F-BF9F-D3D1261BBC6A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{91631D7D-9AC2-4D3F-BF9F-D3D1261BBC6A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{91631D7D-9AC2-4D3F-BF9F-D3D1261BBC6A}.Release|x86.ActiveCfg = Release|Any CPU
+		{90C4A3E1-BC78-4E3B-816B-6A3A8D5EE94C}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{90C4A3E1-BC78-4E3B-816B-6A3A8D5EE94C}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{90C4A3E1-BC78-4E3B-816B-6A3A8D5EE94C}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{90C4A3E1-BC78-4E3B-816B-6A3A8D5EE94C}.Debug|x86.ActiveCfg = Debug|x86
+		{90C4A3E1-BC78-4E3B-816B-6A3A8D5EE94C}.Debug|x86.Build.0 = Debug|x86
+		{90C4A3E1-BC78-4E3B-816B-6A3A8D5EE94C}.Release|Any CPU.ActiveCfg = Release|x86
+		{90C4A3E1-BC78-4E3B-816B-6A3A8D5EE94C}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{90C4A3E1-BC78-4E3B-816B-6A3A8D5EE94C}.Release|Mixed Platforms.Build.0 = Release|x86
+		{90C4A3E1-BC78-4E3B-816B-6A3A8D5EE94C}.Release|x86.ActiveCfg = Release|x86
+		{90C4A3E1-BC78-4E3B-816B-6A3A8D5EE94C}.Release|x86.Build.0 = Release|x86
+		{F3BE5B2D-0917-46FA-B560-013EC0003D7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3BE5B2D-0917-46FA-B560-013EC0003D7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3BE5B2D-0917-46FA-B560-013EC0003D7F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F3BE5B2D-0917-46FA-B560-013EC0003D7F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F3BE5B2D-0917-46FA-B560-013EC0003D7F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F3BE5B2D-0917-46FA-B560-013EC0003D7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3BE5B2D-0917-46FA-B560-013EC0003D7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3BE5B2D-0917-46FA-B560-013EC0003D7F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F3BE5B2D-0917-46FA-B560-013EC0003D7F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F3BE5B2D-0917-46FA-B560-013EC0003D7F}.Release|x86.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E4929603-9ED2-4785-AC0D-51A9A40E0B2A} = {A284D652-D4E7-45FE-81C5-3E1F950E5185}
+		{91631D7D-9AC2-4D3F-BF9F-D3D1261BBC6A} = {A284D652-D4E7-45FE-81C5-3E1F950E5185}
+		{AB68F34C-170A-44D1-8DAE-93C287EDDB6C} = {0D6CC2B8-0EB4-46B2-B8B3-F6BEA9401D72}
+		{90C4A3E1-BC78-4E3B-816B-6A3A8D5EE94C} = {78A6A468-45B2-4431-8816-02F078218532}
+		{F3BE5B2D-0917-46FA-B560-013EC0003D7F} = {78A6A468-45B2-4431-8816-02F078218532}
+	EndGlobalSection
+EndGlobal
