@@ -3,7 +3,7 @@
     get combined and compressed on deployment.
     
     The following line is used to tag this file as a combiner file
-    @juxtapo.combiner[1.0]
+    @rivet[2.0]
     
     1. Change the combinerFileName to be the same as this javascript file
 	   (This can be a string or a regular expression)
