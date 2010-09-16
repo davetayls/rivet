@@ -1,10 +1,11 @@
-# juxtapo combiner #
+# Rivet #
+**Originally Juxtapo Combiner...we are currently converting all naming over**
 ## 1. Overview ##
 
 The amount of JavaScript in my life is rising significantly the amount of code within one project 
 has grown to the extent where it needs to be separated in to separate files. 
 
-I itemised what I would ideally want to achieve before starting Juxtapo Combiner and we're getting there
+I itemised what I would ideally want to achieve before starting Rivet and we're getting there
 slowly.
 
 1.	I want to be able to split code in to appropriate sections so that i can save them across multiple files.
@@ -20,13 +21,13 @@ slowly.
 4.	I want this to be extremely painless to implement
 	*	I'm not a big fan of pain
 
-With these four requirements in mind we set about creating the Juxtapo Combiner strategy 
+With these four requirements in mind we set about creating the Rivet strategy 
 and have come up with this:
 
 1.	A root file for each set which at dev time dynamically adds the linked files to the page
 2.	You can have as many root files as you want and you only need 
 	to maintain one list of links within each root file.
-3.	It only takes 3 very simple steps to create a combiner file 
+3.	It only takes 3 very simple steps to create a Rivet file 
 	and there are no front end dependencies:
 	*	Copy and paste short section of standalone code in to a root file
 	*	Include a reference to it in your page and set the root file js name
@@ -35,27 +36,27 @@ and have come up with this:
 ## 2. Usage Instructions ##
 
 ### Development
-1. 	Copy the contents of the example-combiner.js for each file you want to 
+1. 	Copy the contents of the example-rivet.js for each file you want to 
 	split in to separate files.
-2.	Change the combinerFileName to filename of the combiner javascript file.
+2.	Change the rivetFileName to filename of the Rivet javascript file.
 3.	Add includes.push("javascriptfile.js") lines for each of the files you want to
 	include with this file.
-4. Reference your combiner file in your markup.
+4. Reference your Rivet file in your markup.
 
-When developing you can use the following combiner comments:
+When developing you can use the following Rivet comments:
 
 *	`//##DEBUG` at the end of a line will remove this line from the combined source
 *	Wrapping lines with `//##DEBUGSTART` and `//##DEBUGEND` will remove the whole block from the combined source
 
 You are also able to use variables `var versionNumber = '@VERSION_NUMBER'` within your javascript. 
-For each variable add `-v:VERSION_NUMBER=1.0` when using the combiner command line
+For each variable add `-v:VERSION_NUMBER=1.0` when using the Rivet command line
 
 ### On deployment using the commandline tool    
 1.	Copy your javascript files in to a separate deployment directory
-2.	Run the Juxtapo.Combiner.Console.exe pointing it to your deployment directory
-	eg: Juxtapo.Combiner.Console.exe "c:\path\to\jsdirecory\"
+2.	Run the Rivet.Console.exe pointing it to your deployment directory
+	eg: Rivet.Console.exe "c:\path\to\jsdirecory\"
 
-		Usage: Juxtapo.Combiner.Console.exe [/help] <path> [options]
+		Usage: Rivet.Console.exe [/help] <path> [options]
 				/help   Shows this help information
 				<path>  Path to directory containing javascript files
 
@@ -65,10 +66,10 @@ For each variable add `-v:VERSION_NUMBER=1.0` when using the combiner command li
 								multiple tokens.
 
 		Example:
-				Juxtapo.Combiner.Console.exe D:\website\js -v:debug=false -v:trace=true
+				Rivet.Console.exe D:\website\js -v:debug=false -v:trace=true
 
 3.	This will add all the contents of the included javascript files in to
-	the root combiner file and delete the referenced files.
+	the root Rivet file and delete the referenced files.
 
 ## 3. Build Instructions ##
 
@@ -93,5 +94,5 @@ By using this source code in any fashion, you are agreeing to be bound by the te
 You must not remove this notice, or any other, from this software.
 <br />
 <br />
-Thanks for using juxtapo combiner,<br />
+Thanks for using Rivet,<br />
 Dave Taylor and Arnold Zokas

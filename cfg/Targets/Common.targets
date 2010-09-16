@@ -59,6 +59,10 @@
 	
 	<Target Name="_CopyFilesToBuildTempDirectory" Label="Copies files to build temp directory">
 		<Copy SourceFiles="@(BuildArtifacts)" DestinationFolder="$(BuildTempDirectory)" />
+
+		<Move SourceFiles="$(BuildTempDirectory)\%(BuildArtifacts.Filename)%(BuildArtifacts.Extension)"
+			  DestinationFiles="$(BuildTempDirectory)\%(BuildArtifacts.RenameTo)"
+			  Condition="%(BuildArtifacts.RenameTo) != ''" />
 	</Target>
 
 	<Target Name="_GenerateDeploymentPackage" Label="Generates deployment package">

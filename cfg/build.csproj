@@ -3,12 +3,12 @@
 
 	<PropertyGroup>
 		<!--Metadata-->
-		<ProjectName>Juxtapo Combiner</ProjectName>
+		<ProjectName>Rivet</ProjectName>
 		<BuildConfiguration>Release</BuildConfiguration>
 		<BuildTargets>Rebuild</BuildTargets>
 		<MajorVersion>1</MajorVersion>
 		<MinorVersion>0</MinorVersion>
-		<InformationalVersion> Beta 2</InformationalVersion>
+		<InformationalVersion></InformationalVersion>
 
 		<!--Directory Paths-->
 		<ProjectDirectory>$(MSBuildProjectDirectory)\..</ProjectDirectory>
@@ -30,26 +30,32 @@
 		<WorkingDirectories Include="$(BuildTempDirectory)" />
 		<WorkingDirectories Include="$(PackageOutputDirectory)" />
 
-		<Solution Include="$(ProjectDirectory)\src\juxtapo.combiner.sln" />
+		<Solution Include="$(ProjectDirectory)\src\Rivet.sln" />
 
 		<GlobalAssemblyInfo Include="$(ProjectDirectory)\src\GlobalAssemblyInfo.cs" />
 		
-		<Specifications Include="$(ProjectDirectory)\src\Juxtapo.Combiner.Specifications\bin\$(BuildConfiguration)\Juxtapo.Combiner.Specifications.dll" />
-		<Specifications Include="$(ProjectDirectory)\src\Juxtapo.Combiner.Console.Specifications\bin\$(BuildConfiguration)\Juxtapo.Combiner.Console.Specifications.dll" />
+		<Specifications Include="$(ProjectDirectory)\src\Rivet.Specifications\bin\$(BuildConfiguration)\Rivet.Specifications.dll" />
+		<Specifications Include="$(ProjectDirectory)\src\Rivet.Console.Specifications\bin\$(BuildConfiguration)\Rivet.Console.Specifications.dll" />
 		
-		<BuildArtifacts Include="$(ProjectDirectory)\src\Juxtapo.Combiner\bin\$(BuildConfiguration)\Juxtapo.Combiner.dll" />
-		<BuildArtifacts Include="$(ProjectDirectory)\src\Juxtapo.Combiner\bin\$(BuildConfiguration)\Juxtapo.Combiner.pdb" />
-		<BuildArtifacts Include="$(ProjectDirectory)\src\Juxtapo.Combiner.Console\bin\$(BuildConfiguration)\Juxtapo.Combiner.Console.exe" />
-		<BuildArtifacts Include="$(ProjectDirectory)\src\Juxtapo.Combiner.Console\bin\$(BuildConfiguration)\Juxtapo.Combiner.Console.pdb" />
+		<BuildArtifacts Include="$(ProjectDirectory)\src\Rivet\bin\$(BuildConfiguration)\Rivet.dll" />
+		<BuildArtifacts Include="$(ProjectDirectory)\src\Rivet\bin\$(BuildConfiguration)\Rivet.pdb" />
+		<BuildArtifacts Include="$(ProjectDirectory)\src\Rivet.Console\bin\$(BuildConfiguration)\Rivet.Console.exe" />
+		<BuildArtifacts Include="$(ProjectDirectory)\src\Rivet.Console\bin\$(BuildConfiguration)\Rivet.Console.pdb" />
+		<BuildArtifacts Include="$(ProjectDirectory)\Rivet - GitHub.url" />
+		<BuildArtifacts Include="$(ProjectDirectory)\example-rivet.js" />
 		<BuildArtifacts Include="$(ProjectDirectory)\license.txt" />
-		<BuildArtifacts Include="$(ProjectDirectory)\davetayls's juxtapo-combiner - GitHub.url" />
+		<BuildArtifacts Include="$(ProjectDirectory)\readme.md">
+			<RenameTo>readme.txt</RenameTo>
+		</BuildArtifacts>
 
-		<PackageContents Include="$(BuildTempDirectory)\Juxtapo.Combiner.dll" />
-		<PackageContents Include="$(BuildTempDirectory)\Juxtapo.Combiner.pdb" />
-		<PackageContents Include="$(BuildTempDirectory)\Juxtapo.Combiner.Console.exe" />
-		<PackageContents Include="$(BuildTempDirectory)\Juxtapo.Combiner.Console.pdb" />
+		<PackageContents Include="$(BuildTempDirectory)\Rivet.dll" />
+		<PackageContents Include="$(BuildTempDirectory)\Rivet.pdb" />
+		<PackageContents Include="$(BuildTempDirectory)\Rivet.Console.exe" />
+		<PackageContents Include="$(BuildTempDirectory)\Rivet.Console.pdb" />
+		<PackageContents Include="$(BuildTempDirectory)\Rivet - GitHub.url" />
+		<PackageContents Include="$(BuildTempDirectory)\example-rivet.js" />
 		<PackageContents Include="$(BuildTempDirectory)\license.txt" />
-		<PackageContents Include="$(BuildTempDirectory)\davetayls's juxtapo-combiner - GitHub.url" />
+		<PackageContents Include="$(BuildTempDirectory)\readme.txt" />
 	</ItemGroup>
 
 	<Target Name="Build" DependsOnTargets="_Clean;_Compile;_CopyFilesToBuildTempDirectory" />
