@@ -37,9 +37,19 @@ namespace Rivet
 
 		// ReSharper restore ReturnTypeCanBeEnumerable.Global
 
+		public SourceFile ParentComponent { get; set; }
+
 		internal void AddComponent(SourceFile component)
 		{
 			_components.Add(component);
+		}
+
+		public bool IsPredecessorOf(SourceFile origin)
+		{
+			if (origin.ParentComponent == null)
+				return false;
+
+			return this == origin.ParentComponent || IsPredecessorOf(origin.ParentComponent);
 		}
 	}
 }

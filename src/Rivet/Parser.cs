@@ -72,29 +72,36 @@ namespace Rivet
 			return outputFiles;
 		}
 
-		private SourceFile ParseSourceFile(SourceFile markedFile, IEnumerable<SourceFile> sourceFiles, ParserOptions parserOptions)
+		private SourceFile ParseSourceFile(SourceFile origin, IEnumerable<SourceFile> sourceFiles, ParserOptions parserOptions)
 		{
-			var outputFile = new SourceFile(markedFile.Identity, string.Empty);
+			var outputFile = new SourceFile(origin.Identity, string.Empty);
 
-			foreach (var reference in IncludePushExpressionScanner.GetSourceFileReferences(markedFile.Body))
+			foreach (var reference in IncludePushExpressionScanner.GetSourceFileReferences(origin.Body))
 			{
 				var include = sourceFiles.SingleOrDefault(x => x.Identity == reference);
 
 				if (include != null)
 				{
+					if (include.IsPredecessorOf(origin))
+						throw new InvalidOperationException(string.Format(ExceptionMessages.InvalidOperationException__UnableToCombine_CircularReferenceFound, include.Identity));
+
 					if (IsRivetFile(include))
 					{
-						outputFile.Body += ParseSourceFile(include, sourceFiles, parserOptions).Body;
+						include.ParentComponent = origin;
+						var nestedSourceFile = ParseSourceFile(include, sourceFiles, parserOptions);
+
+						outputFile.Body += nestedSourceFile.Body;
+						foreach (var component in nestedSourceFile.Components)
+							outputFile.AddComponent(component);
 					}
 					else
 					{
 						outputFile.Body += _preProcessors.Aggregate(include.Body, (current, preProcessor) => preProcessor.Process(current, parserOptions));
+						outputFile.AddComponent(include);
 					}
-
-					outputFile.AddComponent(include);
 				}
 				else
-					throw new InvalidOperationException(string.Format(ExceptionMessages.InvalidOperationException__UnableToCombine_ReferenceNotFound, reference, markedFile.Identity));
+					throw new InvalidOperationException(string.Format(ExceptionMessages.InvalidOperationException__UnableToCombine_ReferenceNotFound, reference, origin.Identity));
 			}
 
 			return outputFile;

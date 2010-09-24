@@ -124,8 +124,31 @@ namespace Rivet.Specifications
 
 			"output contains 3 SourceFile".Assert(() => parserOutput.Count.ShouldEqual(3));
 			"group A nested references are resolved".Assert(() => parserOutput[0].Body.ShouldEqual("ABC1C2"));
+			"Rivet file A is made up of 4 components".Assert(() => parserOutput[0].Components.Count.ShouldEqual(4));
 			"group B nested references are resolved".Assert(() => parserOutput[1].Body.ShouldEqual("BC1C2"));
+			"Rivet file B is made up of 3 components".Assert(() => parserOutput[1].Components.Count.ShouldEqual(3));
 			"group C nested references are resolved".Assert(() => parserOutput[2].Body.ShouldEqual("C1C2"));
+			"Rivet file C is made up of 2 components".Assert(() => parserOutput[2].Components.Count.ShouldEqual(2));
+		}
+
+		[Specification]
+		public void DetectNestedSourceFilesCircularReferencesSpecifications()
+		{
+			Parser parser = null;
+			"Given new Parser".Context(() => parser = new Parser());
+
+			"ParseSourceFiles throws InvalidOperationException when invoked with SourceFiles containing circular nested references"
+				.AssertThrows<InvalidOperationException>(() =>
+				                                         	{
+				                                         		var sourceFiles = new SourceFiles
+				                                         		                  	{
+				                                         		                  		new SourceFile("rivet-A.js", "@rivet includes.push(\"rivet-B.js\");"),
+				                                         		                  		new SourceFile("rivet-B.js", "@rivet includes.push(\"rivet-C.js\");"),
+				                                         		                  		new SourceFile("rivet-C.js", "@rivet includes.push(\"rivet-A.js\");"),
+				                                         		                  	};
+
+				                                         		parser.ParseSourceFiles(sourceFiles, ParserOptions.Default);
+				                                         	});
 		}
 	}
 }

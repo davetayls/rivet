@@ -61,6 +61,15 @@ namespace Rivet.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to combine. Circular reference to file &quot;{0}&quot; detected..
+        /// </summary>
+        internal static string InvalidOperationException__UnableToCombine_CircularReferenceFound {
+            get {
+                return ResourceManager.GetString("InvalidOperationException__UnableToCombine_CircularReferenceFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to combine. None of the source files passed contain a @rivet token..
         /// </summary>
         internal static string InvalidOperationException__UnableToCombine_NoSourceFilesContainRivetToken {
