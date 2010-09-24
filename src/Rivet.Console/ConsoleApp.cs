@@ -24,45 +24,54 @@ namespace Rivet.Console
 
 		public void Execute(params string[] args)
 		{
-			DisplayVersionAndCopyrightInformation();
-
-			Parameters = ConsoleParameterParser.Parse(args);
-
-			if (Parameters.DisplayHelpInformation)
+			try
 			{
-				DisplayHelpInformation();
-				return;
-			}
+				DisplayVersionAndCopyrightInformation();
 
-			if (!Directory.Exists(Parameters.TargetDirectory))
+				Parameters = ConsoleParameterParser.Parse(args);
+
+				if (Parameters.DisplayHelpInformation)
+				{
+					DisplayHelpInformation();
+					return;
+				}
+
+				if (!Directory.Exists(Parameters.TargetDirectory))
+				{
+					SysConsole.ForegroundColor = ConsoleColor.Red;
+					SysConsole.Error.WriteLine("Directory \"{0}\" could not be found.", Parameters.TargetDirectory);
+					SysConsole.ResetColor();
+
+					Parameters.DisplayHelpInformation = true;
+					DisplayHelpInformation();
+					return;
+				}
+				DisplayTargetDirectory(Parameters.TargetDirectory);
+
+				SourceFiles sourceFiles = GetSourceFiles(Parameters.TargetDirectory);
+				if (sourceFiles.Count == 0)
+				{
+					SysConsole.ForegroundColor = ConsoleColor.Red;
+					SysConsole.Error.WriteLine("Directory \"{0}\" does not contain any javascript files.", Parameters.TargetDirectory);
+					SysConsole.ResetColor();
+					return;
+				}
+				DisplayDiscoveredSourceFiles(sourceFiles);
+
+				ParserOptions parserOptions = Parameters.ToParserOptions();
+				DisplayParserOptions(parserOptions);
+
+				var outputFiles = Combine(sourceFiles, parserOptions);
+
+				SaveOutputFiles(outputFiles);
+				DeleteComponents(outputFiles);
+			}
+			catch (Exception ex)
 			{
 				SysConsole.ForegroundColor = ConsoleColor.Red;
-				SysConsole.Error.WriteLine("Directory \"{0}\" could not be found.", Parameters.TargetDirectory);
+				SysConsole.Error.WriteLine(ex.Message);
 				SysConsole.ResetColor();
-
-				Parameters.DisplayHelpInformation = true;
-				DisplayHelpInformation();
-				return;
 			}
-			DisplayTargetDirectory(Parameters.TargetDirectory);
-
-			SourceFiles sourceFiles = GetSourceFiles(Parameters.TargetDirectory);
-			if (sourceFiles.Count == 0)
-			{
-				SysConsole.ForegroundColor = ConsoleColor.Red;
-				SysConsole.Error.WriteLine("Directory \"{0}\" does not contain any javascript files.", Parameters.TargetDirectory);
-				SysConsole.ResetColor();
-				return;
-			}
-			DisplayDiscoveredSourceFiles(sourceFiles);
-
-			ParserOptions parserOptions = Parameters.ToParserOptions();
-			DisplayParserOptions(parserOptions);
-
-			var outputFiles = Combine(sourceFiles, parserOptions);
-
-			SaveOutputFiles(outputFiles);
-			DeleteComponents(outputFiles);
 		}
 
 		private void SaveOutputFiles(IEnumerable<SourceFile> outputFiles)

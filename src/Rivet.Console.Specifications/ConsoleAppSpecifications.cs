@@ -284,6 +284,29 @@ namespace Rivet.Console.Specifications
 		}
 
 		[Specification]
+		public void MissingFileReferenceParsingSpecifications()
+		{
+			ConsoleApp consoleApp = null;
+			"Given new ConsoleApp".Context(() => consoleApp = new ConsoleApp());
+
+			"when Execute is invoked with with source file that is referencing a file that does not exist, message \"Unable to combine. Source file \"<path-to-missing-file>\" referenced by \"<path-to-parent-file>\" could not be found.\" is written to console"
+				.Assert(() =>
+				        	{
+				        		using (var session = new ConsoleSession())
+				        		{
+				        			using (var tempDirectory = new TempDirectory())
+				        			{
+				        				tempDirectory.CreateFile("main.js", @"@rivet 
+																			includes.push(""include.js"");");
+
+				        				consoleApp.Execute(tempDirectory.Path);
+				        				session.StandardError.ShouldContain("Unable to combine. Source file \"include.js\" referenced by \"main.js\" could not be found.");
+				        			}
+				        		}
+				        	});
+		}
+
+		[Specification]
 		public void CombiningSpecifications()
 		{
 			// NOTE: this is a good candidate for refactoring. I need to implement some sort of API in xUnit.Specifications to simplify filesystem testing
