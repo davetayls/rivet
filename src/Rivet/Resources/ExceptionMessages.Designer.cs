@@ -79,6 +79,15 @@ namespace Rivet.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to combine. Source file &quot;{0}&quot; referenced by &quot;{1}&quot; could not be found..
+        /// </summary>
+        internal static string InvalidOperationException__UnableToCombine_ReferenceNotFound {
+            get {
+                return ResourceManager.GetString("InvalidOperationException__UnableToCombine_ReferenceNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to combine. Source file contains an empty body..
         /// </summary>
         internal static string InvalidOperationException__UnableToCombine_SourceFileContainsEmptyBody {

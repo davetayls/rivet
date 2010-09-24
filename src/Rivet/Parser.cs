@@ -77,6 +77,8 @@ namespace Rivet
 						outputFile.Body += _preProcessors.Aggregate(include.Body, (current, preProcessor) => preProcessor.Process(current, parserOptions));
 						outputFile.AddComponent(include);
 					}
+					else
+						throw new InvalidOperationException(string.Format(ExceptionMessages.InvalidOperationException__UnableToCombine_ReferenceNotFound, reference, markedFile.Identity));
 				}
 
 				outputFiles.Add(outputFile);

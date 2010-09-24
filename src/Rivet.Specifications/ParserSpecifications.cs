@@ -55,6 +55,12 @@ namespace Rivet.Specifications
 				                                         		var sourceFiles = new SourceFiles {new SourceFile("filename.js", "NO_TOKEN")};
 				                                         		parser.ParseSourceFiles(sourceFiles, ParserOptions.Default);
 				                                         	});
+			"ParseSourceFiles throws InvalidOperationException when invoked with source files referencing a file that does not exist"
+				.AssertThrows<InvalidOperationException>(() =>
+				                                         	{
+																var sourceFiles = new SourceFiles { new SourceFile("filename.js", "@rivet includes.push(\"include.js\");") };
+				                                         		parser.ParseSourceFiles(sourceFiles, ParserOptions.Default);
+				                                         	});
 		}
 
 		[Specification]
