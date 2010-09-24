@@ -52,7 +52,7 @@ namespace Rivet
 			if (sourceFiles.Count(sourceFile => sourceFile.Identity.Trim().Length == 0) > 0)
 				throw new InvalidOperationException(ExceptionMessages.InvalidOperationException__UnableToCombine_SourceFileContainsEmptyFileName);
 
-			if (sourceFiles.Count(sourceFile => sourceFile.Body.Contains(m_rivetToken)) == 0)
+			if (sourceFiles.Count(IsRivetFile) == 0)
 				throw new InvalidOperationException(ExceptionMessages.InvalidOperationException__UnableToCombine_NoSourceFilesContainRivetToken);
 
 			return ParseSourceFilesInternal(sourceFiles, parserOptions);
@@ -60,7 +60,7 @@ namespace Rivet
 
 		private SourceFiles ParseSourceFilesInternal(IEnumerable<SourceFile> sourceFiles, ParserOptions parserOptions)
 		{
-			IEnumerable<SourceFile> markedFiles = sourceFiles.Where(sourceFile => sourceFile.Body.Contains(m_rivetToken));
+			IEnumerable<SourceFile> markedFiles = sourceFiles.Where(IsRivetFile);
 			var outputFiles = new SourceFiles();
 
 			foreach (var markedFile in markedFiles)
@@ -82,7 +82,7 @@ namespace Rivet
 
 				if (include != null)
 				{
-					if (include.Body.Contains(m_rivetToken))
+					if (IsRivetFile(include))
 					{
 						outputFile.Body += ParseSourceFile(include, sourceFiles, parserOptions).Body;
 					}
@@ -98,6 +98,11 @@ namespace Rivet
 			}
 
 			return outputFile;
+		}
+
+		private static bool IsRivetFile(SourceFile sourceFile)
+		{
+			return sourceFile.Body.Contains(m_rivetToken);
 		}
 	}
 }
