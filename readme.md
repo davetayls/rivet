@@ -1,5 +1,5 @@
 # Rivet #
-**Originally Juxtapo Combiner...we are currently converting all naming over**
+**Originally Juxtapo Combiner**
 ## 1. Overview ##
 
 The amount of JavaScript in my life is rising significantly the amount of code within one project 
@@ -82,7 +82,7 @@ Build output is automatically placed into directory <strong>./_build/</strong>.
 *	Juxtapo Website: [http://juxtapo.net](http://juxtapo.net)
 *	Juxtapo docs: [http://juxtapo.net/docs](http://juxtapo.net/docs)
 *	Juxtapo twitter: [http://twitter.com/juxtapotools](http://twitter.com/juxtapotools) 
-	*use #juxtapotools to refer to this project*
+	(*use #rivet to refer to this project*)
 
 ## 5. License ##
 
