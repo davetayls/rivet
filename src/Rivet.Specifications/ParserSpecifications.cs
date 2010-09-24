@@ -58,7 +58,7 @@ namespace Rivet.Specifications
 			"ParseSourceFiles throws InvalidOperationException when invoked with source files referencing a file that does not exist"
 				.AssertThrows<InvalidOperationException>(() =>
 				                                         	{
-																var sourceFiles = new SourceFiles { new SourceFile("filename.js", "@rivet includes.push(\"include.js\");") };
+				                                         		var sourceFiles = new SourceFiles {new SourceFile("filename.js", "@rivet includes.push(\"include.js\");")};
 				                                         		parser.ParseSourceFiles(sourceFiles, ParserOptions.Default);
 				                                         	});
 		}
@@ -94,6 +94,38 @@ namespace Rivet.Specifications
 			"Identity of first component of output file is \"include.js\"".Assert(() => parserOutput.First().Components[0].Identity.ShouldEqual("include.js"));
 			"Identity of second component of output file is \"dir\\include.js\"".Assert(() => parserOutput.First().Components[1].Identity.ShouldEqual("dir\\include.js"));
 			"Identity of third component of output file is \"dir\\dir\\include.js\"".Assert(() => parserOutput.First().Components[2].Identity.ShouldEqual("dir\\dir\\include.js"));
+		}
+
+		[Specification]
+		public void ParseNestedSourceFilesSpecifications()
+		{
+			Parser parser = null;
+			"Given new Parser".Context(() => parser = new Parser());
+
+			SourceFiles parserOutput = null;
+			"when ParseSourceFiles is invoked with SourceFiles containing nested references"
+				.Do(() =>
+				    	{
+				    		var sourceFiles = new SourceFiles
+				    		                  	{
+				    		                  		new SourceFile("rivet-A.js", "@rivet includes.push(\"A.js\"); includes.push(\"rivet-B.js\");"),
+				    		                  		new SourceFile("A.js", "A"),
+				    		                  		new SourceFile("rivet-B.js", "@rivet includes.push(\"B.js\"); includes.push(\"rivet-C.js\");"),
+				    		                  		new SourceFile("B.js", "B"),
+				    		                  		new SourceFile("rivet-C.js", "@rivet includes.push(\"C1.js\"); includes.push(\"C2.js\");"),
+				    		                  		new SourceFile("C1.js", "@VARIABLE"),
+				    		                  		new SourceFile("C2.js", "C2"),
+				    		                  	};
+				    		var parserOptions = new ParserOptions();
+				    		parserOptions.AddVariable(new Variable("VARIABLE", "C1"));
+
+				    		parserOutput = parser.ParseSourceFiles(sourceFiles, parserOptions);
+				    	});
+
+			"output contains 3 SourceFile".Assert(() => parserOutput.Count.ShouldEqual(3));
+			"group A nested references are resolved".Assert(() => parserOutput[0].Body.ShouldEqual("ABC1C2"));
+			"group B nested references are resolved".Assert(() => parserOutput[1].Body.ShouldEqual("BC1C2"));
+			"group C nested references are resolved".Assert(() => parserOutput[2].Body.ShouldEqual("C1C2"));
 		}
 	}
 }
