@@ -6,7 +6,7 @@
 		<ProjectName>Rivet</ProjectName>
 		<BuildConfiguration>Release</BuildConfiguration>
 		<BuildTargets>Rebuild</BuildTargets>
-		<MajorVersion>1</MajorVersion>
+		<MajorVersion>2</MajorVersion>
 		<MinorVersion>0</MinorVersion>
 		<InformationalVersion></InformationalVersion>
 
