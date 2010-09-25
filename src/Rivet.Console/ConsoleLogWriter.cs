@@ -32,7 +32,7 @@ namespace Rivet.Console
 		public void WriteErrorMessage(string message)
 		{
 			System.Console.ForegroundColor = ConsoleColor.Red;
-			System.Console.WriteLine(message);
+			System.Console.Error.WriteLine(message);
 			System.Console.ResetColor();
 		}
 
