@@ -34,6 +34,22 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="RivetSpecifications.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Build.Framework" />
+    <Reference Include="xunit">
+      <HintPath>..\..\lib\xUnit.net 1.5\xunit.dll</HintPath>
+    </Reference>
+    <Reference Include="Xunit.Specifications">
+      <HintPath>..\..\lib\xUnit.net Specifications 1.1\Xunit.Specifications.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Rivet.MSBuild.Tasks\Rivet.MSBuild.Tasks.csproj">
+      <Project>{8453EC6A-FA58-4AA4-9845-F21023C8020D}</Project>
+      <Name>Rivet.MSBuild.Tasks %28Rivet.MSBuild.Tasks\Rivet.MSBuild.Tasks%29</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
