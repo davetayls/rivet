@@ -49,7 +49,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Rivet\Rivet.csproj">
       <Project>{E4929603-9ED2-4785-AC0D-51A9A40E0B2A}</Project>
-      <Name>Juxtapo.Combiner %28Juxtapo.Combiner\Juxtapo.Combiner%29</Name>
+      <Name>Rivet %28Rivet\Rivet%29</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
