@@ -36,7 +36,7 @@ namespace Rivet.Console.Specifications
 				"\tRivet.Console.exe D:\\website\\js -v:debug=false -v:trace=true{0}"
 				, Environment.NewLine);
 
-			"Given new Runner".Context(() => runner = new Runner(new ConsoleLogWriter()));
+			"Given new Runner".Context(() => runner = new Runner(new ConsoleLogWriter(), new ConsoleParameterParser()));
 
 			var parameters = new string[0];
 			"when Execute is invoked with no parameters".Do(() => runner.Execute(parameters));
@@ -57,7 +57,7 @@ namespace Rivet.Console.Specifications
 		public void VersionHeaderSpecifications()
 		{
 			Runner runner = null;
-			"Given new Runner".Context(() => runner = new Runner(new ConsoleLogWriter()));
+			"Given new Runner".Context(() => runner = new Runner(new ConsoleLogWriter(), new ConsoleParameterParser()));
 
 			"version and copyright information is written to console"
 				.Assert(() =>
@@ -77,7 +77,7 @@ namespace Rivet.Console.Specifications
 		public void RuntimeInfoSpecifications()
 		{
 			Runner runner = null;
-			"Given new Runner".Context(() => runner = new Runner(new ConsoleLogWriter()));
+			"Given new Runner".Context(() => runner = new Runner(new ConsoleLogWriter(), new ConsoleParameterParser()));
 
 			"when Execute is invoked, TargetDirectory path is written to console"
 				.Assert(() =>
@@ -187,7 +187,7 @@ namespace Rivet.Console.Specifications
 		public void ParameterParsingSpecifications()
 		{
 			Runner runner = null;
-			"Given new Runner".Context(() => runner = new Runner(new ConsoleLogWriter()));
+			"Given new Runner".Context(() => runner = new Runner(new ConsoleLogWriter(), new ConsoleParameterParser()));
 
 			string tempDirectoryPath = null;
 			"when Execute is invoked with parameters \"<path-to-dir> -v:debug=false -v:trace=true\""
@@ -213,7 +213,7 @@ namespace Rivet.Console.Specifications
 		public void TargetDirectoryParameterSpecifications()
 		{
 			Runner runner = null;
-			"Given new Runner".Context(() => runner = new Runner(new ConsoleLogWriter()));
+			"Given new Runner".Context(() => runner = new Runner(new ConsoleLogWriter(), new ConsoleParameterParser()));
 
 			"when Execute is invoked with target directory path that has a trailing backslash, trailing backslash is removed from TargetDirectory path"
 				.Assert(() =>
@@ -239,7 +239,7 @@ namespace Rivet.Console.Specifications
 		public void InvalidDirectoryParameterParsingSpecifications()
 		{
 			Runner runner = null;
-			"Given new Runner".Context(() => runner = new Runner(new ConsoleLogWriter()));
+			"Given new Runner".Context(() => runner = new Runner(new ConsoleLogWriter(), new ConsoleParameterParser()));
 
 			"when Execute is invoked with parameters \"NOT_A_DIRECTORY_PATH\"".Do(() => runner.Execute("NOT_A_DIRECTORY_PATH"));
 
@@ -250,7 +250,7 @@ namespace Rivet.Console.Specifications
 		public void MissingDirectoryParameterParsingSpecifications()
 		{
 			Runner runner = null;
-			"Given new Runner".Context(() => runner = new Runner(new ConsoleLogWriter()));
+			"Given new Runner".Context(() => runner = new Runner(new ConsoleLogWriter(), new ConsoleParameterParser()));
 
 			"when Execute is invoked with parameter \"X:\\not_a_real_directory\", message \"Directory X:\\not_a_real_directory could not be found.\" is written to console"
 				.Assert(() =>
@@ -267,7 +267,7 @@ namespace Rivet.Console.Specifications
 		public void EmptyDirectoryParameterParsingSpecifications()
 		{
 			Runner runner = null;
-			"Given new Runner".Context(() => runner = new Runner(new ConsoleLogWriter()));
+			"Given new Runner".Context(() => runner = new Runner(new ConsoleLogWriter(), new ConsoleParameterParser()));
 
 			"when Execute is invoked with parameter pointing to an empty directory, message \"Directory <path-to-dir> does not contain any javascript files.\" is written to console"
 				.Assert(() =>
@@ -287,7 +287,7 @@ namespace Rivet.Console.Specifications
 		public void MissingFileReferenceParsingSpecifications()
 		{
 			Runner runner = null;
-			"Given new Runner".Context(() => runner = new Runner(new ConsoleLogWriter()));
+			"Given new Runner".Context(() => runner = new Runner(new ConsoleLogWriter(), new ConsoleParameterParser()));
 
 			"when Execute is invoked with with source file that is referencing a file that does not exist, message \"Unable to combine. Source file \"<path-to-missing-file>\" referenced by \"<path-to-parent-file>\" could not be found.\" is written to console"
 				.Assert(() =>
@@ -311,7 +311,7 @@ namespace Rivet.Console.Specifications
 		{
 			// NOTE: this is a good candidate for refactoring. I need to implement some sort of API in xUnit.Specifications to simplify filesystem testing
 			Runner runner = null;
-			"Given new Runner".Context(() => runner = new Runner(new ConsoleLogWriter()));
+			"Given new Runner".Context(() => runner = new Runner(new ConsoleLogWriter(), new ConsoleParameterParser()));
 
 			"when Execute is invoked with parameters \"<path-to-dir> -v:debug=false -v:trace=true\", javascript files in the target directory are combined"
 				.Assert(() =>

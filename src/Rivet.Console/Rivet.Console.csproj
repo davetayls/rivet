@@ -42,6 +42,7 @@
     </Compile>
     <Compile Include="ConsoleLogWriter.cs" />
     <Compile Include="ILogWriter.cs" />
+    <Compile Include="IParameterParser.cs" />
     <Compile Include="Runner.cs" />
     <Compile Include="ConsoleParameterParser.cs" />
     <Compile Include="RivetParameters.cs" />

@@ -23,14 +23,14 @@ namespace Rivet.Console
 			_variables = new List<Variable>();
 		}
 
-		public bool DisplayHelpInformation { get; internal set; }
+		public bool DisplayHelpInformation { get; set; }
 
 		public ReadOnlyCollection<Variable> Variables
 		{
 			get { return new ReadOnlyCollection<Variable>(_variables); }
 		}
 
-		public string TargetDirectory { get; internal set; }
+		public string TargetDirectory { get; set; }
 
 		public void AddVariable(string key, string value)
 		{

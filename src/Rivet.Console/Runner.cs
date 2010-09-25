@@ -20,10 +20,12 @@ namespace Rivet.Console
 	public sealed class Runner
 	{
 		private readonly ILogWriter _logWriter;
+		private readonly IParameterParser _parameterParser;
 
-		public Runner(ILogWriter logWriter)
+		public Runner(ILogWriter logWriter, IParameterParser parameterParser)
 		{
 			_logWriter = logWriter;
+			_parameterParser = parameterParser;
 		}
 
 		public RivetParameters Parameters { get; private set; }
@@ -34,7 +36,7 @@ namespace Rivet.Console
 			{
 				DisplayVersionAndCopyrightInformation();
 
-				Parameters = ConsoleParameterParser.Parse(args);
+				Parameters = _parameterParser.Parse(args);
 
 				if (Parameters.DisplayHelpInformation)
 				{

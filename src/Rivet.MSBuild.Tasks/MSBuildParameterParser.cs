@@ -14,21 +14,22 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Rivet.Console;
 
-namespace Rivet.Console
+namespace Rivet.MSBuild.Tasks
 {
-	public sealed class ConsoleParameterParser : IParameterParser
+	public sealed class MSBuildParameterParser : IParameterParser
 	{
 		private static readonly Regex TargetDirectoryScanExpression;
 		private static readonly Regex VariableScanExpression;
 
-		static ConsoleParameterParser()
+		static MSBuildParameterParser()
 		{
 			// should match "C:\temp"
 			// should match "\\PC\c$\temp"
 			TargetDirectoryScanExpression = new Regex(
 				@"^" +			// beginning of string
-				@"([A-Za-z]:" +	// "[drive_letter]:"
+				@"([A-Za-z]:" + // "[drive_letter]:"
 				@"|" +			// or
 				@"\\\\.+)" +	// \\UNC_ROOT
 				@"(\\(.+))*" +	// on or more "/subdirectory"
@@ -37,12 +38,13 @@ namespace Rivet.Console
 
 			// should match "-v:debug=true"
 			VariableScanExpression = new Regex(
-				@"-v:" +		// -v:
 				@"(?'key'.*)" + // match "key"
 				@"=" +			// =
 				@"(?'value'.*)" // match "value"
 				, RegexOptions.Singleline | RegexOptions.Compiled);
 		}
+
+		#region IParameterParser Members
 
 		public RivetParameters Parse(IEnumerable<string> args)
 		{
@@ -56,6 +58,18 @@ namespace Rivet.Console
 			}
 
 			// extract target directory
+			ExtractTargetDirectory(targetDirectoryArgument, parameters);
+
+			foreach (var arg in args)
+				ExtractVariables(arg, parameters);
+
+			return parameters;
+		}
+
+		#endregion
+
+		private static void ExtractTargetDirectory(string targetDirectoryArgument, RivetParameters parameters)
+		{
 			var targetDirectoryMatch = TargetDirectoryScanExpression.Match(targetDirectoryArgument);
 			if (targetDirectoryMatch.Success)
 			{
@@ -66,18 +80,18 @@ namespace Rivet.Console
 				// not an absolute path, treat as relative path
 				parameters.TargetDirectory = Path.Combine(Environment.CurrentDirectory, targetDirectoryArgument.TrimEnd('\\'));
 			}
+		}
 
-			// extract variables
-			foreach (var arg in args)
+		private static void ExtractVariables(string arg, RivetParameters parameters)
+		{
+			foreach (var component in arg.Split(new[] {";"}, StringSplitOptions.RemoveEmptyEntries))
 			{
-				var matches = VariableScanExpression.Matches(arg);
+				var matches = VariableScanExpression.Matches(component);
 				if (matches.Count == 1)
 				{
 					parameters.AddVariable(matches[0].Groups["key"].Value, matches[0].Groups["value"].Value);
 				}
 			}
-
-			return parameters;
 		}
 	}
 }

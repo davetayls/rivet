@@ -1,4 +1,4 @@
-// #######################################################
+﻿// #######################################################
 // 
 // # Copyright (C) 2010, Dave Taylor and Arnold Zokas
 // 
@@ -9,32 +9,12 @@
 // # You must not remove this notice, or any other, from this software.
 // 
 // #######################################################
-using Microsoft.Build.Framework;
-using Rivet.Console;
+using System.Collections.Generic;
 
-namespace Rivet.MSBuild.Tasks
+namespace Rivet.Console
 {
-	public sealed class Rivet : ITask
+	public interface IParameterParser
 	{
-		[Required]
-		public string TargetDirectory { get; set; }
-
-		public string Variables { private get; set; }
-
-		#region ITask Members
-
-		public IBuildEngine BuildEngine { get; set; }
-
-		public ITaskHost HostObject { get; set; }
-
-		public bool Execute()
-		{
-			var runner = new Runner(new MSBuildLogWriter(BuildEngine), new MSBuildParameterParser());
-			runner.Execute(new[] {TargetDirectory, Variables});
-			
-			return true;
-		}
-
-		#endregion
+		RivetParameters Parse(IEnumerable<string> parameters);
 	}
 }

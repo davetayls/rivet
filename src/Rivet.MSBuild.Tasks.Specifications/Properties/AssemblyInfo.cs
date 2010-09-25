@@ -9,24 +9,3 @@
 // # You must not remove this notice, or any other, from this software.
 // 
 // #######################################################
-namespace Rivet.Console
-{
-	// ReSharper disable ClassNeverInstantiated.Global
-	public sealed class Program
-	{
-		private static Runner _runner;
-
-		public static RivetParameters Parameters
-		{
-			get { return _runner.Parameters; }
-		}
-
-		public static void Main(string[] args)
-		{
-			_runner = new Runner(new ConsoleLogWriter(), new ConsoleParameterParser());
-			_runner.Execute(args);
-		}
-	}
-
-	// ReSharper restore ClassNeverInstantiated.Global
-}
