@@ -1,5 +1,6 @@
  v2.0 (???)
   - Implemented support for nested Rivet files
+  - Implemented MSBuild task
   - Improved exception handling in Rivet console app
   - Improved error reporting in Rivet core
  
