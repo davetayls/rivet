@@ -14,17 +14,17 @@ namespace Rivet.Console
 	// ReSharper disable ClassNeverInstantiated.Global
 	public sealed class Program
 	{
-		private static ConsoleApp _consoleApp;
+		private static Runner _runner;
 
-		public static ConsoleParameters Parameters
+		public static RivetParameters Parameters
 		{
-			get { return _consoleApp.Parameters; }
+			get { return _runner.Parameters; }
 		}
 
 		public static void Main(string[] args)
 		{
-			_consoleApp = new ConsoleApp();
-			_consoleApp.Execute(args);
+			_runner = new Runner(new ConsoleLogWriter());
+			_runner.Execute(args);
 		}
 	}
 

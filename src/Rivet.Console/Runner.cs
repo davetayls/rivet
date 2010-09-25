@@ -14,13 +14,19 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using SysConsole = System.Console;
 
 namespace Rivet.Console
 {
-	public sealed class ConsoleApp
+	public sealed class Runner
 	{
-		public ConsoleParameters Parameters { get; private set; }
+		private readonly ILogWriter _logWriter;
+
+		public Runner(ILogWriter logWriter)
+		{
+			_logWriter = logWriter;
+		}
+
+		public RivetParameters Parameters { get; private set; }
 
 		public void Execute(params string[] args)
 		{
@@ -38,9 +44,7 @@ namespace Rivet.Console
 
 				if (!Directory.Exists(Parameters.TargetDirectory))
 				{
-					SysConsole.ForegroundColor = ConsoleColor.Red;
-					SysConsole.Error.WriteLine("Directory \"{0}\" could not be found.", Parameters.TargetDirectory);
-					SysConsole.ResetColor();
+					_logWriter.WriteErrorMessage(string.Format("Directory \"{0}\" could not be found.", Parameters.TargetDirectory));
 
 					Parameters.DisplayHelpInformation = true;
 					DisplayHelpInformation();
@@ -51,9 +55,7 @@ namespace Rivet.Console
 				SourceFiles sourceFiles = GetSourceFiles(Parameters.TargetDirectory);
 				if (sourceFiles.Count == 0)
 				{
-					SysConsole.ForegroundColor = ConsoleColor.Red;
-					SysConsole.Error.WriteLine("Directory \"{0}\" does not contain any javascript files.", Parameters.TargetDirectory);
-					SysConsole.ResetColor();
+					_logWriter.WriteErrorMessage(string.Format("Directory \"{0}\" does not contain any javascript files.", Parameters.TargetDirectory));
 					return;
 				}
 				DisplayDiscoveredSourceFiles(sourceFiles);
@@ -68,9 +70,7 @@ namespace Rivet.Console
 			}
 			catch (Exception ex)
 			{
-				SysConsole.ForegroundColor = ConsoleColor.Red;
-				SysConsole.Error.WriteLine(ex.Message);
-				SysConsole.ResetColor();
+				_logWriter.WriteErrorMessage(ex.Message);
 			}
 		}
 
@@ -106,8 +106,8 @@ namespace Rivet.Console
 
 		private void DeleteComponents(IEnumerable<SourceFile> outputFiles)
 		{
-			SysConsole.WriteLine();
-			SysConsole.WriteLine("Deleting components:");
+			_logWriter.WriteMessage(string.Empty);
+			_logWriter.WriteMessage("Deleting components:");
 
 			foreach (var outputFile in outputFiles)
 			{
@@ -118,7 +118,7 @@ namespace Rivet.Console
 					if (File.Exists(componentPath))
 					{
 						File.Delete(componentPath);
-						SysConsole.WriteLine("\t- {0}", component.Identity);
+						_logWriter.WriteMessage(string.Format("\t- {0}", component.Identity));
 					}
 				}
 
@@ -127,7 +127,7 @@ namespace Rivet.Console
 			}
 		}
 
-		private static void DeleteSubDirectories(string targetDirectory)
+		private void DeleteSubDirectories(string targetDirectory)
 		{
 			const string fileSearchPattern = "*";
 			var subDirectories = Directory.GetDirectories(targetDirectory);
@@ -139,75 +139,73 @@ namespace Rivet.Console
 				else
 				{
 					Directory.Delete(subDirectory, recursive: true);
-					SysConsole.WriteLine();
-					SysConsole.WriteLine("Deleted empty subdirectory \"{0}\"", subDirectory);
+					_logWriter.WriteMessage(string.Empty);
+					_logWriter.WriteMessage(string.Format("Deleted empty subdirectory \"{0}\"", subDirectory));
 				}
 			}
 		}
 
-		private static void DisplayVersionAndCopyrightInformation()
+		private void DisplayVersionAndCopyrightInformation()
 		{
 			var rivetAssembly = Assembly.GetAssembly(typeof (Parser));
 			var version = rivetAssembly.GetName().Version;
-			var copyright = (rivetAssembly.GetCustomAttributes(typeof (AssemblyCopyrightAttribute), inherit: false).First() as AssemblyCopyrightAttribute).Copyright;
+			var copyright = ((AssemblyCopyrightAttribute)rivetAssembly.GetCustomAttributes(typeof (AssemblyCopyrightAttribute), inherit: false).First()).Copyright;
 
-			SysConsole.WriteLine();
-			SysConsole.ForegroundColor = ConsoleColor.DarkCyan;
-			SysConsole.WriteLine("Rivet v{0}.{1}", version.Major, version.Minor);
-			SysConsole.WriteLine(copyright);
-			SysConsole.ResetColor();
+			_logWriter.WriteMessage(string.Empty);
+			_logWriter.WriteImportantMessage(string.Format("Rivet v{0}.{1}", version.Major, version.Minor));
+			_logWriter.WriteImportantMessage(copyright);
 		}
 
-		private static void DisplayHelpInformation()
+		private void DisplayHelpInformation()
 		{
-			SysConsole.WriteLine();
-			SysConsole.WriteLine("Usage: Rivet.Console.exe [/help] <path> [options]");
-			SysConsole.WriteLine();
-			SysConsole.WriteLine("\t/help\tShows this help information");
-			SysConsole.WriteLine("\t<path>\tPath to directory containing javascript files");
-			SysConsole.WriteLine();
-			SysConsole.WriteLine("Options:");
-			SysConsole.WriteLine("\t-v:name=value\tReplaces token [name] with [value] in processed files.");
-			SysConsole.WriteLine("\t\t\tThis can be specified multiple times to replace");
-			SysConsole.WriteLine("\t\t\tmultiple tokens.");
-			SysConsole.WriteLine();
-			SysConsole.WriteLine("Example:");
-			SysConsole.WriteLine();
-			SysConsole.WriteLine("\tRivet.Console.exe D:\\website\\js -v:debug=false -v:trace=true");
+			_logWriter.WriteMessage(string.Empty);
+			_logWriter.WriteMessage("Usage: Rivet.Console.exe [/help] <path> [options]");
+			_logWriter.WriteMessage(string.Empty);
+			_logWriter.WriteMessage("\t/help\tShows this help information");
+			_logWriter.WriteMessage("\t<path>\tPath to directory containing javascript files");
+			_logWriter.WriteMessage(string.Empty);
+			_logWriter.WriteMessage("Options:");
+			_logWriter.WriteMessage("\t-v:name=value\tReplaces token [name] with [value] in processed files.");
+			_logWriter.WriteMessage("\t\t\tThis can be specified multiple times to replace");
+			_logWriter.WriteMessage("\t\t\tmultiple tokens.");
+			_logWriter.WriteMessage(string.Empty);
+			_logWriter.WriteMessage("Example:");
+			_logWriter.WriteMessage(string.Empty);
+			_logWriter.WriteMessage("\tRivet.Console.exe D:\\website\\js -v:debug=false -v:trace=true");
 		}
 
-		private static void DisplayTargetDirectory(string targetDirectory)
+		private void DisplayTargetDirectory(string targetDirectory)
 		{
-			SysConsole.WriteLine();
-			SysConsole.WriteLine(string.Format("Target directory: {0}", targetDirectory));
+			_logWriter.WriteMessage(string.Empty);
+			_logWriter.WriteMessage(string.Format("Target directory: {0}", targetDirectory));
 		}
 
-		private static void DisplayDiscoveredSourceFiles(SourceFiles sourceFiles)
+		private void DisplayDiscoveredSourceFiles(SourceFiles sourceFiles)
 		{
-			SysConsole.WriteLine();
-			SysConsole.WriteLine("Discovered {0} javascript file(s):", sourceFiles.Count);
+			_logWriter.WriteMessage(string.Empty);
+			_logWriter.WriteMessage(string.Format("Discovered {0} javascript file(s):", sourceFiles.Count));
+
 			foreach (var sourceFile in sourceFiles)
 			{
-				SysConsole.WriteLine("\t- {0}", sourceFile.Identity);
+				_logWriter.WriteMessage(string.Format("\t- {0}", sourceFile.Identity));
 			}
 		}
 
-		private static void DisplayParserOptions(ParserOptions parserOptions)
+		private void DisplayParserOptions(ParserOptions parserOptions)
 		{
-			SysConsole.WriteLine();
-			SysConsole.WriteLine("Variables:");
+			_logWriter.WriteMessage(string.Empty);
+			_logWriter.WriteMessage("Variables:");
+
 			foreach (var variable in parserOptions.Variables)
 			{
-				SysConsole.WriteLine("\t- {0}={1}", variable.Key, variable.Value);
+				_logWriter.WriteMessage(string.Format("\t- {0}={1}", variable.Key, variable.Value));
 			}
 		}
 
-		private static void DisplaySavedOutputFilePath(string path)
+		private void DisplaySavedOutputFilePath(string path)
 		{
-			SysConsole.WriteLine();
-			SysConsole.ForegroundColor = ConsoleColor.DarkGreen;
-			SysConsole.WriteLine("Saved combined file: {0}", path);
-			SysConsole.ResetColor();
+			_logWriter.WriteMessage(string.Empty);
+			_logWriter.WriteMessage(string.Format("Saved combined file: {0}", path));
 		}
 	}
 }

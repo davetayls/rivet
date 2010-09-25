@@ -18,12 +18,12 @@ using SysConsole = System.Console;
 
 namespace Rivet.Console.Specifications
 {
-	public class ConsoleAppSpecifications
+	public class RunnerSpecifications
 	{
 		[Specification]
 		public void HelpSpecifications()
 		{
-			ConsoleApp consoleApp = null;
+			Runner runner = null;
 			var expectedOutput = string.Format(
 				"{0}Usage: Rivet.Console.exe [/help] <path> [options]{0}{0}" +
 				"\t/help\tShows this help information{0}" +
@@ -36,18 +36,18 @@ namespace Rivet.Console.Specifications
 				"\tRivet.Console.exe D:\\website\\js -v:debug=false -v:trace=true{0}"
 				, Environment.NewLine);
 
-			"Given new ConsoleApp".Context(() => consoleApp = new ConsoleApp());
+			"Given new Runner".Context(() => runner = new Runner(new ConsoleLogWriter()));
 
 			var parameters = new string[0];
-			"when Execute is invoked with no parameters".Do(() => consoleApp.Execute(parameters));
+			"when Execute is invoked with no parameters".Do(() => runner.Execute(parameters));
 
-			"DisplayHelpInformation parameter is set to true".Assert(() => consoleApp.Parameters.DisplayHelpInformation.ShouldBeTrue());
+			"DisplayHelpInformation parameter is set to true".Assert(() => runner.Parameters.DisplayHelpInformation.ShouldBeTrue());
 			"help information is written to console"
 				.Assert(() =>
 				        	{
 				        		using (var session = new ConsoleSession())
 				        		{
-				        			consoleApp.Execute(parameters);
+				        			runner.Execute(parameters);
 				        			session.StandardOutput.ShouldContain(expectedOutput);
 				        		}
 				        	});
@@ -56,8 +56,8 @@ namespace Rivet.Console.Specifications
 		[Specification]
 		public void VersionHeaderSpecifications()
 		{
-			ConsoleApp consoleApp = null;
-			"Given new ConsoleApp".Context(() => consoleApp = new ConsoleApp());
+			Runner runner = null;
+			"Given new Runner".Context(() => runner = new Runner(new ConsoleLogWriter()));
 
 			"version and copyright information is written to console"
 				.Assert(() =>
@@ -67,7 +67,7 @@ namespace Rivet.Console.Specifications
 
 				        		using (var session = new ConsoleSession())
 				        		{
-				        			consoleApp.Execute(new string[0]);
+				        			runner.Execute(new string[0]);
 				        			session.StandardOutput.ShouldContain(expectedText);
 				        		}
 				        	});
@@ -76,8 +76,8 @@ namespace Rivet.Console.Specifications
 		[Specification]
 		public void RuntimeInfoSpecifications()
 		{
-			ConsoleApp consoleApp = null;
-			"Given new ConsoleApp".Context(() => consoleApp = new ConsoleApp());
+			Runner runner = null;
+			"Given new Runner".Context(() => runner = new Runner(new ConsoleLogWriter()));
 
 			"when Execute is invoked, TargetDirectory path is written to console"
 				.Assert(() =>
@@ -88,7 +88,7 @@ namespace Rivet.Console.Specifications
 				        			{
 				        				tempDirectory.CreateFile("main.js", "@rivet");
 
-				        				consoleApp.Execute(tempDirectory.Path);
+				        				runner.Execute(tempDirectory.Path);
 
 				        				var expectedText = string.Format("\r\nTarget directory: {0}\r\n", tempDirectory.Path);
 				        				session.StandardOutput.ShouldContain(expectedText);
@@ -106,7 +106,7 @@ namespace Rivet.Console.Specifications
 				        				tempDirectory.CreateDirectory("dir");
 				        				tempDirectory.CreateFile("dir\\include.js", "TEST");
 
-				        				consoleApp.Execute(tempDirectory.Path);
+				        				runner.Execute(tempDirectory.Path);
 
 				        				const string expectedText = "Discovered 2 javascript file(s):\r\n\t- main.js\r\n\t- dir\\include.js\r\n";
 				        				session.StandardOutput.ShouldContain(expectedText);
@@ -122,7 +122,7 @@ namespace Rivet.Console.Specifications
 				        			{
 				        				tempDirectory.CreateFile("main.js", "@rivet");
 
-				        				consoleApp.Execute(tempDirectory.Path, "-v:debug=false", "-v:trace=true");
+				        				runner.Execute(tempDirectory.Path, "-v:debug=false", "-v:trace=true");
 
 				        				const string expectedText = "Variables:\r\n\t- debug=false\r\n\t- trace=true";
 				        				session.StandardOutput.ShouldContain(expectedText);
@@ -138,7 +138,7 @@ namespace Rivet.Console.Specifications
 				        			{
 				        				tempDirectory.CreateFile("main.js", "@rivet");
 
-				        				consoleApp.Execute(tempDirectory.Path);
+				        				runner.Execute(tempDirectory.Path);
 
 				        				var expectedText = string.Format("\r\nSaved combined file: {0}\r\n", Path.Combine(tempDirectory.Path, "main.js"));
 				        				session.StandardOutput.ShouldContain(expectedText);
@@ -156,7 +156,7 @@ namespace Rivet.Console.Specifications
 				        				tempDirectory.CreateDirectory("dir");
 				        				tempDirectory.CreateFile("dir\\include.js", "TEST");
 
-				        				consoleApp.Execute(tempDirectory.Path);
+				        				runner.Execute(tempDirectory.Path);
 
 				        				var expectedText = string.Format("\r\nDeleting components:\r\n\t- dir\\include.js");
 				        				session.StandardOutput.ShouldContain(expectedText);
@@ -174,7 +174,7 @@ namespace Rivet.Console.Specifications
 				        				tempDirectory.CreateDirectory("dir");
 				        				tempDirectory.CreateDirectory("dir2");
 
-				        				consoleApp.Execute(tempDirectory.Path);
+				        				runner.Execute(tempDirectory.Path);
 
 				        				var expectedText = string.Format("\r\nDeleted empty subdirectory \"{0}\\dir\"\r\n\r\nDeleted empty subdirectory \"{0}\\dir2\"\r\n", tempDirectory.Path);
 				        				session.StandardOutput.ShouldContain(expectedText);
@@ -186,8 +186,8 @@ namespace Rivet.Console.Specifications
 		[Specification]
 		public void ParameterParsingSpecifications()
 		{
-			ConsoleApp consoleApp = null;
-			"Given new ConsoleApp".Context(() => consoleApp = new ConsoleApp());
+			Runner runner = null;
+			"Given new Runner".Context(() => runner = new Runner(new ConsoleLogWriter()));
 
 			string tempDirectoryPath = null;
 			"when Execute is invoked with parameters \"<path-to-dir> -v:debug=false -v:trace=true\""
@@ -195,69 +195,69 @@ namespace Rivet.Console.Specifications
 				    	{
 				    		using (var tempDirectory = new TempDirectory())
 				    		{
-				    			consoleApp.Execute(new[] {tempDirectory.Path, "-v:debug=false", "-v:trace=true"});
+				    			runner.Execute(new[] {tempDirectory.Path, "-v:debug=false", "-v:trace=true"});
 				    			tempDirectoryPath = tempDirectory.Path;
 				    		}
 				    	});
 
-			"Parameters contain 2 variables".Assert(() => consoleApp.Parameters.Variables.Count.ShouldEqual(2));
-			"key of first variable in Parameters is \"debug\"".Assert(() => consoleApp.Parameters.Variables[0].Key.ShouldEqual("debug"));
-			"value of first variable in Parameters is \"false\"".Assert(() => consoleApp.Parameters.Variables[0].Value.ShouldEqual("false"));
-			"key of second variable in Parameters is \"trace\"".Assert(() => consoleApp.Parameters.Variables[1].Key.ShouldEqual("trace"));
-			"value of second variable in Parameters is \"true\"".Assert(() => consoleApp.Parameters.Variables[1].Value.ShouldEqual("true"));
-			"DisplayHelpInformation parameter is set to \"false\"".Assert(() => consoleApp.Parameters.DisplayHelpInformation.ShouldBeFalse());
-			"TargetDirectory parameter is set to \"{0}\"".FormatWith(tempDirectoryPath).Assert(() => consoleApp.Parameters.TargetDirectory.ShouldEqual(tempDirectoryPath));
+			"Parameters contain 2 variables".Assert(() => runner.Parameters.Variables.Count.ShouldEqual(2));
+			"key of first variable in Parameters is \"debug\"".Assert(() => runner.Parameters.Variables[0].Key.ShouldEqual("debug"));
+			"value of first variable in Parameters is \"false\"".Assert(() => runner.Parameters.Variables[0].Value.ShouldEqual("false"));
+			"key of second variable in Parameters is \"trace\"".Assert(() => runner.Parameters.Variables[1].Key.ShouldEqual("trace"));
+			"value of second variable in Parameters is \"true\"".Assert(() => runner.Parameters.Variables[1].Value.ShouldEqual("true"));
+			"DisplayHelpInformation parameter is set to \"false\"".Assert(() => runner.Parameters.DisplayHelpInformation.ShouldBeFalse());
+			"TargetDirectory parameter is set to \"{0}\"".FormatWith(tempDirectoryPath).Assert(() => runner.Parameters.TargetDirectory.ShouldEqual(tempDirectoryPath));
 		}
 
 		[Specification]
 		public void TargetDirectoryParameterSpecifications()
 		{
-			ConsoleApp consoleApp = null;
-			"Given new ConsoleApp".Context(() => consoleApp = new ConsoleApp());
+			Runner runner = null;
+			"Given new Runner".Context(() => runner = new Runner(new ConsoleLogWriter()));
 
 			"when Execute is invoked with target directory path that has a trailing backslash, trailing backslash is removed from TargetDirectory path"
 				.Assert(() =>
 				        	{
 				        		using (var tempDirectory = new TempDirectory())
 				        		{
-				        			consoleApp.Execute(new[] {tempDirectory.Path + "\\"});
+				        			runner.Execute(new[] {tempDirectory.Path + "\\"});
 
-				        			consoleApp.Parameters.TargetDirectory.ShouldEqual(tempDirectory.Path);
+				        			runner.Parameters.TargetDirectory.ShouldEqual(tempDirectory.Path);
 				        		}
 				        	});
 
 			"when Execute is invoked with a relative target directory path, TargetDirectory uses working directory as base path"
 				.Assert(() =>
 				        	{
-				        		consoleApp.Execute(new[] {"relative_path\\"});
+				        		runner.Execute(new[] {"relative_path\\"});
 
-				        		consoleApp.Parameters.TargetDirectory.ShouldEqual(Path.Combine(Environment.CurrentDirectory, "relative_path"));
+				        		runner.Parameters.TargetDirectory.ShouldEqual(Path.Combine(Environment.CurrentDirectory, "relative_path"));
 				        	});
 		}
 
 		[Specification]
 		public void InvalidDirectoryParameterParsingSpecifications()
 		{
-			ConsoleApp consoleApp = null;
-			"Given new ConsoleApp".Context(() => consoleApp = new ConsoleApp());
+			Runner runner = null;
+			"Given new Runner".Context(() => runner = new Runner(new ConsoleLogWriter()));
 
-			"when Execute is invoked with parameters \"NOT_A_DIRECTORY_PATH\"".Do(() => consoleApp.Execute("NOT_A_DIRECTORY_PATH"));
+			"when Execute is invoked with parameters \"NOT_A_DIRECTORY_PATH\"".Do(() => runner.Execute("NOT_A_DIRECTORY_PATH"));
 
-			"DisplayHelpInformation parameter is set to \"true\"".Assert(() => consoleApp.Parameters.DisplayHelpInformation.ShouldBeTrue());
+			"DisplayHelpInformation parameter is set to \"true\"".Assert(() => runner.Parameters.DisplayHelpInformation.ShouldBeTrue());
 		}
 
 		[Specification]
 		public void MissingDirectoryParameterParsingSpecifications()
 		{
-			ConsoleApp consoleApp = null;
-			"Given new ConsoleApp".Context(() => consoleApp = new ConsoleApp());
+			Runner runner = null;
+			"Given new Runner".Context(() => runner = new Runner(new ConsoleLogWriter()));
 
 			"when Execute is invoked with parameter \"X:\\not_a_real_directory\", message \"Directory X:\\not_a_real_directory could not be found.\" is written to console"
 				.Assert(() =>
 				        	{
 				        		using (var session = new ConsoleSession())
 				        		{
-				        			consoleApp.Execute("X:\\not_a_real_directory");
+				        			runner.Execute("X:\\not_a_real_directory");
 				        			session.StandardError.ShouldContain("Directory \"X:\\not_a_real_directory\" could not be found.");
 				        		}
 				        	});
@@ -266,8 +266,8 @@ namespace Rivet.Console.Specifications
 		[Specification]
 		public void EmptyDirectoryParameterParsingSpecifications()
 		{
-			ConsoleApp consoleApp = null;
-			"Given new ConsoleApp".Context(() => consoleApp = new ConsoleApp());
+			Runner runner = null;
+			"Given new Runner".Context(() => runner = new Runner(new ConsoleLogWriter()));
 
 			"when Execute is invoked with parameter pointing to an empty directory, message \"Directory <path-to-dir> does not contain any javascript files.\" is written to console"
 				.Assert(() =>
@@ -276,7 +276,7 @@ namespace Rivet.Console.Specifications
 				        		{
 				        			using (var tempDirectory = new TempDirectory())
 				        			{
-				        				consoleApp.Execute(tempDirectory.Path);
+				        				runner.Execute(tempDirectory.Path);
 				        				session.StandardError.ShouldContain(string.Format("Directory \"{0}\" does not contain any javascript files.", tempDirectory.Path));
 				        			}
 				        		}
@@ -286,8 +286,8 @@ namespace Rivet.Console.Specifications
 		[Specification]
 		public void MissingFileReferenceParsingSpecifications()
 		{
-			ConsoleApp consoleApp = null;
-			"Given new ConsoleApp".Context(() => consoleApp = new ConsoleApp());
+			Runner runner = null;
+			"Given new Runner".Context(() => runner = new Runner(new ConsoleLogWriter()));
 
 			"when Execute is invoked with with source file that is referencing a file that does not exist, message \"Unable to combine. Source file \"<path-to-missing-file>\" referenced by \"<path-to-parent-file>\" could not be found.\" is written to console"
 				.Assert(() =>
@@ -299,7 +299,7 @@ namespace Rivet.Console.Specifications
 				        				tempDirectory.CreateFile("main.js", @"@rivet 
 																			includes.push(""include.js"");");
 
-				        				consoleApp.Execute(tempDirectory.Path);
+				        				runner.Execute(tempDirectory.Path);
 				        				session.StandardError.ShouldContain("Unable to combine. Source file \"include.js\" referenced by \"main.js\" could not be found.");
 				        			}
 				        		}
@@ -310,8 +310,8 @@ namespace Rivet.Console.Specifications
 		public void CombiningSpecifications()
 		{
 			// NOTE: this is a good candidate for refactoring. I need to implement some sort of API in xUnit.Specifications to simplify filesystem testing
-			ConsoleApp consoleApp = null;
-			"Given new ConsoleApp".Context(() => consoleApp = new ConsoleApp());
+			Runner runner = null;
+			"Given new Runner".Context(() => runner = new Runner(new ConsoleLogWriter()));
 
 			"when Execute is invoked with parameters \"<path-to-dir> -v:debug=false -v:trace=true\", javascript files in the target directory are combined"
 				.Assert(() =>
@@ -373,7 +373,7 @@ namespace Rivet.Console.Specifications
 				        			tempDirectory.CreateFile("dirWithNestedComponentFilesAndStandaloneFile2\\subdir\\include.js", "var i = @VARIABLE_1;var j = @VARIABLE_2;");
 				        			tempDirectory.CreateFile("dirWithNestedComponentFilesAndStandaloneFile2\\subdir\\standalone.js", "standalone js file");
 
-				        			consoleApp.Execute(new[] {tempDirectory.Path, " -v:VARIABLE_1=false", "-v:VARIABLE_2=true"});
+				        			runner.Execute(new[] {tempDirectory.Path, " -v:VARIABLE_1=false", "-v:VARIABLE_2=true"});
 
 				        			tempDirectory.ReadFile("main.js").ShouldEqual("BEFORE\r\nAFTER\r\nBEFORE_LINEAFTER_LINE\r\nABCDvar i = false;var j = true;");
 				        			tempDirectory.ReadFile("secondary.js").ShouldEqual("ABCD");

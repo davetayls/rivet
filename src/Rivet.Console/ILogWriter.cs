@@ -9,6 +9,12 @@
 // # You must not remove this notice, or any other, from this software.
 // 
 // #######################################################
-using System.Runtime.CompilerServices;
-
-[assembly: InternalsVisibleTo("Rivet.MSBuild.Tasks.Specifications")]
+namespace Rivet.Console
+{
+	public interface ILogWriter
+	{
+		void WriteMessage(string message);
+		void WriteImportantMessage(string message);
+		void WriteErrorMessage(string message);
+	}
+}

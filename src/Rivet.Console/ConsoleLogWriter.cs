@@ -9,6 +9,33 @@
 // # You must not remove this notice, or any other, from this software.
 // 
 // #######################################################
-using System.Runtime.CompilerServices;
+using System;
 
-[assembly: InternalsVisibleTo("Rivet.MSBuild.Tasks.Specifications")]
+namespace Rivet.Console
+{
+	public sealed class ConsoleLogWriter : ILogWriter
+	{
+		#region ILogWriter Members
+
+		public void WriteMessage(string message)
+		{
+			System.Console.WriteLine(message);
+		}
+
+		public void WriteImportantMessage(string message)
+		{
+			System.Console.ForegroundColor = ConsoleColor.DarkCyan;
+			WriteMessage(message);
+			System.Console.ResetColor();
+		}
+
+		public void WriteErrorMessage(string message)
+		{
+			System.Console.ForegroundColor = ConsoleColor.Red;
+			System.Console.WriteLine(message);
+			System.Console.ResetColor();
+		}
+
+		#endregion
+	}
+}

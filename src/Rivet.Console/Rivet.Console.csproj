@@ -40,9 +40,11 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="ConsoleApp.cs" />
+    <Compile Include="ConsoleLogWriter.cs" />
+    <Compile Include="ILogWriter.cs" />
+    <Compile Include="Runner.cs" />
     <Compile Include="ConsoleParameterParser.cs" />
-    <Compile Include="ConsoleParameters.cs" />
+    <Compile Include="RivetParameters.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

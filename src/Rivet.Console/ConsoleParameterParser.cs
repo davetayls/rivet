@@ -44,9 +44,9 @@ namespace Rivet.Console
 				, RegexOptions.Singleline | RegexOptions.Compiled);
 		}
 
-		public static ConsoleParameters Parse(IEnumerable<string> args)
+		public static RivetParameters Parse(IEnumerable<string> args)
 		{
-			var parameters = new ConsoleParameters();
+			var parameters = new RivetParameters();
 
 			var targetDirectoryArgument = args.FirstOrDefault();
 			if (string.IsNullOrEmpty(targetDirectoryArgument))
@@ -67,7 +67,7 @@ namespace Rivet.Console
 				parameters.TargetDirectory = Path.Combine(Environment.CurrentDirectory, targetDirectoryArgument.TrimEnd('\\'));
 			}
 
-			// extract variables)))
+			// extract variables
 			foreach (var arg in args)
 			{
 				var matches = VariableScanExpression.Matches(arg);
