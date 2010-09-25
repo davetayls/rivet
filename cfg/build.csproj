@@ -8,7 +8,7 @@
 		<BuildTargets>Rebuild</BuildTargets>
 		<MajorVersion>2</MajorVersion>
 		<MinorVersion>0</MinorVersion>
-		<InformationalVersion></InformationalVersion>
+		<InformationalVersion>a</InformationalVersion>
 
 		<!--Directory Paths-->
 		<ProjectDirectory>$(MSBuildProjectDirectory)\..</ProjectDirectory>
@@ -36,11 +36,14 @@
 		
 		<Specifications Include="$(ProjectDirectory)\src\Rivet.Specifications\bin\$(BuildConfiguration)\Rivet.Specifications.dll" />
 		<Specifications Include="$(ProjectDirectory)\src\Rivet.Console.Specifications\bin\$(BuildConfiguration)\Rivet.Console.Specifications.dll" />
+		<Specifications Include="$(ProjectDirectory)\src\Rivet.MSBuild.Tasks.Specifications\bin\$(BuildConfiguration)\Rivet.MSBuild.Tasks.Specifications.dll" />
 		
 		<BuildArtifacts Include="$(ProjectDirectory)\src\Rivet\bin\$(BuildConfiguration)\Rivet.dll" />
 		<BuildArtifacts Include="$(ProjectDirectory)\src\Rivet\bin\$(BuildConfiguration)\Rivet.pdb" />
 		<BuildArtifacts Include="$(ProjectDirectory)\src\Rivet.Console\bin\$(BuildConfiguration)\Rivet.Console.exe" />
 		<BuildArtifacts Include="$(ProjectDirectory)\src\Rivet.Console\bin\$(BuildConfiguration)\Rivet.Console.pdb" />
+		<BuildArtifacts Include="$(ProjectDirectory)\src\Rivet.MSBuild.Tasks\bin\$(BuildConfiguration)\Rivet.MSBuild.Tasks.dll" />
+		<BuildArtifacts Include="$(ProjectDirectory)\src\Rivet.MSBuild.Tasks\bin\$(BuildConfiguration)\Rivet.MSBuild.Tasks.pdb" />
 		<BuildArtifacts Include="$(ProjectDirectory)\Rivet - GitHub.url" />
 		<BuildArtifacts Include="$(ProjectDirectory)\example-rivet.js" />
 		<BuildArtifacts Include="$(ProjectDirectory)\license.txt" />
@@ -53,6 +56,8 @@
 		<PackageContents Include="$(BuildTempDirectory)\Rivet.pdb" />
 		<PackageContents Include="$(BuildTempDirectory)\Rivet.Console.exe" />
 		<PackageContents Include="$(BuildTempDirectory)\Rivet.Console.pdb" />
+		<PackageContents Include="$(BuildTempDirectory)\Rivet.MSBuild.Tasks.dll" />
+		<PackageContents Include="$(BuildTempDirectory)\Rivet.MSBuild.Tasks.pdb" />
 		<PackageContents Include="$(BuildTempDirectory)\Rivet - GitHub.url" />
 		<PackageContents Include="$(BuildTempDirectory)\example-rivet.js" />
 		<PackageContents Include="$(BuildTempDirectory)\license.txt" />

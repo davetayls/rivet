@@ -66,7 +66,7 @@
 	</Target>
 
 	<Target Name="_GenerateDeploymentPackage" Label="Generates deployment package">
-		<Message Text="Generating deployment package [$(ProjectName).v$(AssemblyVersion).zip]" Importance="high" />
+		<Message Text="Generating deployment package [$(ProjectName).v$(AssemblyInformationalVersion).zip]" Importance="high" />
 		
 		<Zip Files="@(PackageContents)" WorkingDirectory="$(BuildTempDirectory)" ZipFileName="$(PackageOutputDirectory)\$(ProjectName) v$(AssemblyInformationalVersion).zip" ZipLevel="9" />
 	</Target>
