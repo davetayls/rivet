@@ -8,7 +8,7 @@
 		<BuildTargets>Rebuild</BuildTargets>
 		<MajorVersion>2</MajorVersion>
 		<MinorVersion>0</MinorVersion>
-		<InformationalVersion>a</InformationalVersion>
+		<InformationalVersion> Beta 1</InformationalVersion>
 
 		<!--Directory Paths-->
 		<ProjectDirectory>$(MSBuildProjectDirectory)\..</ProjectDirectory>
