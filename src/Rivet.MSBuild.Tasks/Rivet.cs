@@ -30,7 +30,7 @@ namespace Rivet.MSBuild.Tasks
 		public bool Execute()
 		{
 			var runner = new Runner(new MSBuildLogWriter(BuildEngine), new MSBuildParameterParser());
-			runner.Execute(new[] {TargetDirectory, Variables});
+			runner.Execute(new[] {TargetDirectory, Variables ?? string.Empty});
 			
 			return true;
 		}
