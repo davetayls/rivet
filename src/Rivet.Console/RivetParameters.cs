@@ -14,11 +14,11 @@ using System.Collections.ObjectModel;
 
 namespace Rivet.Console
 {
-	public sealed class ConsoleParameters
+	public sealed class RivetParameters
 	{
 		private readonly IList<Variable> _variables;
 
-		public ConsoleParameters()
+		public RivetParameters()
 		{
 			_variables = new List<Variable>();
 		}
