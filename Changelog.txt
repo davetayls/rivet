@@ -1,0 +1,7 @@
+ v2.0 (???)
+  - Implemented support for nested Rivet files
+  - Improved exception handling in Rivet console app
+  - Improved error reporting in Rivet core
+ 
+ v1.0 (02 September 2010)
+  - Initial release

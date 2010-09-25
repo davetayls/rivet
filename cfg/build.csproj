@@ -44,6 +44,7 @@
 		<BuildArtifacts Include="$(ProjectDirectory)\Rivet - GitHub.url" />
 		<BuildArtifacts Include="$(ProjectDirectory)\example-rivet.js" />
 		<BuildArtifacts Include="$(ProjectDirectory)\license.txt" />
+		<BuildArtifacts Include="$(ProjectDirectory)\Changelog.txt" />
 		<BuildArtifacts Include="$(ProjectDirectory)\readme.md">
 			<RenameTo>readme.txt</RenameTo>
 		</BuildArtifacts>
@@ -55,6 +56,7 @@
 		<PackageContents Include="$(BuildTempDirectory)\Rivet - GitHub.url" />
 		<PackageContents Include="$(BuildTempDirectory)\example-rivet.js" />
 		<PackageContents Include="$(BuildTempDirectory)\license.txt" />
+		<PackageContents Include="$(BuildTempDirectory)\Changelog.txt" />
 		<PackageContents Include="$(BuildTempDirectory)\readme.txt" />
 	</ItemGroup>
 
