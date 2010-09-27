@@ -1,6 +1,7 @@
 /*
+	Rivet file.
     All of the items this file dynamically adds
-    get combined and compressed on deployment.
+    should be combined and compressed on deployment.
     
     The following line is used to tag this file as a combiner file
     @rivet[2.0]
@@ -9,18 +10,18 @@
 	   (This can be a string or a regular expression)
     2. Add includes.push("javascriptfile.js") line for each file you want to include
     
-	After copying to a deployment directory run the Juxtapo.Combiner.Console.exe
+	After copying to a deployment directory run the Rivet.Console.exe
 	pointing to it.
-	eg: Juxtapo.Combiner.Console.exe "c:\path\to\jsdirecory\"
+	eg: Rivet.Console.exe "path\to\jsdirecory\"
     
-    Full documentation can be found at http://juxtapo.net/combiner
+    Full documentation can be found at http://githum.com/davetayls/rivet
 ---------------------------------------------------*/
 (function() {
 
 // UPDATE THE FOLLOWING
-var combinerFileName = "example-combiner.js";
-var includes = [];
-includes.push("jsfile.js");
+var combinerFileName = "example-rivet.js"; 	// this is the name or regEx to match the current file
+var includes = [];							
+includes.push("jsfile.js");					// specifies a file to be included
 includes.push("folder/jsfile.js");
 
 	
@@ -30,20 +31,19 @@ includes.push("folder/jsfile.js");
     var dirSeparator;
 	function getJsLocation(jsFileName) {
 		var location;
-		if (typeof jsFileName === 'string') {
-			jsFileName = new RegExp(jsFileName.toLowerCase());
-		}
+		if (typeof jsFileName === 'string') {jsFileName = new RegExp(jsFileName.toLowerCase());}
 		// If used within a browser
 		if (typeof document !== 'undefined' && typeof document.getElementsByTagName !== 'undefined'){
-			var scriptFiles = document.getElementsByTagName("script");
-			for (var i=0;i<scriptFiles.length;i+=1){
-				var scriptTag = scriptFiles[i];
-				var scriptFileName = scriptTag.src.substring(scriptTag.src.lastIndexOf("/")+1).toLowerCase();
+			var scriptFiles = document.getElementsByTagName("script"),
+				found = false, i = 0;
+			for (i=0;i<scriptFiles.length && !found;i+=1){
+				var scriptTag = scriptFiles[i], scriptFileName = scriptTag.src.substring(scriptTag.src.lastIndexOf("/")+1).toLowerCase();
 				if (jsFileName.test(scriptFileName)){
-					return scriptTag.src.substring(0,scriptTag.src.lastIndexOf("/")+1);
+					location = scriptTag.src.substring(0,scriptTag.src.lastIndexOf("/")+1);
+					found = true;
 				}
-			}			
-			throw 'Juxtapo Combiner could not match ' + jsFileName + ' to any embeded script references';
+			}
+			if (!found) { throw 'Rivet could not match ' + jsFileName + ' to any embeded script references'; }
 		} 
 		// is used with rhino
 		else if (typeof java !== 'undefined'){
@@ -52,11 +52,14 @@ includes.push("folder/jsfile.js");
 		// if used with cscript
 		else if (WScript){
 			location = WScript.CreateObject("WScript.Shell").CurrentDirectory;
+		// cannot be used
 		}else{
-			throw 'Juxtapo Combiner could not retrieve the working directory';			
+			throw 'Rivet could not retrieve the working directory';			
 		}
+		
+		// return location string
 		dirSeparator = location.indexOf('\\') === -1 ? '/' : '\\';
-		location = location.substr(location.length-1,1) === dirSeparator ? location : location+dirSeparator;
+		location = location.substr(location.length-1,1) === dirSeparator || location === '' ? location : location+dirSeparator;
 		return location;
     };
     var combinerJsLocation = getJsLocation(combinerFileName);
@@ -64,8 +67,9 @@ includes.push("folder/jsfile.js");
 		try {
 			if (relativeUrl.substr(0, 1) === '/') {
 				return baseUrl.substring(0, baseUrl.indexOf('/', baseUrl.indexOf('//') + 2)) + relativeUrl;
-			}
-			else {
+			}else if (baseUrl === ''){
+				return relativeUrl;
+			}else {
 				relativeUrl = dirSeparator === '/' ? relativeUrl : relativeUrl.replace(/\//g,'\\');
 				var Loc = baseUrl;
 				Loc = Loc.substring(0, Loc.lastIndexOf(dirSeparator));
@@ -75,8 +79,7 @@ includes.push("folder/jsfile.js");
 				}
 				return Loc + dirSeparator + relativeUrl;
 			}
-		} 
-		catch (ex) {
+		}catch (ex) {
 			print('d:'+ex);
 		}
 	}
@@ -96,11 +99,12 @@ includes.push("folder/jsfile.js");
 			else if (typeof ActiveXObject !== 'undefined') {
 				eval(new ActiveXObject("Scripting.FileSystemObject").OpenTextFile(src, 1).ReadAll());
 			}
+			// cannot be used
 			else {
-				throw ('combiner is not compatible with this JavaScript engine');
+				throw ('Rivet combiner is not compatible with this JavaScript engine');
 			}
 		}
         return null;
     };
-    includeJs();
+	includeJs();
 })();
