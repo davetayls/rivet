@@ -21,10 +21,10 @@ namespace Rivet.Console
 			get { return _runner.Parameters; }
 		}
 
-		public static void Main(string[] args)
+		public static int Main(string[] args)
 		{
 			_runner = new Runner(new ConsoleLogWriter(), new ConsoleParameterParser());
-			_runner.Execute(args);
+			return _runner.Execute(args) ? 0 : 1;
 		}
 	}
 

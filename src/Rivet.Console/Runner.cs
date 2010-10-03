@@ -30,7 +30,7 @@ namespace Rivet.Console
 
 		public RivetParameters Parameters { get; private set; }
 
-		public void Execute(params string[] args)
+		public bool Execute(params string[] args)
 		{
 			try
 			{
@@ -41,7 +41,7 @@ namespace Rivet.Console
 				if (Parameters.DisplayHelpInformation)
 				{
 					DisplayHelpInformation();
-					return;
+					return false;
 				}
 
 				if (!Directory.Exists(Parameters.TargetDirectory))
@@ -50,7 +50,7 @@ namespace Rivet.Console
 
 					Parameters.DisplayHelpInformation = true;
 					DisplayHelpInformation();
-					return;
+					return false;
 				}
 				DisplayTargetDirectory(Parameters.TargetDirectory);
 
@@ -58,7 +58,7 @@ namespace Rivet.Console
 				if (sourceFiles.Count == 0)
 				{
 					_logWriter.WriteErrorMessage(string.Format("Directory \"{0}\" does not contain any javascript files.", Parameters.TargetDirectory));
-					return;
+					return false;
 				}
 				DisplayDiscoveredSourceFiles(sourceFiles);
 
@@ -69,10 +69,13 @@ namespace Rivet.Console
 
 				SaveOutputFiles(outputFiles);
 				DeleteComponents(outputFiles);
+
+				return true;
 			}
 			catch (Exception ex)
 			{
 				_logWriter.WriteErrorMessage(ex.Message);
+				return false;
 			}
 		}
 
@@ -153,7 +156,7 @@ namespace Rivet.Console
 			var version = rivetAssembly.GetName().Version;
 			var title = GetAttribute<AssemblyDescriptionAttribute>(rivetAssembly).Description;
 			var copyright = GetAttribute<AssemblyCopyrightAttribute>(rivetAssembly).Copyright;
-			
+
 			_logWriter.WriteMessage(string.Empty);
 			_logWriter.WriteImportantMessage(string.Format("{0} v{1}.{2}", title, version.Major, version.Minor));
 			_logWriter.WriteImportantMessage(copyright);
@@ -213,7 +216,7 @@ namespace Rivet.Console
 
 		private static TAttribute GetAttribute<TAttribute>(Assembly assembly)
 		{
-			return ((TAttribute)assembly.GetCustomAttributes(typeof(TAttribute), inherit: false).First());
+			return ((TAttribute)assembly.GetCustomAttributes(typeof (TAttribute), inherit: false).First());
 		}
 	}
 }

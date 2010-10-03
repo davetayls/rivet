@@ -9,6 +9,7 @@
 // # You must not remove this notice, or any other, from this software.
 // 
 // #######################################################
+using Rivet.Console.Specifications.TestUtils;
 using Xunit.Specifications;
 
 namespace Rivet.Console.Specifications
@@ -25,6 +26,24 @@ namespace Rivet.Console.Specifications
 				        	{
 				        		Program.Main(new string[0]);
 				        		Program.Parameters.DisplayHelpInformation.ShouldBeTrue();
+				        	});
+
+			"Main returns 1 when invoked with no parameters".Assert(() => Program.Main(new string[0]).ShouldEqual(1));
+			"Main returns 0 when invoked with parameter \"<path-to-dir>\""
+				.Assert(() =>
+				        	{
+				        		using (var tempDirectory = new TempDirectory())
+				        		{
+				        			/* create filesystem strucure:
+									 * %TEMP%\main.js
+									 * %TEMP%\include.js
+									 */
+
+				        			tempDirectory.CreateFile("main.js", @"@rivet includes.push(""include.js"");");
+				        			tempDirectory.CreateFile("include.js", @"A");
+
+				        			Program.Main(new[] {tempDirectory.Path}).ShouldEqual(0);
+				        		}
 				        	});
 		}
 	}

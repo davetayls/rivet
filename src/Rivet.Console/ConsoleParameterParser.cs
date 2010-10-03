@@ -27,22 +27,24 @@ namespace Rivet.Console
 			// should match "C:\temp"
 			// should match "\\PC\c$\temp"
 			TargetDirectoryScanExpression = new Regex(
-				@"^" +			// beginning of string
-				@"([A-Za-z]:" +	// "[drive_letter]:"
-				@"|" +			// or
-				@"\\\\.+)" +	// \\UNC_ROOT
-				@"(\\(.+))*" +	// on or more "/subdirectory"
-				@"$"			// end of string
+				@"^" + // beginning of string
+				@"([A-Za-z]:" + // "[drive_letter]:"
+				@"|" + // or
+				@"\\\\.+)" + // \\UNC_ROOT
+				@"(\\(.+))*" + // on or more "/subdirectory"
+				@"$" // end of string
 				, RegexOptions.Singleline | RegexOptions.Compiled);
 
 			// should match "-v:debug=true"
 			VariableScanExpression = new Regex(
-				@"-v:" +		// -v:
+				@"-v:" + // -v:
 				@"(?'key'.*)" + // match "key"
-				@"=" +			// =
+				@"=" + // =
 				@"(?'value'.*)" // match "value"
 				, RegexOptions.Singleline | RegexOptions.Compiled);
 		}
+
+		#region IParameterParser Members
 
 		public RivetParameters Parse(IEnumerable<string> args)
 		{
@@ -79,5 +81,7 @@ namespace Rivet.Console
 
 			return parameters;
 		}
+
+		#endregion
 	}
 }
