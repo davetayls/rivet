@@ -23,6 +23,8 @@ namespace Rivet.MSBuild.Tasks.Specifications
 			Rivet task = null;
 			"Given new Rivet task".Context(() => task = new Rivet {BuildEngine = new FakeBuildEngine()});
 
+			"Execute returns false when invoked with invalid parameters".Assert(() => task.Execute().ShouldBeFalse());
+
 			"when Execute is invoked with parameters \"<path-to-dir> -v:debug=false -v:trace=true\", javascript files in the target directory are combined"
 				.Assert(() =>
 				        	{
@@ -85,7 +87,7 @@ namespace Rivet.MSBuild.Tasks.Specifications
 
 				        			task.TargetDirectory = tempDirectory.Path;
 				        			task.Variables = "VARIABLE_1=false;VARIABLE_2=true";
-				        			task.Execute();
+				        			task.Execute().ShouldBeTrue();
 
 				        			tempDirectory.ReadFile("main.js").ShouldEqual("BEFORE\r\nAFTER\r\nBEFORE_LINEAFTER_LINE\r\nABCDvar i = false;var j = true;");
 				        			tempDirectory.ReadFile("secondary.js").ShouldEqual("ABCD");
