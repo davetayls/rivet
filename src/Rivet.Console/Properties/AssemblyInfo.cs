@@ -12,7 +12,7 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Rivet Console")]
+[assembly: AssemblyTitle("Rivet Console Runner")]
 [assembly: AssemblyDescription("Console application for combining javascript files")]
 [assembly: AssemblyCopyright("Copyright © 2010, Dave Taylor and Arnold Zokas")]
 [assembly: Guid("277215ed-550d-4ecb-9c6e-18ab31d24167")]

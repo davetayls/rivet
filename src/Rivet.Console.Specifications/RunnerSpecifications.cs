@@ -63,7 +63,7 @@ namespace Rivet.Console.Specifications
 				.Assert(() =>
 				        	{
 				        		var version = Assembly.GetAssembly(typeof (Parser)).GetName().Version;
-				        		var expectedText = string.Format("\r\nRivet v{0}.{1}\r\nCopyright © 2010, Dave Taylor and Arnold Zokas\r\n", version.Major, version.Minor);
+								var expectedText = string.Format("\r\nRivet JavaScript Combiner v{0}.{1}\r\nCopyright © 2010, Dave Taylor and Arnold Zokas\r\n", version.Major, version.Minor);
 
 				        		using (var session = new ConsoleSession())
 				        		{

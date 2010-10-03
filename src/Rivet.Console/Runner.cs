@@ -151,10 +151,11 @@ namespace Rivet.Console
 		{
 			var rivetAssembly = Assembly.GetAssembly(typeof (Parser));
 			var version = rivetAssembly.GetName().Version;
-			var copyright = ((AssemblyCopyrightAttribute)rivetAssembly.GetCustomAttributes(typeof (AssemblyCopyrightAttribute), inherit: false).First()).Copyright;
-
+			var title = GetAttribute<AssemblyDescriptionAttribute>(rivetAssembly).Description;
+			var copyright = GetAttribute<AssemblyCopyrightAttribute>(rivetAssembly).Copyright;
+			
 			_logWriter.WriteMessage(string.Empty);
-			_logWriter.WriteImportantMessage(string.Format("Rivet v{0}.{1}", version.Major, version.Minor));
+			_logWriter.WriteImportantMessage(string.Format("{0} v{1}.{2}", title, version.Major, version.Minor));
 			_logWriter.WriteImportantMessage(copyright);
 		}
 
@@ -208,6 +209,11 @@ namespace Rivet.Console
 		{
 			_logWriter.WriteMessage(string.Empty);
 			_logWriter.WriteMessage(string.Format("Saved combined file: {0}", path));
+		}
+
+		private static TAttribute GetAttribute<TAttribute>(Assembly assembly)
+		{
+			return ((TAttribute)assembly.GetCustomAttributes(typeof(TAttribute), inherit: false).First());
 		}
 	}
 }
