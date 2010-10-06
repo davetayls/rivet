@@ -13,6 +13,9 @@ using System.Text.RegularExpressions;
 
 namespace Rivet.PreProcessors
 {
+	/// <summary>
+	/// Removes any blocks than begin with //##DEBUG_START and end with //##DEBUG_END.
+	/// </summary>
 	internal sealed class DebugBlockPreProcessor : IPreProcessor
 	{
 		private static readonly Regex Expression = new Regex(@"(//##DEBUG_START)([\s\S]*?)(//##DEBUG_END)", RegexOptions.Multiline | RegexOptions.Compiled);

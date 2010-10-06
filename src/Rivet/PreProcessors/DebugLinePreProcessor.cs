@@ -13,6 +13,9 @@ using System.Text.RegularExpressions;
 
 namespace Rivet.PreProcessors
 {
+	/// <summary>
+	/// Removes any lines ending with //##DEBUG.
+	/// </summary>
 	internal sealed class DebugLinePreProcessor : IPreProcessor
 	{
 		private static readonly Regex Expression = new Regex(@"[\r]?\n.*//##DEBUG", RegexOptions.Multiline | RegexOptions.Compiled);

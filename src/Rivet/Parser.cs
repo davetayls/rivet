@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Rivet.PreProcessors;
 using Rivet.Resources;
-using Rivet.Scanners;
 
 namespace Rivet
 {
@@ -60,10 +59,10 @@ namespace Rivet
 
 		private SourceFiles ParseSourceFilesInternal(IEnumerable<SourceFile> sourceFiles, ParserOptions parserOptions)
 		{
-			IEnumerable<SourceFile> markedFiles = sourceFiles.Where(IsRivetFile);
+			IEnumerable<SourceFile> rivetFiles = sourceFiles.Where(IsRivetFile);
 			var outputFiles = new SourceFiles();
 
-			foreach (var markedFile in markedFiles)
+			foreach (var markedFile in rivetFiles)
 			{
 				var outputFile = ParseSourceFile(markedFile, sourceFiles, parserOptions);
 				outputFiles.Add(outputFile);
@@ -75,10 +74,11 @@ namespace Rivet
 		private SourceFile ParseSourceFile(SourceFile origin, IEnumerable<SourceFile> sourceFiles, ParserOptions parserOptions)
 		{
 			var outputFile = new SourceFile(origin.Identity, string.Empty);
+			var includeReferences = ReferenceLocator.FindReferences(origin.Body);
 
-			foreach (var reference in IncludePushExpressionScanner.GetSourceFileReferences(origin.Body))
+			foreach (var includeReference in includeReferences)
 			{
-				var include = sourceFiles.SingleOrDefault(x => x.Identity == reference);
+				var include = sourceFiles.SingleOrDefault(x => x.Identity == includeReference);
 
 				if (include != null)
 				{
@@ -101,7 +101,7 @@ namespace Rivet
 					}
 				}
 				else
-					throw new InvalidOperationException(string.Format(ExceptionMessages.InvalidOperationException__UnableToCombine_ReferenceNotFound, reference, origin.Identity));
+					throw new InvalidOperationException(string.Format(ExceptionMessages.InvalidOperationException__UnableToCombine_ReferenceNotFound, includeReference, origin.Identity));
 			}
 
 			return outputFile;
