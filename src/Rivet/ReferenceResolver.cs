@@ -9,24 +9,17 @@
 // # You must not remove this notice, or any other, from this software.
 // 
 // #######################################################
-using System.Text.RegularExpressions;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
-namespace Rivet.PreProcessors
+namespace Rivet
 {
-	/// <summary>
-	/// 	Removes any blocks than begin with //##DEBUG_START and end with //##DEBUG_END.
-	/// </summary>
-	internal sealed class DebugBlockPreProcessor : IPreProcessor
+	internal static class ReferenceResolver
 	{
-		private static readonly Regex Expression = new Regex(@"(//##DEBUG_START)([\s\S]*?)(//##DEBUG_END)", RegexOptions.Multiline | RegexOptions.Compiled);
-
-		#region IPreProcessor Members
-
-		public string Process(string body, ParserOptions parserOptions)
+		public static SourceFile ResolveReference(string basePath, string includeReference, IEnumerable<SourceFile> sourceFiles)
 		{
-			return Expression.Replace(body, string.Empty);
+			return sourceFiles.SingleOrDefault(x => x.Identity == Path.Combine(basePath, includeReference.Replace('/', '\\')));
 		}
-
-		#endregion
 	}
 }

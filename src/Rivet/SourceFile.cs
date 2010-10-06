@@ -11,6 +11,7 @@
 // #######################################################
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 
 namespace Rivet
 {
@@ -22,12 +23,19 @@ namespace Rivet
 		public SourceFile(string identity, string body)
 		{
 			Body = body;
-			Identity = identity;
+
+			if (identity != null)
+				Identity = identity.Replace('/', '\\');
+
+			if (identity != string.Empty)
+				BasePath = Path.GetDirectoryName(identity);
+
 			_components = new SourceFiles();
 		}
 
 		public string Body { get; internal set; }
 		public string Identity { get; private set; }
+		public string BasePath { get; private set; }
 
 		// ReSharper disable ReturnTypeCanBeEnumerable.Global
 		public ReadOnlyCollection<SourceFile> Components

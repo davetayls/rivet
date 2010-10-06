@@ -78,7 +78,7 @@ namespace Rivet
 
 			foreach (var includeReference in includeReferences)
 			{
-				var include = sourceFiles.SingleOrDefault(x => x.Identity == includeReference);
+				var include = ReferenceResolver.ResolveReference(origin.BasePath, includeReference, sourceFiles);
 
 				if (include != null)
 				{

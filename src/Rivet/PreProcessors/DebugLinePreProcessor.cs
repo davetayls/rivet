@@ -14,7 +14,7 @@ using System.Text.RegularExpressions;
 namespace Rivet.PreProcessors
 {
 	/// <summary>
-	/// Removes any lines ending with //##DEBUG.
+	/// 	Removes any lines ending with //##DEBUG.
 	/// </summary>
 	internal sealed class DebugLinePreProcessor : IPreProcessor
 	{

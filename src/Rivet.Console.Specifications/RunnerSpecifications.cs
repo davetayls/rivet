@@ -331,6 +331,8 @@ namespace Rivet.Console.Specifications
 									 * %TEMP%\dirWithNestedComponentFilesAndStandaloneFile2\include.js
 									 * %TEMP%\dirWithNestedComponentFilesAndStandaloneFile2\subdir\include.js
 									 * %TEMP%\dirWithNestedComponentFilesAndStandaloneFile2\subdir\standalone.js
+									 * %TEMP%\dir\rivet.js
+									 * %TEMP%\dir\lib\include.js
 									 */
 
 				        			tempDirectory.CreateFile("main.js", @"@rivet 
@@ -373,10 +375,16 @@ namespace Rivet.Console.Specifications
 				        			tempDirectory.CreateFile("dirWithNestedComponentFilesAndStandaloneFile2\\subdir\\include.js", "var i = @VARIABLE_1;var j = @VARIABLE_2;");
 				        			tempDirectory.CreateFile("dirWithNestedComponentFilesAndStandaloneFile2\\subdir\\standalone.js", "standalone js file");
 
-				        			runner.Execute(new[] {tempDirectory.Path, " -v:VARIABLE_1=false", "-v:VARIABLE_2=true"});
+				        			tempDirectory.CreateDirectory("dir");
+				        			tempDirectory.CreateFile("dir\\rivet.js", @"@rivet includes.push(""lib/include.js"");");
+				        			tempDirectory.CreateDirectory("dir\\lib");
+				        			tempDirectory.CreateFile("dir\\lib\\include.js", @"TEST");
+
+				        			runner.Execute(new[] {tempDirectory.Path, " -v:VARIABLE_1=false", "-v:VARIABLE_2=true"}).ShouldBeTrue();
 
 				        			tempDirectory.ReadFile("main.js").ShouldEqual("BEFORE\r\nAFTER\r\nBEFORE_LINEAFTER_LINE\r\nABCDvar i = false;var j = true;");
 				        			tempDirectory.ReadFile("secondary.js").ShouldEqual("ABCD");
+				        			tempDirectory.ReadFile("dir\\rivet.js").ShouldEqual("TEST");
 
 				        			tempDirectory.DirectoryExists("dirWithComponentFile").ShouldBeFalse();
 				        			tempDirectory.FileExists("dirWithStandaloneFile\\standalone.js").ShouldBeTrue();

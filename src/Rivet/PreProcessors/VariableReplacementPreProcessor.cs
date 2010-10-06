@@ -14,7 +14,7 @@ using System.Linq;
 namespace Rivet.PreProcessors
 {
 	/// <summary>
-	/// Replaces variable tokens (such as @VARIABLE_NAME) with values passed via <see cref="ParserOptions"/>.
+	/// 	Replaces variable tokens (such as @VARIABLE_NAME) with values passed via <see cref = "ParserOptions" />.
 	/// </summary>
 	internal sealed class VariableReplacementPreProcessor : IPreProcessor
 	{

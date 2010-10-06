@@ -36,6 +36,7 @@
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="ReferenceLocator.cs" />
+    <Compile Include="ReferenceResolver.cs" />
     <Compile Include="Variable.cs" />
     <Compile Include="ParserOptions.cs" />
     <Compile Include="PreProcessors\DebugBlockPreProcessor.cs" />
