@@ -300,7 +300,7 @@ namespace Rivet.Console.Specifications
 																			includes.push(""include.js"");");
 
 				        				runner.Execute(tempDirectory.Path);
-				        				session.StandardError.ShouldContain("Unable to combine. Source file \"include.js\" referenced by \"main.js\" could not be found.");
+				        				session.StandardError.ShouldContain(string.Format("Unable to combine. Source file \"include.js\" referenced by \"{0}\\main.js\" could not be found.", tempDirectory.Path));
 				        			}
 				        		}
 				        	});
@@ -392,6 +392,36 @@ namespace Rivet.Console.Specifications
 				        			tempDirectory.FileExists("dirWithNestedComponentFilesAndStandaloneFile\\standalone.js").ShouldBeTrue();
 				        			tempDirectory.DirectoryExists("dirWithNestedComponentFilesAndStandaloneFile\\subdir").ShouldBeFalse();
 				        			tempDirectory.DirectoryExists("dirWithNestedComponentFilesAndStandaloneFile2\\subdir").ShouldBeTrue();
+				        		}
+				        	});
+		}
+
+		[Specification]
+		public void RelativePathCombiningSpecifications()
+		{
+			Runner runner = null;
+			"Given new Runner".Context(() => runner = new Runner(new ConsoleLogWriter(), new ConsoleParameterParser()));
+
+			"when Execute is invoked with parameters with relative paths, file are combined correctly"
+				.Assert(() =>
+				        	{
+				        		using (var tempDirectory = new TempDirectory())
+				        		{
+				        			/* create filesystem strucure:
+									 * %TEMP%\subdir\main.js
+									 * %TEMP%\include.js
+									 */
+
+				        			tempDirectory.CreateDirectory("subdir");
+				        			tempDirectory.CreateFile("subdir\\main.js", @"@rivet 
+																			includes.push(""../include.js"");
+																			");
+
+				        			tempDirectory.CreateFile("include.js", "TEST");
+
+				        			runner.Execute(new[] {tempDirectory.Path}).ShouldBeTrue();
+
+				        			tempDirectory.ReadFile("subdir\\main.js").ShouldEqual("TEST");
 				        		}
 				        	});
 		}

@@ -19,7 +19,12 @@ namespace Rivet
 	{
 		public static SourceFile ResolveReference(string basePath, string includeReference, IEnumerable<SourceFile> sourceFiles)
 		{
-			return sourceFiles.SingleOrDefault(x => x.Identity == Path.Combine(basePath, includeReference.Replace('/', '\\')));
+			return sourceFiles.SingleOrDefault(x => Path.GetFullPath(x.Identity) == CalculateAbsolutePath(basePath, includeReference));
+		}
+
+		private static string CalculateAbsolutePath(string basePath, string includeReference)
+		{
+			return Path.GetFullPath(Path.Combine(basePath, includeReference.Replace('/', '\\')));
 		}
 	}
 }

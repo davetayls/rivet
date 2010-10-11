@@ -92,11 +92,10 @@ namespace Rivet.Console
 
 		private static SourceFiles GetSourceFiles(string sourceDirectoryPath)
 		{
-			const int lengthOfDirectorySeparatorChar = 1;
 			const string fileSearchPattern = "*.js";
 
 			var sourceFiles = from path in Directory.GetFiles(sourceDirectoryPath, fileSearchPattern, SearchOption.AllDirectories)
-			                  let identity = path.Remove(0, sourceDirectoryPath.Length + lengthOfDirectorySeparatorChar)
+			                  let identity = path
 			                  let content = File.ReadAllText(path)
 			                  select new SourceFile(identity, content);
 
@@ -123,7 +122,7 @@ namespace Rivet.Console
 					if (File.Exists(componentPath))
 					{
 						File.Delete(componentPath);
-						_logWriter.WriteMessage(string.Format("\t- {0}", component.Identity));
+						_logWriter.WriteMessage(string.Format("\t- {0}", FlattenPath(component.Identity)));
 					}
 				}
 
@@ -193,7 +192,7 @@ namespace Rivet.Console
 
 			foreach (var sourceFile in sourceFiles)
 			{
-				_logWriter.WriteMessage(string.Format("\t- {0}", sourceFile.Identity));
+				_logWriter.WriteMessage(string.Format("\t- {0}", FlattenPath(sourceFile.Identity)));
 			}
 		}
 
@@ -217,6 +216,13 @@ namespace Rivet.Console
 		private static TAttribute GetAttribute<TAttribute>(Assembly assembly)
 		{
 			return ((TAttribute)assembly.GetCustomAttributes(typeof (TAttribute), inherit: false).First());
+		}
+
+		private string FlattenPath(string absolutePath)
+		{
+			const int lengthOfDirectorySeparatorChar = 1;
+
+			return absolutePath.Remove(0, Parameters.TargetDirectory.Length + lengthOfDirectorySeparatorChar);
 		}
 	}
 }
