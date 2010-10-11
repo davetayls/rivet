@@ -1,8 +1,10 @@
  v2.0 (???)
   - Implemented support for nested Rivet files
+  - Implemented support for relative include paths (http://github.com/davetayls/rivet/issues/closed/#issue/15)
   - Implemented MSBuild task
   - Improved exception handling in Rivet console app
   - Improved error reporting in Rivet core
+  - Various minor bug fixes
  
  v1.0 (02 September 2010)
   - Initial release
