@@ -18,25 +18,25 @@ namespace Rivet
 	internal static class ReferenceLocator
 	{
 		private const string m_captureGroupName = "filename";
-		private static readonly Regex IncludePushExpression;
+		private static readonly Regex IncludeLookupExpression;
+		private static readonly Regex MultilineCommentExpression;
 
 		static ReferenceLocator()
 		{
 			// should match:		includes.push("filename.js")
 			// should not match:	includes.push("filename" + variable + ".js")
+			// should not match:	// includes.push("example.js")
+			var lookupPattern = string.Format("(?<!//.*)includes.push\\(\"(?'{0}'(.*?)\\.js)\"\\)", m_captureGroupName);
+			IncludeLookupExpression = new Regex(lookupPattern, RegexOptions.Multiline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-			var pattern = string.Format("includes.push" + // includes.push
-			                            @"\(""" + // ("
-			                            @"(?'{0}'[^\""\""]*\.js)" + // filename.js		<= capture group
-			                            @"""\)" // ")
-			                            , m_captureGroupName);
-
-			IncludePushExpression = new Regex(pattern, RegexOptions.Multiline | RegexOptions.Compiled);
+			MultilineCommentExpression = new Regex("/\\*(.*?)\\*/", RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
 		}
 
 		internal static IEnumerable<string> FindReferences(string body)
 		{
-			return (from Match match in IncludePushExpression.Matches(body)
+			var reducedBody = MultilineCommentExpression.Replace(body, string.Empty);
+
+			return (from Match match in IncludeLookupExpression.Matches(reducedBody)
 			        select match.Groups[m_captureGroupName].Value);
 		}
 	}

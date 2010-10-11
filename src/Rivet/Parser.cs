@@ -19,7 +19,6 @@ namespace Rivet
 {
 	public sealed class Parser
 	{
-		private const string m_rivetToken = "@rivet";
 		private readonly List<IPreProcessor> _preProcessors;
 
 		public Parser()
@@ -109,7 +108,7 @@ namespace Rivet
 
 		private static bool IsRivetFile(SourceFile sourceFile)
 		{
-			return sourceFile.Body.Contains(m_rivetToken);
+			return sourceFile.Body.Contains(Constants.RivetToken);
 		}
 	}
 }

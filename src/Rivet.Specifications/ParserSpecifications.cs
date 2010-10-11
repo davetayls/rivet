@@ -89,11 +89,38 @@ namespace Rivet.Specifications
 
 			"output contains 1 SourceFile".Assert(() => parserOutput.Count.ShouldEqual(1));
 			"Identity of output file is \"main.js\"".Assert(() => parserOutput.First().Identity.ShouldEqual("main.js"));
-			"Body of output file is \"XXX\"".Assert(() => parserOutput.First().Body.ShouldEqual("BEFORE\r\nAFTER\r\nBEFORE\r\nAFTER\r\nvar i = 1;var j = 2;"));
+			"Body of output file is \"BEFORE\r\nAFTER\r\nBEFORE\r\nAFTER\r\nvar i = 1;var j = 2;\"".Assert(() => parserOutput.First().Body.ShouldEqual("BEFORE\r\nAFTER\r\nBEFORE\r\nAFTER\r\nvar i = 1;var j = 2;"));
 			"first output file has 3 components".Assert(() => parserOutput.First().Components.Count.ShouldEqual(3));
 			"Identity of first component of output file is \"include.js\"".Assert(() => parserOutput.First().Components[0].Identity.ShouldEqual("include.js"));
 			"Identity of second component of output file is \"dir\\include.js\"".Assert(() => parserOutput.First().Components[1].Identity.ShouldEqual("dir\\include.js"));
 			"Identity of third component of output file is \"dir\\dir\\include.js\"".Assert(() => parserOutput.First().Components[2].Identity.ShouldEqual("dir\\dir\\include.js"));
+		}
+
+		[Specification]
+		public void ParseSourceFilesWithCommentsSpecifications()
+		{
+			Parser parser = null;
+			"Given new Parser".Context(() => parser = new Parser());
+
+			SourceFiles parserOutput = null;
+			"when ParseSourceFiles is invoked with SourceFiles containing include.push() expression in multiline comment"
+				.Do(() =>
+				    	{
+				    		var sourceFiles = new SourceFiles
+				    		                  	{
+				    		                  		new SourceFile("main.js", @"@rivet
+																			/*
+																				example: includes.push(""include.js"");
+																			*/
+																			// example: includes.push(""include.js"");
+																			includes.push(""include.js"");"),
+				    		                  		new SourceFile("include.js", "TEST")
+				    		                  	};
+
+				    		parserOutput = parser.ParseSourceFiles(sourceFiles, ParserOptions.Default);
+				    	});
+
+			"Body of output file is \"TEST\"".Assert(() => parserOutput.First().Body.ShouldEqual("TEST"));
 		}
 
 		[Specification]
