@@ -4,7 +4,7 @@
   - Implemented MSBuild task
   - Improved exception handling in Rivet console app
   - Improved error reporting in Rivet core
-  - Various minor bug fixes
+  - Various bug fixes
  
  v1.0 (02 September 2010)
   - Initial release
