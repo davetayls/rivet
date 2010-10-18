@@ -41,9 +41,6 @@ namespace Rivet
 			if (sourceFiles.Count(sourceFile => sourceFile.Body == null) > 0)
 				throw new InvalidOperationException(ExceptionMessages.InvalidOperationException__UnableToCombine_SourceFileContainsNullBody);
 
-			if (sourceFiles.Count(sourceFile => sourceFile.Body.Trim().Length == 0) > 0)
-				throw new InvalidOperationException(ExceptionMessages.InvalidOperationException__UnableToCombine_SourceFileContainsEmptyBody);
-
 			if (sourceFiles.Count(sourceFile => sourceFile.Identity == null) > 0)
 				throw new InvalidOperationException(ExceptionMessages.InvalidOperationException__UnableToCombine_SourceFileContainsNullFileName);
 
@@ -95,6 +92,9 @@ namespace Rivet
 					}
 					else
 					{
+						if (include.Body.Trim().Length == 0)
+							throw new InvalidOperationException(ExceptionMessages.InvalidOperationException__UnableToCombine_SourceFileContainsEmptyBody);
+
 						outputFile.Body += _preProcessors.Aggregate(include.Body, (current, preProcessor) => preProcessor.Process(current, parserOptions));
 						outputFile.AddComponent(include);
 					}

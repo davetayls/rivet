@@ -31,12 +31,6 @@ namespace Rivet.Specifications
 				                                         		var sourceFiles = new SourceFiles {new SourceFile("filename.js", null)};
 				                                         		parser.ParseSourceFiles(sourceFiles, ParserOptions.Default);
 				                                         	});
-			"ParseSourceFiles throws InvalidOperationException when invoked with source file containing an empty Body"
-				.AssertThrows<InvalidOperationException>(() =>
-				                                         	{
-				                                         		var sourceFiles = new SourceFiles {new SourceFile("filename.js", string.Empty)};
-				                                         		parser.ParseSourceFiles(sourceFiles, ParserOptions.Default);
-				                                         	});
 			"ParseSourceFiles throws InvalidOperationException when invoked with source file containing a null Identity"
 				.AssertThrows<InvalidOperationException>(() =>
 				                                         	{
@@ -61,6 +55,27 @@ namespace Rivet.Specifications
 				                                         		var sourceFiles = new SourceFiles {new SourceFile("filename.js", "@rivet includes.push(\"include.js\");")};
 				                                         		parser.ParseSourceFiles(sourceFiles, ParserOptions.Default);
 				                                         	});
+			"ParseSourceFiles throws InvalidOperationException when invoked with an include file containing an empty Body"
+				.AssertThrows<InvalidOperationException>(() =>
+				                                         	{
+				                                         		var sourceFiles = new SourceFiles
+				                                         		                  	{
+				                                         		                  		new SourceFile("main.js", "@rivet includes.push(\"include.js\");"),
+				                                         		                  		new SourceFile("include.js", string.Empty)
+				                                         		                  	};
+				                                         		parser.ParseSourceFiles(sourceFiles, ParserOptions.Default);
+				                                         	});
+			"ParseSourceFiles does not throw an exception when invoked with an empty source file that is not referenced by a Rivet file"
+				.Assert(() =>
+				        	{
+				        		var sourceFiles = new SourceFiles
+				        		                  	{
+				        		                  		new SourceFile("main.js", "@rivet includes.push(\"include.js\");"),
+				        		                  		new SourceFile("include.js", "TEST"),
+				        		                  		new SourceFile("unreferenced.js", string.Empty)
+				        		                  	};
+				        		parser.ParseSourceFiles(sourceFiles, ParserOptions.Default).Count.ShouldEqual(1);
+				        	});
 		}
 
 		[Specification]
