@@ -30,13 +30,10 @@ namespace Rivet
 			_preProcessors.Add(new VariableReplacementPreProcessor());
 		}
 
-		public SourceFiles ParseSourceFiles(SourceFiles sourceFiles, ParserOptions parserOptions)
+		public SourceFiles ParseSourceFiles(IEnumerable<SourceFile> sourceFiles, ParserOptions parserOptions)
 		{
 			if (sourceFiles == null)
 				throw new ArgumentNullException("sourceFiles");
-
-			if (sourceFiles.Count == 0)
-				throw new InvalidOperationException(ExceptionMessages.InvalidOperationException__UnableToCombine_NoSourceFilesPassed);
 
 			if (sourceFiles.Count(sourceFile => sourceFile.Body == null) > 0)
 				throw new InvalidOperationException(ExceptionMessages.InvalidOperationException__UnableToCombine_SourceFileContainsNullBody);
@@ -46,9 +43,6 @@ namespace Rivet
 
 			if (sourceFiles.Count(sourceFile => sourceFile.Identity.Trim().Length == 0) > 0)
 				throw new InvalidOperationException(ExceptionMessages.InvalidOperationException__UnableToCombine_SourceFileContainsEmptyFileName);
-
-			if (sourceFiles.Count(IsRivetFile) == 0)
-				throw new InvalidOperationException(ExceptionMessages.InvalidOperationException__UnableToCombine_NoSourceFilesContainRivetToken);
 
 			return ParseSourceFilesInternal(sourceFiles, parserOptions);
 		}

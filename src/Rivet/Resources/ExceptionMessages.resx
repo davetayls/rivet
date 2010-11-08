@@ -120,12 +120,6 @@
   <data name="InvalidOperationException__UnableToCombine_CircularReferenceFound" xml:space="preserve">
     <value>Unable to combine. Circular reference to file "{0}" detected.</value>
   </data>
-  <data name="InvalidOperationException__UnableToCombine_NoSourceFilesContainRivetToken" xml:space="preserve">
-    <value>Unable to combine. None of the source files passed contain a @rivet token.</value>
-  </data>
-  <data name="InvalidOperationException__UnableToCombine_NoSourceFilesPassed" xml:space="preserve">
-    <value>Unable to combine. No source files have been passed.</value>
-  </data>
   <data name="InvalidOperationException__UnableToCombine_ReferenceNotFound" xml:space="preserve">
     <value>Unable to combine. Source file "{0}" referenced by "{1}" could not be found.</value>
   </data>

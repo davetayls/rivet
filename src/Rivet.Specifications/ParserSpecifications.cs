@@ -24,7 +24,6 @@ namespace Rivet.Specifications
 			"Given new Parser".Context(() => parser = new Parser());
 
 			"ParseSourceFiles throws ArgumentNullException when invoked with null".AssertThrows<ArgumentNullException>(() => parser.ParseSourceFiles(null, ParserOptions.Default));
-			"ParseSourceFiles throws InvalidOperationException when invoked with 0 source files".AssertThrows<InvalidOperationException>(() => parser.ParseSourceFiles(new SourceFiles(), ParserOptions.Default));
 			"ParseSourceFiles throws InvalidOperationException when invoked with source file containing a null Body"
 				.AssertThrows<InvalidOperationException>(() =>
 				                                         	{
@@ -41,12 +40,6 @@ namespace Rivet.Specifications
 				.AssertThrows<InvalidOperationException>(() =>
 				                                         	{
 				                                         		var sourceFiles = new SourceFiles {new SourceFile(string.Empty, "@rivet")};
-				                                         		parser.ParseSourceFiles(sourceFiles, ParserOptions.Default);
-				                                         	});
-			"ParseSourceFiles throws InvalidOperationException when invoked with source files not containing \"@rivet\" token"
-				.AssertThrows<InvalidOperationException>(() =>
-				                                         	{
-				                                         		var sourceFiles = new SourceFiles {new SourceFile("filename.js", "NO_TOKEN")};
 				                                         		parser.ParseSourceFiles(sourceFiles, ParserOptions.Default);
 				                                         	});
 			"ParseSourceFiles throws InvalidOperationException when invoked with source files referencing a file that does not exist"

@@ -70,24 +70,6 @@ namespace Rivet.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to combine. None of the source files passed contain a @rivet token..
-        /// </summary>
-        internal static string InvalidOperationException__UnableToCombine_NoSourceFilesContainRivetToken {
-            get {
-                return ResourceManager.GetString("InvalidOperationException__UnableToCombine_NoSourceFilesContainRivetToken", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unable to combine. No source files have been passed..
-        /// </summary>
-        internal static string InvalidOperationException__UnableToCombine_NoSourceFilesPassed {
-            get {
-                return ResourceManager.GetString("InvalidOperationException__UnableToCombine_NoSourceFilesPassed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Unable to combine. Source file &quot;{0}&quot; referenced by &quot;{1}&quot; could not be found..
         /// </summary>
         internal static string InvalidOperationException__UnableToCombine_ReferenceNotFound {
