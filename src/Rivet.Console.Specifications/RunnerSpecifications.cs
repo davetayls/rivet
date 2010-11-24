@@ -352,8 +352,8 @@ namespace Rivet.Console.Specifications
 																			includes.push(""dirWithNestedComponentFilesAndStandaloneFile2/include.js"");
 																		");
 
-				        			tempDirectory.CreateDirectory("dirWithComponentFile");
-				        			tempDirectory.CreateFile("dirWithComponentFile\\include.js", "BEFORE\r\n//##DEBUG_STARTTEST\r\n//##DEBUG_ENDAFTER\r\n");
+				        			tempDirectory.CreateDirectory("dirWithComponentFILE");
+				        			tempDirectory.CreateFile("dirWithComponentFile\\INCLUDE.js", "BEFORE\r\n//##DEBUG_STARTTEST\r\n//##DEBUG_ENDAFTER\r\n");
 
 				        			tempDirectory.CreateDirectory("dirWithStandaloneFile");
 				        			tempDirectory.CreateFile("dirWithStandaloneFile\\standalone.js", "standalone js file");
