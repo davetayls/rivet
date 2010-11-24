@@ -46,7 +46,7 @@ and have come up with this:
 When developing you can use the following Rivet comments:
 
 *	`//##DEBUG` at the end of a line will remove this line from the combined source
-*	Wrapping lines with `//##DEBUGSTART` and `//##DEBUGEND` will remove the whole block from the combined source
+*	Wrapping lines with `//##DEBUG_START` and `//##DEBUG_END` will remove the whole block from the combined source
 
 You are also able to use variables `var versionNumber = '@VERSION_NUMBER'` within your javascript. 
 For each variable add `-v:VERSION_NUMBER=1.0` when using the Rivet command line
