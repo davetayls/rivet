@@ -14,7 +14,7 @@
 	pointing to it.
 	eg: Rivet.Console.exe "path\to\jsdirecory\"
     
-    Full documentation can be found at http://githum.com/davetayls/rivet
+    Full documentation can be found at http://github.com/davetayls/rivet
 ---------------------------------------------------*/
 (function() {
 
