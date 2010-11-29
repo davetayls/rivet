@@ -16,6 +16,8 @@
     
     Full documentation can be found at http://github.com/davetayls/rivet
 ---------------------------------------------------*/
+/*jslint evil: true */
+/*global ActiveXObject,environment,load,java,WScript */
 (function() {
 
 // UPDATE THE FOLLOWING
@@ -61,7 +63,7 @@ includes.push("folder/jsfile.js");
 		dirSeparator = location.indexOf('\\') === -1 ? '/' : '\\';
 		location = location.substr(location.length-1,1) === dirSeparator || location === '' ? location : location+dirSeparator;
 		return location;
-    };
+    }
     var combinerJsLocation = getJsLocation(combinerFileName);
 	function resolveAbsoluteUrl(baseUrl,relativeUrl) {
 		try {
@@ -84,7 +86,7 @@ includes.push("folder/jsfile.js");
 		}
 	}
     function includeJs() {
-		for (var i = 0; i < includes.length; i++) {
+		for (var i = 0; i < includes.length; i+=1) {
 			var src = resolveAbsoluteUrl(combinerJsLocation, includes[i]);
 
 			// If used within a browser
@@ -105,6 +107,6 @@ includes.push("folder/jsfile.js");
 			}
 		}
         return null;
-    };
+    }
 	includeJs();
 })();
