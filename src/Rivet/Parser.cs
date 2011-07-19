@@ -24,10 +24,13 @@ namespace Rivet
 		public Parser()
 		{
 			// NOTE: Consider using constructor injection.
-			_preProcessors = new List<IPreProcessor>();
-			_preProcessors.Add(new DebugBlockPreProcessor());
-			_preProcessors.Add(new DebugLinePreProcessor());
-			_preProcessors.Add(new VariableReplacementPreProcessor());
+			_preProcessors = new List<IPreProcessor>
+			                     {
+			                         new DebugBlockPreProcessor(),
+			                         new DebugLinePreProcessor(),
+			                         new VariableReplacementPreProcessor(),
+			                         new RivetHeaderPreProcessor()
+			                     };
 		}
 
 		public SourceFiles ParseSourceFiles(IEnumerable<SourceFile> sourceFiles, ParserOptions parserOptions)
